@@ -20,9 +20,15 @@ prf_apreensoes[, c("tipo_apreensao", "grupo_apreensao",
                            "municipio_ocorrencia", "uf", "estado")]
 
 ## Conversão para numérico
-prf_apreensoes[, c("quantidade_item", "quantidade_pessoas_detidas") := 
+prf_apreensoes[, c("quantidade_pessoas_detidas") := 
                  lapply(.SD, as.numeric), 
-               .SDcols = c("quantidade_item", "quantidade_pessoas_detidas")]
+               .SDcols = c("quantidade_pessoas_detidas")]
+
+## 
+prf_apreensoes[, quantidade_item := gsub(",", ".", quantidade_item)]
+prf_apreensoes[, c("quantidade_item") := 
+                 lapply(.SD, as.numeric), 
+               .SDcols = c("quantidade_item")]
 
 ## Substituir vírgula por ponto
 prf_apreensoes[, longitude := gsub(",", ".", longitude)]
