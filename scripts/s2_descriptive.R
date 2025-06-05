@@ -210,12 +210,11 @@ data[, grupo_droga := fcase(
 ### Calcular total de apreensões por mês e categoria
 dados_mensais <- data[, .(total = .N), by = .(ano_mes, grupo_droga)]
 
-# Criar coluna de data no primeiro dia do mês (para o eixo X)
+### Criar coluna de data no primeiro dia do mês (para o eixo X)
 dados_mensais[, data := as.Date(paste0(ano_mes, "-01"))]
 
 setorder(dados_mensais, data)
 
-# 2. Verificar a ordem (opcional)
 head(dados_mensais[, .(data, ano_mes, grupo_droga, total)])
 
 highchart() %>%
@@ -229,11 +228,64 @@ highchart() %>%
   hc_xAxis(
     type = "datetime",
     title = list(text = "Mês/Ano"),
-    labels = list(format = "{value:%b/%Y}")  # Formato "Jan/2020"
+    labels = list(format = "{value:%b/%Y}"),
+    plotLines = list(
+      list(
+        color = "red",
+        width = 2,
+        value = datetime_to_timestamp(as.Date("2017-12-28")),
+        dashStyle = "Dash",
+        zIndex = 5,
+        label = list(
+          text = "Início do Programa", 
+          rotation = 90,
+          verticalAlign = "middle",
+          textAlign = "right",
+          style = list(color = "red", fontWeight = "bold")
+        )
+      )
+    )
+    # Formato "Jan/2020"
   ) %>%
   hc_yAxis(title = list(text = "Total de Apreensões")) %>%
   hc_tooltip(
     pointFormat = "<b>{point.grupo_droga}:</b> {point.y} apreensões<br>Data: <b>{point.x:%b/%Y}</b>"
   ) %>%
   hc_colors(viridis::viridis(dados_mensais[, uniqueN(grupo_droga)]))
+
+## Gráico de barras porcentual
+
+dados_agregados <- data[, .(total = .N), by = .(ano, grupo_droga)]
+dados_agregados[, percentual := total / sum(total) * 100, by = ano]
+
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(x = ano, y = percentual, group = grupo_droga, total = total),
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+    <b>Quantidade:</b> {point.total} apreensões<br/>
+    <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(
+        enabled = FALSE
+      ),
+      stacking = "percent",
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(5, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%")
+  )
+
 
