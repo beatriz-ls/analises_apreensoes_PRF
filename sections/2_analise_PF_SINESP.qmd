@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 library(dplyr)
 library(highcharter)
 library(lubridate)
+library(tseries)
+library(forecast)
 ```
 
 # Análise das apreensões realizadas pela policia federal
@@ -468,4 +470,29 @@ highchart() |>
   ) |>
   hc_colors(viridis::viridis(4)[3])
 ```
+```{r}
+
+SINESP_maconha <- SINESP |> filter(evento == "Apreensão de Maconha")
+
+ts_maconha <- ts(SINESP_maconha$total_peso, 
+               frequency = 12,
+               start = c(year(min(SINESP_maconha$data_referencia)), month(min(SINESP_maconha$data_referencia))))
+```
+
+```{r}
+
+library(ggplot2)
+# Decomposição clássica (aditiva)
+decomp <- decompose(ts_maconha, type = "additive")
+
+# Plot da decomposição
+autoplot(decomp) +
+  ggtitle("Decomposição da Série Temporal") +
+  theme_minimal()
+
+# Alternativa: decomposição STL (mais robusta)
+stl_decomp <- stl(ts_maconha, s.window = "periodic")
+autoplot(stl_decomp)
+```
+
 
