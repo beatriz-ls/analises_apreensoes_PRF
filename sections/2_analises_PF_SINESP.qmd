@@ -1,0 +1,185 @@
+---
+format:
+  html:
+    theme: solar
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    toc-title: "Índice"
+    page-layout: full
+---
+
+```{r, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "",
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE
+)
+
+library(dplyr)
+library(highcharter)
+```
+
+# Análise das apreensões realizadas pela policia federal
+
+## Sobre os dados
+
+Os dados são referentes as apreenções de drogas feitas pela Polícia Federal e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
+
+Ao total são quatro bases relacionadas as apreenções feitas pela PF, **PF_Apreensoes_Portos_Aeroportos**, **PF_Apreensoes**, **PF_BaseCircunscricao** e **PF_NovasSubstanciasPsicoativas**.
+
+A base **PF_BaseCircunscricao** não será utilizada na análise por se limitar a informações administrativas sobre delegacias. Da mesma forma, a base **PF_NovasSubstanciasPsicoativas** não será utilizada por não conter qualquer informação geográfica que permitisse localizar as apreensões no território nacional.
+
+Após a filtragem por ocorrencias no estado do Espirito Santo, foi verificado que a base **PF_Apreensoes_Portos_Aeroportos** se limita a somente apreenções feitas no aeroporto e porto de Vitória, já a base **PF_Apreensoes** se limita a apreenções feitas nas regiões central e litoral, noroeste e nordeste e sul do Espirito Santo.
+
+Separação municipal utilizada na base **PF_Apreensoes**:
+
+-   **Central e litoral**: Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória.
+
+-   **Noroeste e Nordeste**: Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério.
+
+-   **Sul**: Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado, Vargem Alta.
+
+Dos municipios com bairros abrangidos pelo Projeto Estado Presente, nove se localizam nas regiões central e litoral, Aracruz, Cariacica, Colatina, Linhares, Serra, Vila Velha, Vitória, um nas regiões noroeste e nordeste, São Mateus, e um na região sul, Cachoeiro de Itapemirim.
+
+## Análise descritiva
+
+### Apreensão de drogas em portos e aeroportos pela Polícia Federal
+
+Breve apresentação da base (primeiras cinco linhas).
+
+```{r}
+PF_APA <- read.csv("data-raw/PF_Apreensoes_Portos_Aeroportos.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
+
+PF_APA |> head(n = 5) |> knitr::kable() 
+```
+
+```{r}
+PF_APA <- PF_APA |> 
+  mutate(
+    data = lubridate::mdy(data),  
+    ano = lubridate::year(data)  
+  )
+```
+
+```{r}
+df_freq <- PF_APA |>
+  count(droga, ano) |> 
+  filter(!is.na(droga))
+
+highchart() |>
+  hc_add_series(
+    data = df_freq,
+    type = "column",
+    hcaes(x = ano, y = n, group = droga)
+  ) |>
+  hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
+  hc_yAxis(title = list(text = "Número de Apreensões")) |>
+  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
+  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_tooltip(
+    shared = TRUE,
+    headerFormat = "<b>Ano: {point.key}</b><br/>",
+    pointFormat = "{series.name}: {point.y} </b><br/>"
+  ) |>
+  hc_legend(enabled = TRUE) |>
+  hc_plotOptions(
+    column = list(
+      stacking = "normal",
+      dataLabels = list(enabled = FALSE)
+    )
+  ) |>
+  hc_colors(c("#7CB5EC", "#434348", "#90ED7D", "#F7A35C"))
+```
+
+```{r}
+# 1. Preparar os dados - converter quantidade e agrupar por data e droga
+dados_grafico <- PF_APA |>
+  mutate(
+    quantidade = as.numeric(quantidade),  # Converter para numérico
+    data = as.Date(data)                 # Garantir que é formato Date
+  ) |>
+  filter(!is.na(quantidade), !is.na(data), !is.na(droga)) |>  # Remover NAs
+  group_by(data, droga) |>
+  summarise(total_apreendido = sum(quantidade), .groups = "drop")
+
+# 2. Criar gráfico de linhas interativo
+highchart() |>
+  hc_add_series(
+    data = dados_grafico,
+    type = "line",
+    hcaes(x = data, y = total_apreendido, group = droga),  # Linhas por tipo de droga
+    marker = list(radius = 4)                              # Tamanho dos pontos
+  ) |>
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Data da Apreensão"),
+    labels = list(format = "{value:%d/%m/%Y}")  # Formato brasileiro de data
+  ) |>
+  hc_yAxis(
+    title = list(text = "Quantidade Apreendida (gramas)"),
+    labels = list(format = "{value:,.0f}")      # Formato com separadores de milhar
+  ) |>
+  hc_title(text = "Quantidade de Drogas Apreendidas ao Longo do Tempo") |>
+  hc_subtitle(text = "Aeroporto de Vitória - Espírito Santo") |>
+  hc_tooltip(
+    headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
+    pointFormat = "{series.name}: <b>{point.y:,.0f} gramas</b>",
+    shared = FALSE,
+    crosshairs = TRUE
+  ) |>
+  hc_legend(
+    align = "right",
+    verticalAlign = "top",
+    layout = "vertical"
+  ) |>
+  hc_plotOptions(
+    line = list(
+      colorByPoint = FALSE,
+      lineWidth = 3,
+      states = list(hover = list(lineWidthPlus = 1))
+    )
+  ) |>
+  hc_colors(c("#1E90FF", "#FF6347", "#3CB371", "#FFD700")) |>  # Cores azul, vermelho, verde, amarelo
+  hc_rangeSelector(enabled = TRUE)  # Adiciona zoom para períodos
+```
+
+
+
+
+### Apreensões de drogas pela Polícia Federal
+
+Breve apresentação da base (primeiras cinco linhas).
+
+```{r}
+PF_A <- read.csv("data-raw/PF_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
+
+PF_A[PF_A$municipios == "Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória", ]$municipios <- "Central e litoral"
+
+PF_A[PF_A$municipios == "Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério", ]$municipios <- "Noroeste e Nordeste"
+
+PF_A[PF_A$municipios == "Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado, Vargem Alta", ]$municipios <- "Sul"
+
+PF_A <- PF_A |> rename(regiao_es = municipios)
+
+PF_A |> head(n = 5) |> knitr::kable()
+```
+
+# Análise das apreensões realizadas pelas policias estaduais
+
+## Sobre os dados
+
+Os dados são referentes as apreenções de drogas feitas pelas polícias estaduais e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
+
+## Análise descritiva
+
+### Apreensões de drogas pelas polícias estaduais
+
+```{r}
+SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
+```
+
+```{r, echo=FALSE}
+municipios_estado_presente <- c("Aracruz", "Cariacica", "Cachoeiro de Itapemirim","Colatina", "Linhares", "São Mateus", "Serra","Vila Velha", "Vitória")
+```
