@@ -88,3 +88,9 @@ summary(modelo_pre)
 ### Autocorrelação
 
 dwtest(modelo_its)
+
+# Analise DiD ------------------------------------------------------------------
+
+modelo_did <- lm(total_apreensoes ~ estado_presente + programa +
+                   estado_presente:programa,
+                 data = dados_agregados)
