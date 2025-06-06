@@ -1,0 +1,153 @@
+---
+title: "Análise dos dados do OBID relativos a apreensões pela polícia federal (PF) e polícias estaduais (Sinesp)"
+format:
+  html:
+    toc: true
+    html-math-method: katex
+    css: styles.css
+---
+
+```{r, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "",
+  warning = FALSE,
+  message = FALSE
+  # echo = FALSE
+)
+```
+
+# Sobre as bases 
+
+## Obtenção 
+Os dados foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), vinculado ao Ministério da Justiça e Segurança Pública. 
+
+Fonte: [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica)
+
+
+## Dicionário
+**PF_Apreensoes**
+- `delegacia_code`: Código numérico da delegacia da Polícia Federal responsável pelo registro.
+- `uf`: Sigla da Unidade da Federação (Estado) da ocorrência.
+- `regiao`: Macrorregião geográfica do IBGE.
+- `data`: Data completa do evento ou registro policial.
+- `dia`: Dia do mês extraído da data.
+- `ano`: Ano (AAAA) extraído da data.
+- `mes`: Mês (1-12) extraído da data.
+- `item`: Descrição ou classificação da substância/item apreendido.
+- `quantidade`: Valor numérico da quantidade, peso ou volume apreendido.
+- `unidade`: Variável proveniente do registro de apreensões.
+- `delegacia_name_cep`: Variável proveniente do registro de apreensões.
+- `CEP`: Variável proveniente do registro de apreensões.
+- `tipo_delegacia`: Descrição ou classificação da substância/item apreendido.
+- `municipio_cep`: Nome do município relacionado ao registro.
+- `uf_delegacia`: Variável proveniente do registro de apreensões.
+- `localidade`: Variável proveniente do registro de apreensões.
+- `Latitude`: Coordenada geográfica em graus decimais (WGS84).
+- `Longitude`: Coordenada geográfica em graus decimais (WGS84).
+- `SEDE`: Variável proveniente do registro de apreensões.
+- `UF_Municipios`: Nome do município relacionado ao registro.
+- `municipios`: Nome do município relacionado ao registro.
+- `mismatch_count`: Variável proveniente do registro de apreensões.
+
+**PF_ApreensoesUnificadas**
+- `UF`: Sigla da Unidade da Federação (Estado) da ocorrência.
+- `UNIDADE`: Variável proveniente do registro de apreensões.
+- `UNIDADE_PADRAO_AEROPORTUARIO`: Variável proveniente do registro de apreensões.
+- `CIDADE_APREENSAO`: Variável proveniente do registro de apreensões.
+- `DATA`: Data completa do evento ou registro policial.
+- `DROGA`: Variável proveniente do registro de apreensões.
+- `QUANTIDADE`: Valor numérico da quantidade, peso ou volume apreendido.
+- `UNIDADE_MEDIDA`: Variável proveniente do registro de apreensões.
+- `ORIGEM`: Variável proveniente do registro de apreensões.
+- `lat`: Variável proveniente do registro de apreensões.
+- `lon`: Variável proveniente do registro de apreensões.
+
+**PF_BaseCircunscricao**
+- `idDelegacia`: Variável proveniente do registro de apreensões.
+- `municipio_circuns`: Nome do município relacionado ao registro.
+- `idMunicipio`: Nome do município relacionado ao registro.
+- `UF_Sede`: Variável proveniente do registro de apreensões.
+- `SEDE`: Variável proveniente do registro de apreensões.
+- `Delegacia`: Variável proveniente do registro de apreensões.
+- `delegacia_code`: Código numérico da delegacia da Polícia Federal responsável pelo registro.
+- `UF_Municipio`: Nome do município relacionado ao registro.
+
+**PF_NovasSubstanciasPsicoativas**
+- `ano_laudo`: Variável proveniente do registro de apreensões.
+- `documento`: Variável proveniente do registro de apreensões.
+- `substancia`: Descrição ou classificação da substância/item apreendido.
+- `qtd_comprimidos_unidades`: Valor numérico da quantidade, peso ou volume apreendido.
+- `qtd_selos_unidades`: Valor numérico da quantidade, peso ou volume apreendido.
+- `qnt_solido_gramas`: Valor numérico da quantidade, peso ou volume apreendido.
+- `qtd_erva_gramas`: Valor numérico da quantidade, peso ou volume apreendido.
+- `qtd_papel_gramas`: Valor numérico da quantidade, peso ou volume apreendido.
+- `volume_ml`: Valor numérico da quantidade, peso ou volume apreendido.
+- `Grupo`: Descrição ou classificação da substância/item apreendido.
+- `Observação`: Observações complementares registradas pelo operador/perito.
+
+**SINESP_Apreensoes**
+- `uf`: Sigla da Unidade da Federação (Estado) da ocorrência.
+- `municipio`: Nome do município relacionado ao registro.
+- `evento`: Variável proveniente do registro de apreensões.
+- `data_referencia`: Data completa do evento ou registro policial.
+- `total`: Valor numérico da quantidade, peso ou volume apreendido.
+- `total_peso`: Valor numérico da quantidade, peso ou volume apreendido.
+- `abrangencia`: Variável proveniente do registro de apreensões.
+- `formulario`: Variável proveniente do registro de apreensões.
+- `ano`: Ano (AAAA) extraído da data.
+- `ano_data`: Ano (AAAA) extraído da data.
+- `mes_data`: Mês (1-12) extraído da data.
+- `trimestre_data`: Variável proveniente do registro de apreensões.
+
+------------------------------------------------------------------------
+
+# Análise descritiva
+
+Importando as bases.
+
+```{r}
+PF_APA <- read.csv("data-raw/PF_Apreensoes_Portos_Aeroportos.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
+PF_A <- read.csv("data-raw/PF_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
+PF_BC <- read.csv("data-raw/PF_BaseCircunscricao.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
+PF_NSP <- read.csv("data-raw/PF_NovasSubstanciasPsicoativas.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
+SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
+```
+
+Verificando as variáveis presentes em cada uma das bases.
+
+```{r}
+PF_APA |> dplyr::glimpse() 
+PF_A |> dplyr::glimpse() 
+PF_BC |> dplyr::glimpse()
+PF_NSP |> dplyr::glimpse()
+SINESP |> dplyr::glimpse()
+```
+
+A base **PF_BaseCircunscricao** não será utilizada na análise por se limitar a informações administrativas sobre delegacias. Da mesma forma, a base **PF_NovasSubstanciasPsicoativas** não será utilizada por não conter qualquer informação geográfica que permitisse localizar as apreensões no território nacional.
+
+## Espirito Santo
+
+Filtrando as bases para que tenhamos somente informações sobre apreensões feitas no estado do Espírito Santo.
+
+```{r}
+PF_APA <- PF_APA |> dplyr::filter(uf == "ES")
+PF_A <- PF_A |> dplyr::filter(uf == "ES")
+SINESP <- SINESP |> dplyr::filter(uf == "ES")
+```
+
+Verificando a possibilidade de uma análise a nível municipal.
+
+```{r}
+unique(PF_APA$cidade_apreensao)
+unique(PF_A$municipios)
+unique(SINESP$municipio)
+```
+
+```{r}
+PF_APA$origem
+```
+
+
+```{r, echo=FALSE}
+municipios_estado_presente <- c("Aracruz", "Cariacica", "Cachoeiro de Itapemirim","Colatina", "Linhares", "São Mateus", "Serra","Vila Velha", "Vitória")
+```
