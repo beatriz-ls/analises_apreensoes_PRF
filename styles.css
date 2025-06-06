@@ -1,0 +1,88 @@
+/* Estilo geral do corpo */
+body {
+    font-family: Arial, sans-serif;
+    color: #333333; /* Texto escuro */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Estilo da Sidebar */
+.sidebar {
+    background-color: #2e8b57; /* Verde médio */
+    color: #ffffff; /* Texto branco */
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    color: #f8f9fa; /* Título em branco */
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.sidebar a:hover {
+    color: #ffe4e1; /* Rosa claro */
+}
+
+/* Conteúdo principal */
+main {
+    margin-left: 270px;
+    padding: 30px;
+    background-color: #fafafa; /* Fundo cinza claro */
+}
+
+h1, h2 {
+    color: #db7093; /* Rosa claro escuro */
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-top: 30px;
+}
+
+/* Links */
+a {
+    color: #2e8b57; /* Verde médio */
+}
+
+a:hover {
+    color: #db7093; /* Rosa claro escuro */
+}
+
+/* Destaque de texto */
+.highlight {
+    background-color: #ffe4e1; /* Rosa claro */
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: #333333;
+}
+
+/* Garante que o conteúdo ocupe toda a largura disponível */
+div.main-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ajusta a tabela de conteúdo para exibir corretamente */
+div#toc {
+  width: 250px;  /* Ajuste a largura do TOC conforme necessário */
+  position: fixed;
+  top: 100px;  /* Ajuste conforme necessário */
+}
