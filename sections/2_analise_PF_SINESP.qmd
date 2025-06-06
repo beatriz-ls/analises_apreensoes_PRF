@@ -13,77 +13,381 @@ format:
 knitr::opts_chunk$set(
   comment = "",
   warning = FALSE,
-  message = FALSE
-  # echo = FALSE
+  message = FALSE,
+  echo = FALSE
 )
+
+library(dplyr)
+library(highcharter)
+library(lubridate)
 ```
 
-# Sobre as bases
+# Análise das apreensões realizadas pela policia federal
 
-## Obtenção
+## Sobre os dados
 
-Os dados foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), vinculado ao Ministério da Justiça e Segurança Pública.
+Os dados são referentes as apreenções de drogas feitas pela Polícia Federal e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
 
-Fonte: [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica)
-
-## Dicionário
-
-**PF_Apreensoes** - `delegacia_code`: Código numérico da delegacia da Polícia Federal responsável pelo registro. - `uf`: Sigla da Unidade da Federação (Estado) da ocorrência. - `regiao`: Macrorregião geográfica do IBGE. - `data`: Data completa do evento ou registro policial. - `dia`: Dia do mês extraído da data. - `ano`: Ano (AAAA) extraído da data. - `mes`: Mês (1-12) extraído da data. - `item`: Descrição ou classificação da substância/item apreendido. - `quantidade`: Valor numérico da quantidade, peso ou volume apreendido. - `unidade`: Variável proveniente do registro de apreensões. - `delegacia_name_cep`: Variável proveniente do registro de apreensões. - `CEP`: Variável proveniente do registro de apreensões. - `tipo_delegacia`: Descrição ou classificação da substância/item apreendido. - `municipio_cep`: Nome do município relacionado ao registro. - `uf_delegacia`: Variável proveniente do registro de apreensões. - `localidade`: Variável proveniente do registro de apreensões. - `Latitude`: Coordenada geográfica em graus decimais (WGS84). - `Longitude`: Coordenada geográfica em graus decimais (WGS84). - `SEDE`: Variável proveniente do registro de apreensões. - `UF_Municipios`: Nome do município relacionado ao registro. - `municipios`: Nome do município relacionado ao registro. - `mismatch_count`: Variável proveniente do registro de apreensões.
-
-**PF_ApreensoesUnificadas** - `UF`: Sigla da Unidade da Federação (Estado) da ocorrência. - `UNIDADE`: Variável proveniente do registro de apreensões. - `UNIDADE_PADRAO_AEROPORTUARIO`: Variável proveniente do registro de apreensões. - `CIDADE_APREENSAO`: Variável proveniente do registro de apreensões. - `DATA`: Data completa do evento ou registro policial. - `DROGA`: Variável proveniente do registro de apreensões. - `QUANTIDADE`: Valor numérico da quantidade, peso ou volume apreendido. - `UNIDADE_MEDIDA`: Variável proveniente do registro de apreensões. - `ORIGEM`: Variável proveniente do registro de apreensões. - `lat`: Variável proveniente do registro de apreensões. - `lon`: Variável proveniente do registro de apreensões.
-
-**PF_BaseCircunscricao** - `idDelegacia`: Variável proveniente do registro de apreensões. - `municipio_circuns`: Nome do município relacionado ao registro. - `idMunicipio`: Nome do município relacionado ao registro. - `UF_Sede`: Variável proveniente do registro de apreensões. - `SEDE`: Variável proveniente do registro de apreensões. - `Delegacia`: Variável proveniente do registro de apreensões. - `delegacia_code`: Código numérico da delegacia da Polícia Federal responsável pelo registro. - `UF_Municipio`: Nome do município relacionado ao registro.
-
-**PF_NovasSubstanciasPsicoativas** - `ano_laudo`: Variável proveniente do registro de apreensões. - `documento`: Variável proveniente do registro de apreensões. - `substancia`: Descrição ou classificação da substância/item apreendido. - `qtd_comprimidos_unidades`: Valor numérico da quantidade, peso ou volume apreendido. - `qtd_selos_unidades`: Valor numérico da quantidade, peso ou volume apreendido. - `qnt_solido_gramas`: Valor numérico da quantidade, peso ou volume apreendido. - `qtd_erva_gramas`: Valor numérico da quantidade, peso ou volume apreendido. - `qtd_papel_gramas`: Valor numérico da quantidade, peso ou volume apreendido. - `volume_ml`: Valor numérico da quantidade, peso ou volume apreendido. - `Grupo`: Descrição ou classificação da substância/item apreendido. - `Observação`: Observações complementares registradas pelo operador/perito.
-
-**SINESP_Apreensoes** - `uf`: Sigla da Unidade da Federação (Estado) da ocorrência. - `municipio`: Nome do município relacionado ao registro. - `evento`: Variável proveniente do registro de apreensões. - `data_referencia`: Data completa do evento ou registro policial. - `total`: Valor numérico da quantidade, peso ou volume apreendido. - `total_peso`: Valor numérico da quantidade, peso ou volume apreendido. - `abrangencia`: Variável proveniente do registro de apreensões. - `formulario`: Variável proveniente do registro de apreensões. - `ano`: Ano (AAAA) extraído da data. - `ano_data`: Ano (AAAA) extraído da data. - `mes_data`: Mês (1-12) extraído da data. - `trimestre_data`: Variável proveniente do registro de apreensões.
-
-------------------------------------------------------------------------
-
-# Análise descritiva
-
-Importando as bases.
-
-```{r}
-PF_APA <- read.csv("data-raw/PF_Apreensoes_Portos_Aeroportos.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
-PF_A <- read.csv("data-raw/PF_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
-PF_BC <- read.csv("data-raw/PF_BaseCircunscricao.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
-PF_NSP <- read.csv("data-raw/PF_NovasSubstanciasPsicoativas.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
-SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names()
-```
-
-Verificando as variáveis presentes em cada uma das bases.
-
-```{r}
-PF_APA |> dplyr::glimpse() 
-PF_A |> dplyr::glimpse() 
-PF_BC |> dplyr::glimpse()
-PF_NSP |> dplyr::glimpse()
-SINESP |> dplyr::glimpse()
-```
+Ao total são quatro bases relacionadas as apreenções feitas pela PF, **PF_Apreensoes_Portos_Aeroportos**, **PF_Apreensoes**, **PF_BaseCircunscricao** e **PF_NovasSubstanciasPsicoativas**.
 
 A base **PF_BaseCircunscricao** não será utilizada na análise por se limitar a informações administrativas sobre delegacias. Da mesma forma, a base **PF_NovasSubstanciasPsicoativas** não será utilizada por não conter qualquer informação geográfica que permitisse localizar as apreensões no território nacional.
 
-## Espirito Santo
+Após a filtragem por ocorrencias no estado do Espirito Santo, foi verificado que a base **PF_Apreensoes_Portos_Aeroportos** se limita a somente apreenções feitas no aeroporto e porto de Vitória, já a base **PF_Apreensoes** se limita a apreenções feitas nas regiões central e litoral, noroeste e nordeste e sul do Espirito Santo.
 
-Filtrando as bases para que tenhamos somente informações sobre apreensões feitas no estado do Espírito Santo.
+Separação municipal utilizada na base **PF_Apreensoes**:
+
+-   **Central e litoral**: Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória.
+
+-   **Noroeste e Nordeste**: Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério.
+
+-   **Sul**: Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado, Vargem Alta.
+
+Dos municipios com bairros abrangidos pelo Projeto Estado Presente, nove se localizam nas regiões central e litoral, Aracruz, Cariacica, Colatina, Linhares, Serra, Vila Velha, Vitória, um nas regiões noroeste e nordeste, São Mateus, e um na região sul, Cachoeiro de Itapemirim.
+
+## Análise descritiva
+
+### Apreensão de drogas em portos e aeroportos pela Polícia Federal
+
+Breve apresentação da base (primeiras cinco linhas).
 
 ```{r}
-PF_APA <- PF_APA |> dplyr::filter(uf == "ES")
-PF_A <- PF_A |> dplyr::filter(uf == "ES")
-SINESP <- SINESP |> dplyr::filter(uf == "ES")
+PF_APA <- read.csv("data-raw/PF_Apreensoes_Portos_Aeroportos.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
+
+PF_APA |> head(n = 5) |> knitr::kable() 
 ```
 
-Verificando a possibilidade de uma análise a nível municipal.
-
 ```{r}
-unique(PF_APA$cidade_apreensao)
-unique(PF_A$municipios)
-unique(SINESP$municipio)
+PF_APA <- PF_APA |> 
+  mutate(
+    data = lubridate::mdy(data),  
+    ano = lubridate::year(data)  
+  )
 ```
 
 ```{r}
-PF_APA$origem
+df_freq <- PF_APA |>
+  count(origem, ano) |> 
+  filter(!is.na(origem))
+
+highchart() |>
+  hc_add_series(
+    data = df_freq,
+    type = "column",
+    hcaes(x = ano, y = n, group = origem)
+  ) |>
+  hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
+  hc_yAxis(title = list(text = "Número de Apreensões")) |>
+  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
+  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_tooltip(
+    shared = TRUE,
+    headerFormat = "<b>Ano: {point.key}</b><br/>",
+    pointFormat = "{series.name}: {point.y} </b><br/>"
+  ) |>
+  hc_legend(enabled = TRUE) |>
+  hc_plotOptions(
+    column = list(
+      stacking = "normal",
+      dataLabels = list(enabled = FALSE)
+    )
+  ) |>
+  hc_colors(viridis::viridis(4))
+```
+
+```{r}
+df_freq <- PF_APA |>
+  count(droga, ano) |> 
+  filter(!is.na(droga))
+
+highchart() |>
+  hc_add_series(
+    data = df_freq,
+    type = "column",
+    hcaes(x = ano, y = n, group = droga)
+  ) |>
+  hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
+  hc_yAxis(title = list(text = "Número de Apreensões")) |>
+  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
+  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_tooltip(
+    shared = TRUE,
+    headerFormat = "<b>Ano: {point.key}</b><br/>",
+    pointFormat = "{series.name}: {point.y} </b><br/>"
+  ) |>
+  hc_legend(enabled = TRUE) |>
+  hc_plotOptions(
+    column = list(
+      stacking = "normal",
+      dataLabels = list(enabled = FALSE)
+    )
+  ) |>
+  hc_colors(viridis::viridis(4))
+```
+
+```{r}
+dados_grafico <- PF_APA |>
+  mutate(
+    quantidade = as.numeric(quantidade),
+    data = as.Date(data)                
+  ) |>
+  filter(!is.na(quantidade), !is.na(data), !is.na(droga)) |> 
+  group_by(data, droga) |>
+  summarise(total_apreendido = sum(quantidade), .groups = "drop")
+
+highchart() |>
+  hc_add_series(
+    data = dados_grafico,
+    type = "line",
+    hcaes(x = data, y = total_apreendido, group = droga),
+    marker = list(radius = 4)                            
+  ) |>
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Data da Apreensão"),
+    labels = list(format = "{value:%d/%m/%Y}")
+  ) |>
+  hc_yAxis(
+    title = list(text = "Quantidade Apreendida (gramas)"),
+    labels = list(format = "{value:,.0f}")
+  ) |>
+  hc_title(text = "Quantidade de Drogas Apreendidas ao Longo do Tempo") |>
+  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_tooltip(
+    headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
+    pointFormat = "{series.name}: <b>{point.y:,.0f} gramas</b>",
+    shared = FALSE,
+    crosshairs = TRUE
+  ) |>
+  hc_legend(
+    align = "right",
+    verticalAlign = "top",
+    layout = "vertical"
+  ) |>
+  hc_plotOptions(
+    line = list(
+      colorByPoint = FALSE,
+      lineWidth = 3,
+      states = list(hover = list(lineWidthPlus = 1))
+    )
+  ) |>
+  hc_colors(viridis::viridis(4))
+  # hc_rangeSelector(enabled = TRUE) 
+```
+
+
+# Análise das apreensões realizadas pelas policias estaduais
+
+## Sobre os dados
+
+Os dados são referentes as apreenções de drogas feitas pelas polícias estaduais e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
+
+## Análise descritiva
+
+### Apreensões de drogas pelas polícias estaduais
+
+Breve apresentação da base (primeiras cinco linhas).
+
+```{r}
+PF_A <- read.csv("data-raw/PF_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
+
+PF_A[PF_A$municipios == "Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória", ]$municipios <- "Central e litoral"
+
+PF_A[PF_A$municipios == "Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério", ]$municipios <- "Noroeste e Nordeste"
+
+PF_A[PF_A$municipios == "Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado, Vargem Alta", ]$municipios <- "Sul"
+
+PF_A <- PF_A |> rename(regiao_es = municipios)
+
+PF_A |> head(n = 5) |> knitr::kable()
+```
+
+```{r}
+PF_A$data <- lubridate::ymd_hms(PF_A$data) |> as.Date()
+
+PF_A <- PF_A |> 
+  mutate(
+    ano = lubridate::year(data)  
+  )
+```
+
+
+```{r}
+df_freq <- PF_A |>
+  # filter(unidade == "Gramas") |>
+  count(item, ano) |> 
+  filter(!is.na(item))
+
+highchart() |>
+  hc_add_series(
+    data = df_freq,
+    type = "column",
+    hcaes(x = ano, y = n, group = item)
+  ) |>
+  hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
+  hc_yAxis(title = list(text = "Número de Apreensões")) |>
+  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
+  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_tooltip(
+    shared = TRUE,
+    headerFormat = "<b>Ano: {point.key}</b><br/>",
+    pointFormat = "{series.name}: {point.y} </b><br/>"
+  ) |>
+  hc_legend(enabled = TRUE) |>
+  hc_plotOptions(
+    column = list(
+      stacking = "normal",
+      dataLabels = list(enabled = FALSE)
+    )
+  ) |>
+  hc_colors(viridis::viridis(8))
+```
+
+```{r}
+dados_grafico <- PF_A |>
+  filter(unidade == "Gramas") |> 
+  mutate(
+    quantidade = as.numeric(quantidade),
+    ano = as.numeric(ano)
+  ) |>
+  filter(!is.na(quantidade), !is.na(ano), !is.na(item), quantidade > 0) |> 
+  group_by(ano, item) |>
+  summarise(total_apreendido = sum(quantidade), .groups = "drop")
+
+# Criar gráfico
+highchart() |>
+  hc_add_series(
+    data = dados_grafico,
+    type = "line",
+    hcaes(x = ano, y = total_apreendido, group = item),
+    marker = list(
+      radius = 4,
+      symbol = "circle",
+      lineWidth = 1
+    )                            
+  ) |>
+  hc_xAxis(
+    title = list(text = "Ano"),
+    allowDecimals = FALSE,  # Evita decimais nos anos
+    labels = list(
+      formatter = JS("function() { return this.value; }")  # Mostra anos inteiros
+    )
+  ) |>
+  hc_yAxis(
+    title = list(text = "Quantidade Apreendida (gramas)"),
+    labels = list(format = "{value:,.0f}"),
+    min = 0  # Eixo Y começa em zero
+  ) |>
+  hc_title(text = "Evolução Anual das Apreensões de Drogas") |>
+  hc_subtitle(text = "Dados em gramas - Dados polícia estadual do Espirito Santo") |>
+  hc_tooltip(
+    headerFormat = "<b>Ano: {point.x}</b><br>",
+    pointFormat = "<span style=\"color:{point.color}\">●</span> {series.name}: <b>{point.y:,.0f} g</b>",
+    shared = FALSE,
+    crosshairs = TRUE,
+    valueDecimals = 0
+  ) |>
+  hc_legend(
+    align = "right",
+    verticalAlign = "middle",
+    layout = "vertical",
+    itemStyle = list(fontWeight = "normal")
+  ) |>
+  hc_plotOptions(
+    line = list(
+      lineWidth = 3,
+      states = list(
+        hover = list(lineWidthPlus = 2)
+    )
+  )) |>
+  hc_colors(viridis::viridis(length(unique(dados_grafico$item)), option = "D"))
+```
+
+```{r}
+library(dplyr)
+
+
+# Preparação dos dados trimestrais
+dados_trimestre <- PF_A |>
+  filter(unidade == "Gramas") |>
+  mutate(
+    quantidade = as.numeric(quantidade),
+    data = as.Date(data),
+    trimestre = paste0(year(data), "-T", quarter(data)),  # Cria identificador do trimestre
+    trimestre_date = yq(trimestre)  # Converte para formato Date (primeiro dia do trimestre)
+  ) |>
+  filter(!is.na(quantidade), quantidade > 0) |>
+  group_by(trimestre_date, trimestre, regiao_es) |>
+  summarise(total_apreendido = sum(quantidade), .groups = "drop")
+
+# Criar gráfico trimestral
+highchart() |>
+  hc_add_series(
+    data = dados_trimestre,
+    type = "line",
+    hcaes(x = trimestre_date, y = total_apreendido, group = regiao_es),
+    marker = list(
+      radius = 4,
+      symbol = "diamond"
+    )
+  ) |>
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Trimestre"),
+    labels = list(
+      formatter = JS("function() {
+        const date = new Date(this.value);
+        const year = date.getFullYear();
+        const quarter = Math.floor(date.getMonth()/3) + 1;
+        return 'T' + quarter + ' ' + year;
+      }")
+    ),
+    tickInterval = 90 * 24 * 3600 * 1000  # Intervalo de 3 meses
+  ) |>
+  hc_yAxis(
+    title = list(text = "Quantidade Apreendida (gramas)"),
+    labels = list(format = "{value:,.0f}"),
+    min = 0
+  ) |>
+  hc_title(text = "Apreensões de Drogas por Trimestre") |>
+  hc_subtitle(text = "Dados em gramas - Dados polícia estadual do Espirito Santo") |>
+  hc_tooltip(
+    headerFormat = "<b>{point.trimestre}</b><br>",
+    pointFormat = "<span style=\"color:{point.color}\">●</span> {series.name}: <b>{point.y:,.0f} g</b>",
+    shared = FALSE,
+    crosshairs = TRUE
+  ) |>
+  hc_legend(
+    align = "right",
+    verticalAlign = "middle",
+    layout = "vertical",
+    itemStyle = list(fontWeight = "normal")
+  ) |>
+  hc_plotOptions(
+    line = list(
+      lineWidth = 3,
+      states = list(hover = list(lineWidthPlus = 1))
+    ),
+    series = list(
+      marker = list(enabledThreshold = 10)
+    )
+  ) |>
+  hc_colors(viridis::viridis(4, option = "D"))
+  # hc_rangeSelector(
+  #   enabled = TRUE,
+  #   buttons = list(
+  #     list(type = 'year', count = 1, text = '1 ano'),
+  #     list(type = 'year', count = 3, text = '3 anos'),
+  #     list(type = 'all', text = 'Todos')
+  #   )
+  # ) |>
+  # hc_exporting(enabled = TRUE)
+```
+
+
+
+
+```{r}
+SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
 ```
 
 ```{r, echo=FALSE}
