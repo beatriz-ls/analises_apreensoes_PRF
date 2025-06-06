@@ -445,7 +445,7 @@ hchart(
       borderWidth = 0
     )
   ) %>%
-  hc_colors(viridis::viridis(7, option = "D")) %>%
+  hc_colors(viridis::viridis(7, option = "B")) %>%
   hc_xAxis(title = list(text = "Ano")) %>%
   hc_yAxis(
     title = list(text = "Percentual (%)"),

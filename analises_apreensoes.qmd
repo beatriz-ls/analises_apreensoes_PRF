@@ -5,13 +5,33 @@ author:
   - name: "Esley Caminhas Ferreira"
 format:
   html:
-    theme: solar
+    theme: morph
     toc: true
     toc-location: left
     toc-depth: 2
     toc-title: "Índice"
     page-layout: full
 ---
+```{r, include=FALSE, echo=FALSE}
+library(data.table)
+library(highcharter)
+library(ggplot2)
+library(viridis)
+library(janitor)
+library(knitr)
+library(Kendall)
+library(kableExtra)
+library(sandwich)
+library(lmtest)
+library(trend)
+
+knitr::opts_chunk$set(
+  comment = "",
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE
+)
+```
 
 {{< include sections/0_introducao.qmd >}}
 

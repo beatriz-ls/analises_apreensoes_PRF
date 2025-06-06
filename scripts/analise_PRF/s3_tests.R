@@ -39,7 +39,7 @@ data[,estado_presente := factor(ifelse(municipio_ocorrencia %in% municipios_esta
 
 # Teste de tendência pré-Programa (apenas cidades do estado presente) ----------
 
-dados_agg <- data[, .(total_registros = .N, programa), by = ano_mes]
+dados_agg <- data[, .(total_registros = .N), by = .(ano_mes, programa)]
 
 # Período ANTES do programa
 if (dados_agg[programa == 0, .N] > 0) {
@@ -94,3 +94,6 @@ dwtest(modelo_its)
 modelo_did <- lm(total_apreensoes ~ estado_presente + programa +
                    estado_presente:programa,
                  data = dados_agregados)
+
+
+coeftest(modelo_did, vcov = vcovHC(modelo_did, type = "HC1"))  # Erros robustos

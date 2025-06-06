@@ -1,7 +1,7 @@
 ---
 format:
   html:
-    theme: solar
+    theme: morph
     toc: true
     toc-location: left
     toc-depth: 2
@@ -9,15 +9,307 @@ format:
     page-layout: full
 ---
 
-```{r, include=FALSE, echo=FALSE}
+```{r, include=FALSE}
+suppressPackageStartupMessages({
+  library(data.table)
+  .DT <- data.table  # Cria um alias protegido
+})
+# Configurações do knitr
 knitr::opts_chunk$set(
   comment = "",
   warning = FALSE,
-  message = FALSE
-  # echo = FALSE
+  message = FALSE,
+  echo = FALSE
 )
+
 ```
 
-## Analise das apreensões realizadas pela policia rodoviaria federal
+# Analise das apreensões realizadas pela policia rodoviaria federal
 
-bla bla bla
+## Sobre os dados
+
+```{r data preprocessing}
+
+data <- fread("data/prf_apreensoes.csv")
+
+## Filtragens para as analises apenas do estado presente e 
+data <- data[uf == "ES"]
+
+data[, (c("uf", "estado")) := NULL]
+
+municipios_estado_presente <- c("ARACRUZ", "CACHOEIRO DE ITAPEMIRIM", "CARIACICA", "COLATINA",
+                     "LINHARES", "SAO MATEUS", "SERRA", "VILA VELHA", "VITORIA")
+
+data_corte <- as.Date("2017-12-28")
+
+data[, programa := ifelse(data_apreensao >= data_corte, 1, 0)]
+
+data[, ano := year(data_apreensao)]
+
+data[, ano_mes := format(data_apreensao, "%Y-%m")]
+
+# Criar variável dummy para o Estado Presente
+data[,estado_presente := factor(ifelse(municipio_ocorrencia %in% municipios_estado_presente,
+                                       "Estado Presente", "Demais municípios"))]
+
+## Serie de cada categoria de droga
+
+data[, grupo_droga := fcase(
+  tipo_apreensao %in% c("Cocaína/Cloridrato de Cocaína", "Crack"), "Cocaína e Derivados",
+  tipo_apreensao %in% c("Maconha", "Pés de Maconha", "Haxixe"), "Cannabis e Derivados",
+  tipo_apreensao %in% c("Anfetaminas", "Ecstasy", "Lança-perfume"), "Sintéticas/Estimulantes",
+  tipo_apreensao %in% c("Barbitúricos", "Medicamentos"), "Farmacêuticos/Controlados",
+  default = "Outros"  # Inclui LSD e demais (baixa frequência)
+)]
+```
+
+Os dados são referentes as apreenções de drogas feitas pela Polícia Rodoviaria Federal e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
+
+o total são três bases relacionadas as apreenções feitas pela PF, **PRF_Apreensoes_comp**, **PRF_ApreensoesCigarro** e **PRF_ApreensoesVape**, sendo **PRF_ApreensoesCigarro** e **PRF_ApreensoesVape** bases com registro anual do total de apreensão ocorrido em cada estado. A base **PRF_ApreensoesVape** não possui nenhum registro do Espiríto Santo, portanto não será abordada neste relatório. A base **PRF_ApreensoesCigarro** possui apenas registro de 2022, 2023 e 2024, suas informação são descritas abaixo:
+
+```{r}
+prf_cigarro <- fread(
+  "data-raw/PRF_ApreensoesCigarro.csv", 
+  sep = ";", 
+  header = TRUE, 
+  encoding = "Latin-1"
+) |> 
+  janitor::clean_names()
+
+prf_cigarro[local_apreensao == "ES", ] |> knitr::kable() 
+```
+
+Sendo assim, este relatório está sessão será dedicada em analisar a base **PRF_Apreensoes_comp** que possui registros de data da apreençaõ, especificado por dia e hora. Está base também tem variáveis descritivas que indicam se a apreensão ocorreu em zona rural ou urbana, qual o local (BR, Comercial, Residencia, etc.), qual drogas foi aprendida (maconha, cocaina, etc) e é discrimininada a nível municipal, tornando possivel comparar as cidades com bairros que foi implementado o programa Estado Presente.
+
+## Analise da variação de apreensões ao longo do tempo
+
+### Total de apreensões em relação a cidades do estsdo presente
+
+As cidades com bairros selecionados para o Programa estado presente são: Aracruz, Cachoeiro de Itapemirim, Cariacica, Colatina, Linhares, São Mateus, Serra, Vitória, Vila Velha, Vitória. No gráfico 1, é possivel analisar a área acumulada do total de apreensões anuais.
+
+```{r }
+## Gráfico área acumulada estado presente vs ES
+
+# Agregação dos dados por ano e região (Estado Presente vs. Demais municípios)
+dados_agregados <- .DT(data)[, .(total = .N), by = .(ano, estado_presente)]
+
+# Ordenar os dados por ano para garantir a visualização correta
+setorder(dados_agregados, ano)
+
+hchart(
+  dados_agregados,
+  "area",
+  hcaes(x = ano, y = total, group = estado_presente),
+  stacking = "normal"
+) |>
+  hc_title(text = "Evolução Anual das Apreensões no ES") %>%
+  hc_colors(viridis::viridis(2, option = "D")) %>%
+  hc_xAxis(
+    title = list(text = "Ano"),
+    plotLines = list(
+      list(
+        color = "red",
+        width = 2,
+        value = 2018,
+        dashStyle = "Dash",
+        zIndex = 5,
+        label = list(
+          text = "Início do Programa",
+          rotation = 90,
+          align = "right",
+          verticalAlign = "middle",
+          style = list(color = "red", fontWeight = "bold")
+        )
+      )
+    )
+  ) |>
+  hc_yAxis(title = list(text = "Total de Apreensões"))
+
+```
+
+```{r}
+dados_agregados <- data[, .(total = .N), by = .(ano, estado_presente)]
+
+hchart(
+  dados_agregados, 
+  "column", 
+  hcaes(x = ano, y = total, group = estado_presente),
+  stacking = "normal"
+) %>%
+  hc_title(text = "Apreensões por Ano no ES") %>%
+  hc_colors(viridis(2, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(title = list(text = "Total de Apreensões"))
+```
+
+### Total de apreensão por mês
+
+```{r}
+
+### Extrair ano e mês para agregação
+data[, ano_mes := format(data_apreensao, "%Y-%m")]
+
+### Calcular o total de apreensões por mês
+dados_mensais <- data[, .(total_apreensoes = .N), by = .(ano_mes)]
+
+### Ordenar por data
+setorder(dados_mensais, ano_mes)
+
+### Criar coluna de data completa (primeiro dia do mês) para o gráfico
+dados_mensais[, data := as.Date(paste0(ano_mes, "-01"))]
+
+
+hchart(dados_mensais, "line", hcaes(x = data, y = total_apreensoes)) %>%
+  hc_title(text = "Total de Apreensões no ES por Mês") %>%
+  hc_xAxis(
+    title = list(text = "Mês/Ano"),
+    type = "datetime",
+    labels = list(format = "{value:%b/%Y}"),
+    plotLines = list(
+      list(
+        color = "red",
+        width = 2,
+        value = datetime_to_timestamp(as.Date("2017-12-28")),
+        dashStyle = "Dash",
+        zIndex = 5,
+        label = list(
+          text = "Início do Programa", 
+          rotation = 90,
+          verticalAlign = "middle",
+          textAlign = "right",
+          style = list(color = "red", fontWeight = "bold")
+        )
+      )
+    )
+    
+  ) %>%
+  hc_yAxis(title = list(text = "Número de Apreensões")) %>%
+  hc_tooltip(
+    pointFormat = "<b>{point.total_apreensoes}</b> apreensões em <b>{point.x:%b/%Y}</b>"
+  ) %>%
+  hc_colors("#1f77b4")
+
+```
+
+### Relação apreensão e categoria de psicoativo
+
+```{r}
+
+# Preparar os dados com totais absolutos e percentuais
+dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, grupo_droga)]
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+# Gráfico com tooltip corrigido
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(x = ano, y = percentual, group = grupo_droga, real = total_absoluto),  # Note o 'real'
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(5, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
+  )
+
+```
+
+### Relação apreensão e local de ocorrência
+
+```{r}
+
+## Gráfico de barras porcentual tipo local ocorrencia
+
+# Preparar os dados com totais absolutos e percentuais
+dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, tipo_local_ocorrencia)]
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+# Gráfico com tooltip corrigido
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(x = ano, y = percentual, group = tipo_local_ocorrencia, real = total_absoluto),  # Note o 'real'
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(7, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
+  )
+
+```
+
+### Relação apreensão e zona de ocorrência
+
+```{r}
+## Gráfico de barras porcentual zona ocorrência
+
+# Preparar os dados com totais absolutos e percentuais
+dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, zona_ocorrencia)]
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+# Gráfico com tooltip corrigido
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(x = ano, y = percentual, group = zona_ocorrencia, real = total_absoluto),  # Note o 'real'
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(7, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
+  )
+
+```
+
+## Avaliação do impacto do Programa Estado Presente
+
