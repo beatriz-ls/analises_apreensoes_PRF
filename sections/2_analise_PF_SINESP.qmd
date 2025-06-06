@@ -77,8 +77,8 @@ highchart() |>
   ) |>
   hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
   hc_yAxis(title = list(text = "Número de Apreensões")) |>
-  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
-  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_title(text = "Frequência Anual de Apreensões de Drogas por Origem") |>
+  hc_subtitle(text = "Dados Polícia Federal Portos e Aeroportos") |>
   hc_tooltip(
     shared = TRUE,
     headerFormat = "<b>Ano: {point.key}</b><br/>",
@@ -107,8 +107,8 @@ highchart() |>
   ) |>
   hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
   hc_yAxis(title = list(text = "Número de Apreensões")) |>
-  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
-  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_title(text = "Frequência Anual de Apreensões de Drogas por tipo de Droga") |>
+  hc_subtitle(text = "Dados Polícia Federal Portos e Aeroportos") |>
   hc_tooltip(
     shared = TRUE,
     headerFormat = "<b>Ano: {point.key}</b><br/>",
@@ -125,65 +125,52 @@ highchart() |>
 ```
 
 ```{r}
-dados_grafico <- PF_APA |>
+dados_anual <- PF_APA |>
   mutate(
     quantidade = as.numeric(quantidade),
-    data = as.Date(data)                
+    data = as.Date(data),
+    ano = year(data)  # Extrai apenas o ano da data
   ) |>
-  filter(!is.na(quantidade), !is.na(data), !is.na(droga)) |> 
-  group_by(data, droga) |>
+  filter(!is.na(quantidade), 
+         !is.na(ano), 
+         !is.na(droga),
+         quantidade > 0) |>
+  group_by(ano, droga) |>  # Agrupa por ano e tipo de droga
   summarise(total_apreendido = sum(quantidade), .groups = "drop")
 
 highchart() |>
   hc_add_series(
-    data = dados_grafico,
+    data = dados_anual,
     type = "line",
-    hcaes(x = data, y = total_apreendido, group = droga),
+    hcaes(x = ano, y = total_apreendido, group = droga),
     marker = list(radius = 4)                            
   ) |>
   hc_xAxis(
-    type = "datetime",
-    title = list(text = "Data da Apreensão"),
-    labels = list(format = "{value:%d/%m/%Y}")
+    title = list(text = "Ano"),
+    allowDecimals = FALSE,  # Remove decimais nos anos
+    gridLineWidth = 1
   ) |>
   hc_yAxis(
     title = list(text = "Quantidade Apreendida (gramas)"),
-    labels = list(format = "{value:,.0f}")
+    labels = list(format = "{value:,.0f}"),
+    min = 0
   ) |>
-  hc_title(text = "Quantidade de Drogas Apreendidas ao Longo do Tempo") |>
-  hc_subtitle(text = "Dados Porto e Aeroporto de Vitória") |>
+  hc_title(text = "Apreensões Anuais de Drogas por tipo de Droga") |>
+  hc_subtitle(text = "Dados Polícia Federal Portos e Aeroportos") |>
   hc_tooltip(
-    headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
+    headerFormat = "<b>Ano: {point.x}</b><br>",
     pointFormat = "{series.name}: <b>{point.y:,.0f} gramas</b>",
-    shared = FALSE,
-    crosshairs = TRUE
+    shared = FALSE
   ) |>
   hc_legend(
     align = "right",
     verticalAlign = "top",
     layout = "vertical"
   ) |>
-  hc_plotOptions(
-    line = list(
-      colorByPoint = FALSE,
-      lineWidth = 3,
-      states = list(hover = list(lineWidthPlus = 1))
-    )
-  ) |>
-  hc_colors(viridis::viridis(4))
-  # hc_rangeSelector(enabled = TRUE) 
+  hc_colors(viridis::viridis(length(unique(dados_anual$droga))))
 ```
 
-
-# Análise das apreensões realizadas pelas policias estaduais
-
-## Sobre os dados
-
-Os dados são referentes as apreenções de drogas feitas pelas polícias estaduais e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
-
-## Análise descritiva
-
-### Apreensões de drogas pelas polícias estaduais
+### Apreensões de drogas pela Polícias Federal
 
 Breve apresentação da base (primeiras cinco linhas).
 
@@ -210,7 +197,6 @@ PF_A <- PF_A |>
   )
 ```
 
-
 ```{r}
 df_freq <- PF_A |>
   # filter(unidade == "Gramas") |>
@@ -225,8 +211,8 @@ highchart() |>
   ) |>
   hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
   hc_yAxis(title = list(text = "Número de Apreensões")) |>
-  hc_title(text = "Frequência de Apreensões de Drogas por Ano") |>
-  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_title(text = "Frequência Anual de Apreensões de Drogas por Item") |>
+  hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
     shared = TRUE,
     headerFormat = "<b>Ano: {point.key}</b><br/>",
@@ -277,8 +263,8 @@ highchart() |>
     labels = list(format = "{value:,.0f}"),
     min = 0  # Eixo Y começa em zero
   ) |>
-  hc_title(text = "Evolução Anual das Apreensões de Drogas") |>
-  hc_subtitle(text = "Dados em gramas - Dados polícia estadual do Espirito Santo") |>
+  hc_title(text = "Quantidade anual de apreensões de Drogas por Item") |>
+  hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
     headerFormat = "<b>Ano: {point.x}</b><br>",
     pointFormat = "<span style=\"color:{point.color}\">●</span> {series.name}: <b>{point.y:,.0f} g</b>",
@@ -303,93 +289,183 @@ highchart() |>
 ```
 
 ```{r}
-library(dplyr)
-
-
-# Preparação dos dados trimestrais
-dados_trimestre <- PF_A |>
-  filter(unidade == "Gramas") |>
+dados_anual <- PF_A |>
   mutate(
     quantidade = as.numeric(quantidade),
-    data = as.Date(data),
-    trimestre = paste0(year(data), "-T", quarter(data)),  # Cria identificador do trimestre
-    trimestre_date = yq(trimestre)  # Converte para formato Date (primeiro dia do trimestre)
+    ano = year(as.Date(data)) 
   ) |>
-  filter(!is.na(quantidade), quantidade > 0) |>
-  group_by(trimestre_date, trimestre, regiao_es) |>
-  summarise(total_apreendido = sum(quantidade), .groups = "drop")
-
-# Criar gráfico trimestral
+  filter(!is.na(quantidade), quantidade > 0) |> 
+  group_by(ano) |>
+  summarise(
+    total_gramas = sum(quantidade, na.rm = TRUE), 
+    .groups = "drop"
+  ) 
 highchart() |>
   hc_add_series(
-    data = dados_trimestre,
-    type = "line",
-    hcaes(x = trimestre_date, y = total_apreendido, group = regiao_es),
+    data = dados_anual,
+    type = "line", 
+    hcaes(x = ano, y = total_gramas),
+    name = "Total Apreendido",
+    showInLegend = TRUE,
     marker = list(
-      radius = 4,
-      symbol = "diamond"
-    )
+      enabled = TRUE,
+      radius = 4
+    ),
+    lineWidth = 3,
+    color = "#4285F4"
   ) |>
   hc_xAxis(
-    type = "datetime",
-    title = list(text = "Trimestre"),
-    labels = list(
-      formatter = JS("function() {
-        const date = new Date(this.value);
-        const year = date.getFullYear();
-        const quarter = Math.floor(date.getMonth()/3) + 1;
-        return 'T' + quarter + ' ' + year;
-      }")
-    ),
-    tickInterval = 90 * 24 * 3600 * 1000  # Intervalo de 3 meses
+    title = list(text = "Ano"),
+    allowDecimals = FALSE,
+    gridLineWidth = 1
   ) |>
   hc_yAxis(
-    title = list(text = "Quantidade Apreendida (gramas)"),
+    title = list(text = "Peso Total Apreendido (gramas)"),
     labels = list(format = "{value:,.0f}"),
     min = 0
   ) |>
-  hc_title(text = "Apreensões de Drogas por Trimestre") |>
-  hc_subtitle(text = "Dados em gramas - Dados polícia estadual do Espirito Santo") |>
+  hc_title(text = "Quantidade anual de apreensões de Drogas") |>
+  hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
-    headerFormat = "<b>{point.trimestre}</b><br>",
-    pointFormat = "<span style=\"color:{point.color}\">●</span> {series.name}: <b>{point.y:,.0f} g</b>",
+    headerFormat = "<b>Ano: {point.x}</b><br>",
+    pointFormat = "Total apreendido: <b>{point.y:,.0f} gramas</b>",
+    shared = FALSE
+  )
+```
+
+
+# Análise das apreensões realizadas pelas policias estaduais
+
+## Sobre os dados
+
+Os dados são referentes as apreenções de drogas feitas pelas polícias estaduais e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), [obid/seguranca-publica](https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica), vinculado ao Ministério da Justiça e Segurança Pública.
+
+Embora a base de dados contenha registros a partir de 2016, as variáveis de interesse 'total' e 'peso_total' apresentam valores exclusivamente disponíveis a partir de 2018. Os registros dos anos de 2016 e 2017 para essas métricas específicas consistem inteiramente em valores NA, indicando ausência de dados mensuráveis nesse período inicial.
+
+## Análise descritiva
+
+### Apreensões de drogas pelas polícias estaduais
+
+Breve apresentação da base (primeiras cinco linhas).
+
+```{r}
+SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES") |> filter(ano > 2017)
+
+SINESP <- SINESP |>
+  mutate(across(where(is.character), 
+                ~iconv(., from = "latin1", to = "UTF-8"))) |>
+  mutate(across(where(is.character),
+                ~gsub("�", "Ã", .)))  # Replace remaining corrupted chars
+
+SINESP <- SINESP |>
+  mutate(
+    municipio = gsub("N�O INFORMADO", "NÃO INFORMADO", municipio),
+    evento = gsub("Tr�fico", "Tráfico", evento),
+    formulario = gsub("Formul�rio", "Formulário", formulario)
+  )
+
+SINESP$data_referencia <- lubridate::dmy(SINESP$data_referencia) |> as.Date()
+
+
+# municipios_estado_presente <- c("Aracruz", "Cariacica", "Cachoeiro de Itapemirim","Colatina", "Linhares", "São Mateus", "Serra","Vila Velha", "Vitória")
+
+SINESP |> head(n = 5) |> knitr::kable()
+```
+
+```{r}
+dados_grafico <- SINESP |>
+  filter(!is.na(total_peso), !is.na(data_referencia), !is.na(evento)) |> 
+  mutate(
+    total_peso = as.numeric(total_peso),
+    data_referencia = as.Date(data_referencia)                
+  ) |>
+  group_by(data_referencia, evento) |>
+  summarise(total_apreendido = sum(total_peso), .groups = "drop")
+
+highchart() |>
+  hc_add_series(
+    data = dados_grafico,
+    type = "line",
+    hcaes(x = data_referencia, y = total_apreendido, group = evento),
+    marker = list(radius = 4)                            
+  ) |>
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Data da Apreensão"),
+    labels = list(format = "{value:%d/%m/%Y}")
+  ) |>
+  hc_yAxis(
+    title = list(text = "Total peso"),
+    labels = list(format = "{value:,.0f}")
+  ) |>
+  hc_title(text = "Total peso mensal de Drogas Apreendidas") |>
+  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_tooltip(
+    headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
+    pointFormat = "{series.name}: <b>{point.y:,.0f} </b>",
     shared = FALSE,
     crosshairs = TRUE
   ) |>
   hc_legend(
     align = "right",
-    verticalAlign = "middle",
-    layout = "vertical",
-    itemStyle = list(fontWeight = "normal")
+    verticalAlign = "top",
+    layout = "vertical"
   ) |>
   hc_plotOptions(
     line = list(
+      colorByPoint = FALSE,
       lineWidth = 3,
       states = list(hover = list(lineWidthPlus = 1))
-    ),
-    series = list(
-      marker = list(enabledThreshold = 10)
     )
   ) |>
-  hc_colors(viridis::viridis(4, option = "D"))
-  # hc_rangeSelector(
-  #   enabled = TRUE,
-  #   buttons = list(
-  #     list(type = 'year', count = 1, text = '1 ano'),
-  #     list(type = 'year', count = 3, text = '3 anos'),
-  #     list(type = 'all', text = 'Todos')
-  #   )
-  # ) |>
-  # hc_exporting(enabled = TRUE)
+  hc_colors(viridis::viridis(4))
 ```
-
-
-
-
 ```{r}
-SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
+dados_grafico <- SINESP |>
+  filter(!is.na(total), !is.na(data_referencia), !is.na(evento)) |> 
+  mutate(
+    total_peso = as.numeric(total),
+    data_referencia = as.Date(data_referencia)                
+  ) |>
+  group_by(data_referencia, evento) |>
+  summarise(total_apreendido = sum(total), .groups = "drop")
+
+highchart() |>
+  hc_add_series(
+    data = dados_grafico,
+    type = "line",
+    hcaes(x = data_referencia, y = total_apreendido, group = evento),
+    marker = list(radius = 4)                            
+  ) |>
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Data da Apreensão"),
+    labels = list(format = "{value:%d/%m/%Y}")
+  ) |>
+  hc_yAxis(
+    title = list(text = "Total"),
+    labels = list(format = "{value:,.0f}")
+  ) |>
+  hc_title(text = "Total mensal de Drogas Apreendidas") |>
+  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_tooltip(
+    headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
+    pointFormat = "{series.name}: <b>{point.y:,.0f} </b>",
+    shared = FALSE,
+    crosshairs = TRUE
+  ) |>
+  hc_legend(
+    align = "right",
+    verticalAlign = "top",
+    layout = "vertical"
+  ) |>
+  hc_plotOptions(
+    line = list(
+      colorByPoint = FALSE,
+      lineWidth = 3,
+      states = list(hover = list(lineWidthPlus = 1))
+    )
+  ) |>
+  hc_colors(viridis::viridis(4)[3])
 ```
 
-```{r, echo=FALSE}
-municipios_estado_presente <- c("Aracruz", "Cariacica", "Cachoeiro de Itapemirim","Colatina", "Linhares", "São Mateus", "Serra","Vila Velha", "Vitória")
-```
