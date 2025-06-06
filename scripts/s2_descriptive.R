@@ -135,7 +135,7 @@ highchart() %>%
 
 
 
-## Gráficos de barras empilhada de número de apreensões
+## Gráficos de barras empilhada de número de apreensões demais municipios vs estado presente
 
 dados_agregados <- data[, .(total = .N), by = .(ano, estado_presente)]
 
@@ -149,6 +149,7 @@ hchart(
   hc_colors(viridis(2, option = "D")) %>%
   hc_xAxis(title = list(text = "Ano")) %>%
   hc_yAxis(title = list(text = "Total de Apreensões"))
+
 
 # Séries temporais -------------------------------------------------------------
 
@@ -253,31 +254,123 @@ highchart() %>%
   ) %>%
   hc_colors(viridis::viridis(dados_mensais[, uniqueN(grupo_droga)]))
 
-## Gráico de barras porcentual
+## Serie para categoria de local ocorrência
 
-dados_agregados <- data[, .(total = .N), by = .(ano, grupo_droga)]
-dados_agregados[, percentual := total / sum(total) * 100, by = ano]
+### Calcular total de apreensões por mês e categoria
+dados_mensais <- data[, .(total = .N), by = .(ano_mes, tipo_local_ocorrencia)]
 
+setorder(dados_mensais, data)
+
+highchart() %>%
+  hc_add_series(
+    data = dados_mensais,
+    type = "line",
+    hcaes(x = data, y = total, group = tipo_local_ocorrencia),
+    showInLegend = TRUE
+  ) %>%
+  hc_title(text = "Apreensões Mensais por Tipo de Local de Ocorrência (PRF-ES)") %>%
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Mês/Ano"),
+    labels = list(format = "{value:%b/%Y}"),
+    plotLines = list(
+      list(
+        color = "red",
+        width = 2,
+        value = datetime_to_timestamp(as.Date("2017-12-28")),
+        dashStyle = "Dash",
+        zIndex = 5,
+        label = list(
+          text = "Início do Programa", 
+          rotation = 90,
+          verticalAlign = "middle",
+          textAlign = "right",
+          style = list(color = "red", fontWeight = "bold")
+        )
+      )
+    )
+    # Formato "Jan/2020"
+  ) %>%
+  hc_yAxis(title = list(text = "Total de Apreensões")) %>%
+  hc_tooltip(
+    pointFormat = "<b>{point.grupo_droga}:</b> {point.y} apreensões<br>Data: <b>{point.x:%b/%Y}</b>"
+  ) %>%
+  hc_colors(viridis::viridis(dados_mensais[, uniqueN(tipo_local_ocorrencia)]))
+
+
+## Serie para categoria de zona ocorrência
+
+### Calcular total de apreensões por mês e categoria
+dados_mensais <- data[, .(total = .N), by = .(ano_mes, zona_ocorrencia)]
+
+### Criar coluna de data no primeiro dia do mês (para o eixo X)
+dados_mensais[, data := as.Date(paste0(ano_mes, "-01"))]
+
+setorder(dados_mensais, data)
+
+setorder(dados_mensais, data)
+
+highchart() %>%
+  hc_add_series(
+    data = dados_mensais,
+    type = "line",
+    hcaes(x = data, y = total, group = zona_ocorrencia),
+    showInLegend = TRUE
+  ) %>%
+  hc_title(text = "Apreensões Mensais por Zona de Ocorrência (PRF-ES)") %>%
+  hc_xAxis(
+    type = "datetime",
+    title = list(text = "Mês/Ano"),
+    labels = list(format = "{value:%b/%Y}"),
+    plotLines = list(
+      list(
+        color = "red",
+        width = 2,
+        value = datetime_to_timestamp(as.Date("2017-12-28")),
+        dashStyle = "Dash",
+        zIndex = 5,
+        label = list(
+          text = "Início do Programa", 
+          rotation = 90,
+          verticalAlign = "middle",
+          textAlign = "right",
+          style = list(color = "red", fontWeight = "bold")
+        )
+      )
+    )
+    # Formato "Jan/2020"
+  ) %>%
+  hc_yAxis(title = list(text = "Total de Apreensões")) %>%
+  hc_tooltip(
+    pointFormat = "<b>{point.grupo_droga}:</b> {point.y} apreensões<br>Data: <b>{point.x:%b/%Y}</b>"
+  ) %>%
+  hc_colors(viridis::viridis(dados_mensais[, uniqueN(zona_ocorrencia)]))
+
+
+## Gráfico de barras porcentual grupo drogas
+
+# Preparar os dados com totais absolutos e percentuais
+dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, grupo_droga)]
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+# Gráfico com tooltip corrigido
 hchart(
   dados_agregados,
   "column",
-  hcaes(x = ano, y = percentual, group = grupo_droga, total = total),
+  hcaes(x = ano, y = percentual, group = grupo_droga, real = total_absoluto),  # Note o 'real'
   stacking = "percent"
 ) %>%
   hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
   hc_tooltip(
     headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
     pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
-    <b>Quantidade:</b> {point.total} apreensões<br/>
-    <b>Percentual:</b> {point.y:.1f}%<br/>',
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
     shared = FALSE
   ) %>%
   hc_plotOptions(
     column = list(
-      dataLabels = list(
-        enabled = FALSE
-      ),
-      stacking = "percent",
+      dataLabels = list(enabled = FALSE),
       borderWidth = 0
     )
   ) %>%
@@ -285,7 +378,79 @@ hchart(
   hc_xAxis(title = list(text = "Ano")) %>%
   hc_yAxis(
     title = list(text = "Percentual (%)"),
-    labels = list(format = "{value}%")
+    labels = list(format = "{value}%"),
+    max = 100
+  )
+
+## Gráfico de barras porcentual tipo local ocorrencia
+
+# Preparar os dados com totais absolutos e percentuais
+dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, tipo_local_ocorrencia)]
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+# Gráfico com tooltip corrigido
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(x = ano, y = percentual, group = tipo_local_ocorrencia, real = total_absoluto),  # Note o 'real'
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(7, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
+  )
+
+
+## Gráfico de barras porcentual zona ocorrência
+
+# Preparar os dados com totais absolutos e percentuais
+dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, zona_ocorrencia)]
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+# Gráfico com tooltip corrigido
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(x = ano, y = percentual, group = zona_ocorrencia, real = total_absoluto),  # Note o 'real'
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Ano") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(7, option = "D")) %>%
+  hc_xAxis(title = list(text = "Ano")) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
   )
 
 

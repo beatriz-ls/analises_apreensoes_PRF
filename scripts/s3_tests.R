@@ -1,6 +1,5 @@
 library(data.table)
-library(viridis)
-library(highcharter)
+library(trend)
 library(dplyr)
 
 # import data ------------------------------------------------------------------
@@ -29,3 +28,24 @@ data[,estado_presente := factor(ifelse(municipio_ocorrencia %in% municipios_esta
 
 # Teste de tendência pré-Programa (apenas cidades do estado presente) ----------
 
+dados_agg <- data[, .(total_registros = .N, programa), by = ano_mes]
+
+# Período ANTES do programa
+if (dados_agg[programa == 0, .N] > 0) {
+  mk_antes <- mk.test(dados_agg[programa == 0, total_registros])
+  cat("\n--- Teste de Mann-Kendall (ANTES do programa) ---\n")
+  print(mk_antes)
+} else {
+  cat("\nNenhum dado disponível no período 'Antes'.\n")
+}
+
+# Período DEPOIS do programa
+if (dados_agg[programa == 1, .N] > 0) {
+  mk_depois <- mk.test(dados_agg[programa == 1, total_registros])
+  cat("\n--- Teste de Mann-Kendall (DEPOIS do programa) ---\n")
+  print(mk_depois)
+} else {
+  cat("\nNenhum dado disponível no período 'Depois'.\n")
+}
+
+# 
