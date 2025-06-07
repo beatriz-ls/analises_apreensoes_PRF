@@ -22,6 +22,7 @@ library(highcharter)
 library(lubridate)
 library(tseries)
 library(forecast)
+library(zoo)
 ```
 
 # Análise das apreensões realizadas pela policia federal
@@ -335,7 +336,6 @@ highchart() |>
   )
 ```
 
-
 # Análise das apreensões realizadas pelas policias estaduais
 
 ## Sobre os dados
@@ -422,6 +422,7 @@ highchart() |>
   ) |>
   hc_colors(viridis::viridis(4))
 ```
+
 ```{r}
 dados_grafico <- SINESP |>
   filter(!is.na(total), !is.na(data_referencia), !is.na(evento)) |> 
@@ -470,29 +471,203 @@ highchart() |>
   ) |>
   hc_colors(viridis::viridis(4)[3])
 ```
+
+## Análise temporal
+
+A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técnica estatística para analisar séries temporais, decompondo-as em três componentes principais:
+
+- **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
+
+- **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
+
+- **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
+
+Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo.
+
+O **Teste de Mann-Kendall** é um teste que verifica se uma série temporal possui tendência, ou seja, responde a pergunta "Meus dados estão subindo, descendo ou ficando estáveis ao longo do tempo?".
+
 ```{r}
 
 SINESP_maconha <- SINESP |> filter(evento == "Apreensão de Maconha")
-
 ts_maconha <- ts(SINESP_maconha$total_peso, 
                frequency = 12,
                start = c(year(min(SINESP_maconha$data_referencia)), month(min(SINESP_maconha$data_referencia))))
+
+acf(ts_trafico)
+
+SINESP_cocaina <- SINESP |> filter(evento == "Apreensão de Cocaína")
+ts_cocaina <- ts(SINESP_cocaina$total_peso, 
+               frequency = 12,
+               start = c(year(min(SINESP_cocaina$data_referencia)), month(min(SINESP_cocaina$data_referencia))))
+
+SINESP_trafico <- SINESP |> filter(evento == "Tráfico de drogas")
+ts_trafico <- ts(SINESP_trafico$total, 
+               frequency = 12,
+               start = c(year(min(SINESP_trafico$data_referencia)), month(min(SINESP_trafico$data_referencia))))
+
 ```
 
 ```{r}
-
-library(ggplot2)
-# Decomposição clássica (aditiva)
-decomp <- decompose(ts_maconha, type = "additive")
-
-# Plot da decomposição
-autoplot(decomp) +
-  ggtitle("Decomposição da Série Temporal") +
-  theme_minimal()
-
-# Alternativa: decomposição STL (mais robusta)
 stl_decomp <- stl(ts_maconha, s.window = "periodic")
-autoplot(stl_decomp)
+
+datas <- as.Date(as.yearmon(time(ts_maconha)))
+
+df_stl <- data.frame(
+  Data = datas,
+  Observado = as.numeric(ts_maconha),
+  Tendencia = as.numeric(stl_decomp$time.series[, "trend"]),
+  Sazonalidade = as.numeric(stl_decomp$time.series[, "seasonal"]),
+  Aleatorio = as.numeric(stl_decomp$time.series[, "remainder"])
+)
+
+dados_para_hc <- lapply(list(df_stl$Observado, df_stl$Tendencia, 
+                           df_stl$Sazonalidade, df_stl$Aleatorio), 
+                       function(coluna) {
+                         lapply(seq_along(coluna), function(i) {
+                           list(
+                             x = as.numeric(df_stl$Data[i]) * 86400000, # milissegundos
+                             y = coluna[i]
+                           )
+                         })
+                       })
+
+# 6. Criar gráfico
+highchart() %>%
+  hc_chart(type = "line") %>%
+  hc_title(text = "Decomposição STL - Total peso mensal de Drogas Apreendidas - Maconha") %>%
+  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_xAxis(type = "datetime",
+           title = list(text = "Data"),
+           labels = list(format = "{value:%Y-%m}")) %>%
+  hc_yAxis(title = list(text = "Valor")) %>%
+  hc_plotOptions(series = list(
+    marker = list(enabled = FALSE),  # Remove pontos
+    lineWidth = 2                   # Espessura da linha
+  )) %>%
+  hc_add_series(name = "Observado", 
+                data = dados_para_hc[[1]]) %>%
+  hc_add_series(name = "Tendência", 
+                data = dados_para_hc[[2]]) %>%
+  hc_add_series(name = "Sazonalidade", 
+                data = dados_para_hc[[3]]) %>%
+  hc_add_series(name = "Aleatório", 
+                data = dados_para_hc[[4]]) %>%
+  hc_tooltip(shared = TRUE,
+             crosshairs = TRUE,
+             pointFormat = "<span style='color:{point.color}'>◉</span> {series.name}: <b>{point.y:.2f}</b><br>",
+             xDateFormat = "%Y-%m") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)])
 ```
 
+Utilizando o teste Mann-Kendall, temos evidências que indicam não tendência, ou seja, o número de apreenções de maconha está estável ao longo do tempo.
 
+```{r}
+stl_decomp <- stl(ts_cocaina, s.window = "periodic")
+
+datas <- as.Date(as.yearmon(time(ts_cocaina)))
+
+df_stl <- data.frame(
+  Data = datas,
+  Observado = as.numeric(ts_cocaina),
+  Tendencia = as.numeric(stl_decomp$time.series[, "trend"]),
+  Sazonalidade = as.numeric(stl_decomp$time.series[, "seasonal"]),
+  Aleatorio = as.numeric(stl_decomp$time.series[, "remainder"])
+)
+
+dados_para_hc <- lapply(list(df_stl$Observado, df_stl$Tendencia, 
+                           df_stl$Sazonalidade, df_stl$Aleatorio), 
+                       function(coluna) {
+                         lapply(seq_along(coluna), function(i) {
+                           list(
+                             x = as.numeric(df_stl$Data[i]) * 86400000, # milissegundos
+                             y = coluna[i]
+                           )
+                         })
+                       })
+
+# 6. Criar gráfico
+highchart() %>%
+  hc_chart(type = "line") %>%
+  hc_title(text = "Decomposição STL - Total peso mensal de Drogas Apreendidas - Cocaína") %>%
+  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_xAxis(type = "datetime",
+           title = list(text = "Data"),
+           labels = list(format = "{value:%Y-%m}")) %>%
+  hc_yAxis(title = list(text = "Valor")) %>%
+  hc_plotOptions(series = list(
+    marker = list(enabled = FALSE),  # Remove pontos
+    lineWidth = 2                   # Espessura da linha
+  )) %>%
+  hc_add_series(name = "Observado", 
+                data = dados_para_hc[[1]]) %>%
+  hc_add_series(name = "Tendência", 
+                data = dados_para_hc[[2]]) %>%
+  hc_add_series(name = "Sazonalidade", 
+                data = dados_para_hc[[3]]) %>%
+  hc_add_series(name = "Aleatório", 
+                data = dados_para_hc[[4]]) %>%
+  hc_tooltip(shared = TRUE,
+             crosshairs = TRUE,
+             pointFormat = "<span style='color:{point.color}'>◉</span> {series.name}: <b>{point.y:.2f}</b><br>",
+             xDateFormat = "%Y-%m") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)])
+```
+
+Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam tendência, ou seja, o número de apreenções de cocaína está subindo ao longo do tempo.
+
+```{r}
+stl_decomp <- stl(ts_trafico, s.window = "periodic")
+
+datas <- as.Date(as.yearmon(time(ts_trafico)))
+
+df_stl <- data.frame(
+  Data = datas,
+  Observado = as.numeric(ts_trafico),
+  Tendencia = as.numeric(stl_decomp$time.series[, "trend"]),
+  Sazonalidade = as.numeric(stl_decomp$time.series[, "seasonal"]),
+  Aleatorio = as.numeric(stl_decomp$time.series[, "remainder"])
+)
+
+dados_para_hc <- lapply(list(df_stl$Observado, df_stl$Tendencia, 
+                           df_stl$Sazonalidade, df_stl$Aleatorio), 
+                       function(coluna) {
+                         lapply(seq_along(coluna), function(i) {
+                           list(
+                             x = as.numeric(df_stl$Data[i]) * 86400000, # milissegundos
+                             y = coluna[i]
+                           )
+                         })
+                       })
+
+# 6. Criar gráfico
+highchart() %>%
+  hc_chart(type = "line") %>%
+  hc_title(text = "Decomposição STL - Total mensal de Drogas Apreendidas - Tráfico") %>%
+  hc_subtitle(text = "Dados polícia estadual do Espirito Santo") |>
+  hc_xAxis(type = "datetime",
+           title = list(text = "Data"),
+           labels = list(format = "{value:%Y-%m}")) %>%
+  hc_yAxis(title = list(text = "Valor")) %>%
+  hc_plotOptions(series = list(
+    marker = list(enabled = FALSE),  # Remove pontos
+    lineWidth = 2                   # Espessura da linha
+  )) %>%
+  hc_add_series(name = "Observado", 
+                data = dados_para_hc[[1]]) %>%
+  hc_add_series(name = "Tendência", 
+                data = dados_para_hc[[2]]) %>%
+  hc_add_series(name = "Sazonalidade", 
+                data = dados_para_hc[[3]]) %>%
+  hc_add_series(name = "Aleatório", 
+                data = dados_para_hc[[4]]) %>%
+  hc_tooltip(shared = TRUE,
+             crosshairs = TRUE,
+             pointFormat = "<span style='color:{point.color}'>◉</span> {series.name}: <b>{point.y:.2f}</b><br>",
+             xDateFormat = "%Y-%m") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)])
+```
+
+Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam não tendência, ou seja, o número de apreenções está estável ao longo do tempo.
