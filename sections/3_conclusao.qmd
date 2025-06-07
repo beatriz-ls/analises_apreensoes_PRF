@@ -1,0 +1,28 @@
+---
+format:
+  html:
+    theme: solar
+    toc: true
+    toc-location: left
+    toc-depth: 1
+    toc-title: "Índice"
+    page-layout: full
+---
+
+```{r, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "",
+  warning = FALSE,
+  message = FALSE
+  # echo = FALSE
+)
+```
+
+# Conclusão
+
+Este relatório buscou analisar os registros de apreensões de substâncias psicoativas no Espírito Santo, realizados pela Polícia Federal, Polícia Rodoviária Federal e Polícia Estadual, com o objetivo de avaliar o impacto do programa Estado Presente, implementado em 28/12/2017. No entanto, as limitações nos dados disponíveis dificultaram uma análise mais aprofundada e conclusiva sobre a eficácia do programa.  
+
+A ausência de discriminação a nível municipal nos registros da Polícia Federal e da Polícia Estadual impediu uma avaliação localizada do projeto, restringindo a análise a uma perspectiva estadual geral. A falta de informações detalhadas antes da implementação do programa comprometeu a comparação temporal necessária para uma conclusão robusta.  
+
+Apesar dessas limitações, observou-se uma tendência de aumento nas apreensões de cocaína pela Polícia Estadual em nível estadual, o que pode sugerir uma maior efetividade na atuação policial após a implantação do Estado Presente. No entanto, essa hipótese não pode ser confirmada com segurança devido à escassez de dados prévios e à ausência de informações mais granularizadas.  
+

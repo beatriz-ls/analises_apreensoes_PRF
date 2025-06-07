@@ -12,6 +12,7 @@ format:
     toc-title: "Índice"
     page-layout: full
 ---
+
 ```{r, include=FALSE, echo=FALSE}
 library(data.table)
 library(highcharter)
@@ -38,3 +39,6 @@ knitr::opts_chunk$set(
 {{< include sections/1_analise_PRF.qmd >}}
 
 {{< include sections/2_analise_PF_SINESP.qmd >}}
+
+{{< include sections/3_conclusao.qmd >}}
+
