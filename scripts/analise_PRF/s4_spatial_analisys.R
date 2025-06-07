@@ -90,38 +90,30 @@ library(ggspatial)
 
 # 1. Carregar o shapefile dos bairros
 # Substitua "caminho/para/seu/arquivo.shp" pelo caminho real do seu shapefile
-shape_bairros <- st_read("caminho/para/seu/arquivo.shp")
+shape<- st_read("data/shapefiles/ES_UF_2024.shp")
 
-# 2. Carregar os dados de apreensão
-# Substitua pelo seu dataframe ou pelo caminho do arquivo
-dados_apreensao <- read.csv("dados_apreensao.csv") # ou seu formato de dados
-
-# Verificar a estrutura dos dados
-head(dados_apreensao)
 
 # 3. Converter os dados de apreensão para objeto sf (espacial)
 # Certifique-se que as colunas de latitude e longitude estão corretas
-dados_sf <- st_as_sf(dados_apreensao, 
+dados_sf <- st_as_sf(data, 
                      coords = c("longitude", "latitude"), 
-                     crs = st_crs(shape_bairros))
+                     crs = st_crs(shape))
 
-# 4. Contar apreensões por bairro
-# Fazer a interseção entre pontos e polígonos dos bairros
-contagem_por_bairro <- st_join(shape_bairros, dados_sf) %>%
-  as.data.frame() %>%
-  group_by(COD_BAIRRO, NOME_BAIRRO) %>% # Substitua pelos nomes reais das colunas do seu shapefile
-  summarise(total_apreensoes = n()) %>%
-  left_join(shape_bairros, by = c("COD_BAIRRO", "NOME_BAIRRO")) %>% # Ajuste os nomes
-  st_as_sf()
+# Opção A: Contagem simples
+contagem_municipios <- st_join(shape, dados_sf) %>%
+  group_by(municipio_ocorrencia) %>% # Ajuste para os nomes das colunas no seu shapefile
+  summarise(total_apreensoes = sum(total_apreensoes, na.rm = TRUE)) %>%
+  ungroup()
+
 
 # 5. Criar o mapa de calor
 ggplot() +
   # Plotar os bairros com preenchimento baseado no total de apreensões
-  geom_sf(data = contagem_por_bairro, aes(fill = total_apreensoes), color = NA) +
+  geom_sf(data = contagem_municipios, aes(fill = total_apreensoes), color = NA) +
   # Escala de cores (usando viridis para melhor visualização)
   scale_fill_viridis(name = "Total de Apreensões", option = "plasma", trans = "sqrt") +
   # Título e legendas
-  labs(title = "Mapa de Calor de Apreensões por Bairro",
+  labs(title = "Mapa de Calor de Apreensões por Municipio",
        subtitle = "Dados da PRF",
        caption = "Fonte: Polícia Rodoviária Federal") +
   # Elementos adicionais do mapa

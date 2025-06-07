@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Beatriz Lima Silveira">
+<meta name="author" content="Esley Caminhas Ferreira">
+
+<title>Analisando registros de aprensões de psicoativos no Espirito Santo e o impacto do programa Estado Presente</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="analises_apreensoes_files/libs/clipboard/clipboard.min.js"></script>
+<script src="analises_apreensoes_files/libs/quarto-html/quarto.js"></script>
+<script src="analises_apreensoes_files/libs/quarto-html/popper.min.js"></script>
+<script src="analises_apreensoes_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="analises_apreensoes_files/libs/quarto-html/anchor.min.js"></script>
+<link href="analises_apreensoes_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="analises_apreensoes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="analises_apreensoes_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="analises_apreensoes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="analises_apreensoes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<link href="analises_apreensoes_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="analises_apreensoes_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="analises_apreensoes_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="analises_apreensoes_files/libs/proj4js-2.3.15/proj4.js"></script>
+<link href="analises_apreensoes_files/libs/highcharts-9.3.1/css/motion.css" rel="stylesheet">
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/highcharts.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/highcharts-3d.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/highcharts-more.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/stock.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/map.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/data.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/exporting.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/offline-exporting.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/drilldown.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/item-series.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/overlapping-datalabels.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/annotations.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/export-data.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/funnel.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/heatmap.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/treemap.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/sankey.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/dependency-wheel.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/organization.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/solid-gauge.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/streamgraph.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/sunburst.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/vector.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/wordcloud.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/xrange.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/tilemap.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/venn.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/gantt.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/timeline.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/parallel-coordinates.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/bullet.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/coloraxis.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/dumbbell.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/lollipop.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/series-label.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/plugins/motion.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/custom/reset.js"></script>
+<script src="analises_apreensoes_files/libs/highcharts-9.3.1/modules/boost.js"></script>
+<script src="analises_apreensoes_files/libs/highchart-binding-0.9.4/highchart.js"></script>
+<script src="analises_apreensoes_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="analises_apreensoes_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução">Introdução</a></li>
+  <li><a href="#analise-das-apreensões-realizadas-pela-policia-rodoviaria-federal" id="toc-analise-das-apreensões-realizadas-pela-policia-rodoviaria-federal" class="nav-link" data-scroll-target="#analise-das-apreensões-realizadas-pela-policia-rodoviaria-federal">Analise das apreensões realizadas pela policia rodoviaria federal</a>
+  <ul class="collapse">
+  <li><a href="#sobre-os-dados" id="toc-sobre-os-dados" class="nav-link" data-scroll-target="#sobre-os-dados">Sobre os dados</a></li>
+  <li><a href="#analise-da-variação-de-apreensões-ao-longo-do-tempo" id="toc-analise-da-variação-de-apreensões-ao-longo-do-tempo" class="nav-link" data-scroll-target="#analise-da-variação-de-apreensões-ao-longo-do-tempo">Analise da variação de apreensões ao longo do tempo</a></li>
+  <li><a href="#avaliação-do-impacto-do-programa-estado-presente" id="toc-avaliação-do-impacto-do-programa-estado-presente" class="nav-link" data-scroll-target="#avaliação-do-impacto-do-programa-estado-presente">Avaliação do impacto do Programa Estado Presente</a></li>
+  </ul></li>
+  <li><a href="#análise-das-apreensões-realizadas-pela-policia-federal" id="toc-análise-das-apreensões-realizadas-pela-policia-federal" class="nav-link" data-scroll-target="#análise-das-apreensões-realizadas-pela-policia-federal">Análise das apreensões realizadas pela policia federal</a>
+  <ul class="collapse">
+  <li><a href="#sobre-os-dados-1" id="toc-sobre-os-dados-1" class="nav-link" data-scroll-target="#sobre-os-dados-1">Sobre os dados</a></li>
+  <li><a href="#análise-descritiva" id="toc-análise-descritiva" class="nav-link" data-scroll-target="#análise-descritiva">Análise descritiva</a></li>
+  </ul></li>
+  <li><a href="#análise-das-apreensões-realizadas-pelas-policias-estaduais" id="toc-análise-das-apreensões-realizadas-pelas-policias-estaduais" class="nav-link" data-scroll-target="#análise-das-apreensões-realizadas-pelas-policias-estaduais">Análise das apreensões realizadas pelas policias estaduais</a>
+  <ul class="collapse">
+  <li><a href="#sobre-os-dados-2" id="toc-sobre-os-dados-2" class="nav-link" data-scroll-target="#sobre-os-dados-2">Sobre os dados</a></li>
+  <li><a href="#análise-descritiva-1" id="toc-análise-descritiva-1" class="nav-link" data-scroll-target="#análise-descritiva-1">Análise descritiva</a></li>
+  <li><a href="#análise-temporal" id="toc-análise-temporal" class="nav-link" data-scroll-target="#análise-temporal">Análise temporal</a></li>
+  </ul></li>
+  <li><a href="#conclusão" id="toc-conclusão" class="nav-link" data-scroll-target="#conclusão">Conclusão</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analisando registros de aprensões de psicoativos no Espirito Santo e o impacto do programa Estado Presente</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Beatriz Lima Silveira </p>
+             <p>Esley Caminhas Ferreira </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introdução" class="level1">
+<h1>Introdução</h1>
+<p>O uso de substâncias psicoativas — como álcool, tabaco, maconha, cocaína, crack e medicamentos controlados — provoca impactos profundos na vida individual, familiar e coletiva. Seus efeitos se estendem muito além do campo pessoal, repercutindo em diversos âmbitos da sociedade, influênciando movimentos e incentivando criação de politicas públicas dedicadas a lidar com esses estigmas. Dentro desse contexto, esse relatório se dedica a analisar os registros de apreenções de psicoativos no Espiríto Santo realizados por orgãos importantes da segurança pública, sendo, policia federal, policia rodoviária federal e policia estadual. Bem como, avaliar o impacto do programa Estado Presente implementado pelo governo do Estado na data de 28/12/2017. Para uma análise com rigor estatístico, foi implementado diversos métodos de visualização para dados temporalmentes associados, assim como, foi realizado testes estatísticos para avaliar se houve mudanças relevantes após a implementação do programa. Paralelamente, devido a falta de discriminação a nível de municipio nos registros do banco de dados disponibilizados pela Policia Federal e pela Policia Estadual, não foi possivel avaliar o desempenho no projeto com esses dados, sendo realizado apenas uma analise geral do desempenho do Espírito Santo. Os dados disponibilizados pela Policia Rodoviária Federal são discriminados a nível municipal, entretando, não são discriminados a nível bairro/distrito, devido a esse fato, adotou-se uma abordagem generalista para representar o impacto do projeto, utilizando dados municipais.</p>
+</section>
+<section id="analise-das-apreensões-realizadas-pela-policia-rodoviaria-federal" class="level1">
+<h1>Analise das apreensões realizadas pela policia rodoviaria federal</h1>
+<section id="sobre-os-dados" class="level2">
+<h2 class="anchored" data-anchor-id="sobre-os-dados">Sobre os dados</h2>
+<p>Os dados são referentes as apreenções de drogas feitas pela Polícia Rodoviaria Federal e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), <a href="https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica">obid/seguranca-publica</a>, vinculado ao Ministério da Justiça e Segurança Pública.</p>
+<p>o total são três bases relacionadas as apreenções feitas pela PF, <strong>PRF_Apreensoes_comp</strong>, <strong>PRF_ApreensoesCigarro</strong> e <strong>PRF_ApreensoesVape</strong>, sendo <strong>PRF_ApreensoesCigarro</strong> e <strong>PRF_ApreensoesVape</strong> bases com registro anual do total de apreensão ocorrido em cada estado. A base <strong>PRF_ApreensoesVape</strong> não possui nenhum registro do Espiríto Santo, portanto não será abordada neste relatório. A base <strong>PRF_ApreensoesCigarro</strong> possui apenas registro de 2022, 2023 e 2024, suas informação são descritas abaixo:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 9%">
+<col style="width: 5%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">local_apreensao</th>
+<th style="text-align: left;">grupo_apreensao</th>
+<th style="text-align: left;">tipo_apreensao</th>
+<th style="text-align: left;">unidade_apreensao</th>
+<th style="text-align: right;">total_uf</th>
+<th style="text-align: right;">ano</th>
+<th style="text-align: right;">quantidade_apreensao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Diversos</td>
+<td style="text-align: left;">Cigarros</td>
+<td style="text-align: left;">maços</td>
+<td style="text-align: right;">2851907</td>
+<td style="text-align: right;">2022</td>
+<td style="text-align: right;">96997</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Diversos</td>
+<td style="text-align: left;">Cigarros</td>
+<td style="text-align: left;">maços</td>
+<td style="text-align: right;">2851907</td>
+<td style="text-align: right;">2023</td>
+<td style="text-align: right;">1254630</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Diversos</td>
+<td style="text-align: left;">Cigarros</td>
+<td style="text-align: left;">maços</td>
+<td style="text-align: right;">2851907</td>
+<td style="text-align: right;">2024</td>
+<td style="text-align: right;">1500280</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Sendo assim, este relatório está sessão será dedicada em analisar a base <strong>PRF_Apreensoes_comp</strong> que possui registros de data da apreençaõ, especificado por dia e hora. Está base também tem variáveis descritivas que indicam se a apreensão ocorreu em zona rural ou urbana, qual o local (BR, Comercial, Residencia, etc.), qual drogas foi aprendida (maconha, cocaina, etc) e é discrimininada a nível municipal, tornando possivel comparar as cidades com bairros que foi implementado o programa Estado Presente.</p>
+</section>
+<section id="analise-da-variação-de-apreensões-ao-longo-do-tempo" class="level2">
+<h2 class="anchored" data-anchor-id="analise-da-variação-de-apreensões-ao-longo-do-tempo">Analise da variação de apreensões ao longo do tempo</h2>
+<section id="total-de-apreensões-em-relação-a-cidades-do-estsdo-presente" class="level3">
+<h3 class="anchored" data-anchor-id="total-de-apreensões-em-relação-a-cidades-do-estsdo-presente">Total de apreensões em relação a cidades do estsdo presente</h3>
+<p>As cidades com bairros selecionados para o Programa estado presente são: Aracruz, Cachoeiro de Itapemirim, Cariacica, Colatina, Linhares, São Mateus, Serra, Vitória, Vila Velha, Vitória. No gráfico 1, é possivel analisar a área acumulada do total de apreensões anuais, enquanto no gráfico 2 há demonstrado em um gráfico de barras a quantidade equivalente por mês para cidades influênciadas pelo programa Estado Presente e os Demais Municipios.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-d6d8489ac15e697fe158" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d6d8489ac15e697fe158">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Evolução Anual das Apreensões no ES"},"yAxis":{"title":{"text":"Total de Apreensões"},"type":"linear"},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Demais municípios","data":[{"ano":2017,"estado_presente":"Demais municípios","total":48,"x":2017,"y":48},{"ano":2018,"estado_presente":"Demais municípios","total":56,"x":2018,"y":56},{"ano":2019,"estado_presente":"Demais municípios","total":62,"x":2019,"y":62},{"ano":2020,"estado_presente":"Demais municípios","total":87,"x":2020,"y":87},{"ano":2021,"estado_presente":"Demais municípios","total":68,"x":2021,"y":68},{"ano":2022,"estado_presente":"Demais municípios","total":105,"x":2022,"y":105},{"ano":2023,"estado_presente":"Demais municípios","total":2,"x":2023,"y":2}],"type":"area","stacking":"normal"},{"name":"Estado Presente","data":[{"ano":2017,"estado_presente":"Estado Presente","total":41,"x":2017,"y":41},{"ano":2018,"estado_presente":"Estado Presente","total":66,"x":2018,"y":66},{"ano":2019,"estado_presente":"Estado Presente","total":124,"x":2019,"y":124},{"ano":2020,"estado_presente":"Estado Presente","total":107,"x":2020,"y":107},{"ano":2021,"estado_presente":"Estado Presente","total":122,"x":2021,"y":122},{"ano":2022,"estado_presente":"Estado Presente","total":119,"x":2022,"y":119},{"ano":2023,"estado_presente":"Estado Presente","total":6,"x":2023,"y":6}],"type":"area","stacking":"normal"}],"xAxis":{"type":"linear","title":{"text":"Ano"},"plotLines":[{"color":"red","width":2,"value":2018,"dashStyle":"Dash","zIndex":5,"label":{"text":"Início do Programa","rotation":90,"align":"right","verticalAlign":"middle","style":{"color":"red","fontWeight":"bold"}}}]},"colors":["#440154FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-b296bd0000c943dfe9aa" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b296bd0000c943dfe9aa">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Apreensões por Ano no ES"},"yAxis":{"title":{"text":"Total de Apreensões"},"type":"linear"},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Demais municípios","data":[{"ano":2017,"estado_presente":"Demais municípios","total":48,"x":2017,"y":48},{"ano":2018,"estado_presente":"Demais municípios","total":56,"x":2018,"y":56},{"ano":2019,"estado_presente":"Demais municípios","total":62,"x":2019,"y":62},{"ano":2020,"estado_presente":"Demais municípios","total":87,"x":2020,"y":87},{"ano":2021,"estado_presente":"Demais municípios","total":68,"x":2021,"y":68},{"ano":2022,"estado_presente":"Demais municípios","total":105,"x":2022,"y":105},{"ano":2023,"estado_presente":"Demais municípios","total":2,"x":2023,"y":2}],"type":"column","stacking":"normal"},{"name":"Estado Presente","data":[{"ano":2017,"estado_presente":"Estado Presente","total":41,"x":2017,"y":41},{"ano":2018,"estado_presente":"Estado Presente","total":66,"x":2018,"y":66},{"ano":2019,"estado_presente":"Estado Presente","total":124,"x":2019,"y":124},{"ano":2020,"estado_presente":"Estado Presente","total":107,"x":2020,"y":107},{"ano":2021,"estado_presente":"Estado Presente","total":122,"x":2021,"y":122},{"ano":2022,"estado_presente":"Estado Presente","total":119,"x":2022,"y":119},{"ano":2023,"estado_presente":"Estado Presente","total":6,"x":2023,"y":6}],"type":"column","stacking":"normal"}],"xAxis":{"type":"linear","title":{"text":"Ano"}},"colors":["#440154FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Podemos inferir que a nível anual, houve um aumento do número de apreensões gerais após a implementação do programa.</p>
+</section>
+<section id="total-de-apreensão-por-mês" class="level3">
+<h3 class="anchored" data-anchor-id="total-de-apreensão-por-mês">Total de apreensão por mês</h3>
+<p>Avaliar o total de apreesões em um intervalo menor permite analises mais detalhadas e inferir tendências. No gráfico 3, avaliamos o total de apreensões por mês para todos os municipios do Espirito Santo.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-cff9371430a1e823fad1" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-cff9371430a1e823fad1">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Total de Apreensões no ES por Mês"},"yAxis":{"title":{"text":"Número de Apreensões"},"type":"linear"},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":false},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"group":"group","data":[{"ano_mes":"2017-07","total_apreensoes":13,"data":"2017-07-01","x":1498867200000,"y":13},{"ano_mes":"2017-08","total_apreensoes":22,"data":"2017-08-01","x":1501545600000,"y":22},{"ano_mes":"2017-09","total_apreensoes":18,"data":"2017-09-01","x":1504224000000,"y":18},{"ano_mes":"2017-10","total_apreensoes":16,"data":"2017-10-01","x":1506816000000,"y":16},{"ano_mes":"2017-11","total_apreensoes":9,"data":"2017-11-01","x":1509494400000,"y":9},{"ano_mes":"2017-12","total_apreensoes":11,"data":"2017-12-01","x":1512086400000,"y":11},{"ano_mes":"2018-01","total_apreensoes":4,"data":"2018-01-01","x":1514764800000,"y":4},{"ano_mes":"2018-02","total_apreensoes":8,"data":"2018-02-01","x":1517443200000,"y":8},{"ano_mes":"2018-03","total_apreensoes":9,"data":"2018-03-01","x":1519862400000,"y":9},{"ano_mes":"2018-04","total_apreensoes":9,"data":"2018-04-01","x":1522540800000,"y":9},{"ano_mes":"2018-05","total_apreensoes":7,"data":"2018-05-01","x":1525132800000,"y":7},{"ano_mes":"2018-06","total_apreensoes":9,"data":"2018-06-01","x":1527811200000,"y":9},{"ano_mes":"2018-07","total_apreensoes":13,"data":"2018-07-01","x":1530403200000,"y":13},{"ano_mes":"2018-08","total_apreensoes":16,"data":"2018-08-01","x":1533081600000,"y":16},{"ano_mes":"2018-09","total_apreensoes":19,"data":"2018-09-01","x":1535760000000,"y":19},{"ano_mes":"2018-10","total_apreensoes":7,"data":"2018-10-01","x":1538352000000,"y":7},{"ano_mes":"2018-11","total_apreensoes":13,"data":"2018-11-01","x":1541030400000,"y":13},{"ano_mes":"2018-12","total_apreensoes":8,"data":"2018-12-01","x":1543622400000,"y":8},{"ano_mes":"2019-01","total_apreensoes":7,"data":"2019-01-01","x":1546300800000,"y":7},{"ano_mes":"2019-02","total_apreensoes":16,"data":"2019-02-01","x":1548979200000,"y":16},{"ano_mes":"2019-03","total_apreensoes":7,"data":"2019-03-01","x":1551398400000,"y":7},{"ano_mes":"2019-04","total_apreensoes":12,"data":"2019-04-01","x":1554076800000,"y":12},{"ano_mes":"2019-05","total_apreensoes":6,"data":"2019-05-01","x":1556668800000,"y":6},{"ano_mes":"2019-06","total_apreensoes":11,"data":"2019-06-01","x":1559347200000,"y":11},{"ano_mes":"2019-07","total_apreensoes":9,"data":"2019-07-01","x":1561939200000,"y":9},{"ano_mes":"2019-08","total_apreensoes":20,"data":"2019-08-01","x":1564617600000,"y":20},{"ano_mes":"2019-09","total_apreensoes":35,"data":"2019-09-01","x":1567296000000,"y":35},{"ano_mes":"2019-10","total_apreensoes":28,"data":"2019-10-01","x":1569888000000,"y":28},{"ano_mes":"2019-11","total_apreensoes":21,"data":"2019-11-01","x":1572566400000,"y":21},{"ano_mes":"2019-12","total_apreensoes":14,"data":"2019-12-01","x":1575158400000,"y":14},{"ano_mes":"2020-01","total_apreensoes":15,"data":"2020-01-01","x":1577836800000,"y":15},{"ano_mes":"2020-02","total_apreensoes":13,"data":"2020-02-01","x":1580515200000,"y":13},{"ano_mes":"2020-03","total_apreensoes":11,"data":"2020-03-01","x":1583020800000,"y":11},{"ano_mes":"2020-04","total_apreensoes":11,"data":"2020-04-01","x":1585699200000,"y":11},{"ano_mes":"2020-05","total_apreensoes":15,"data":"2020-05-01","x":1588291200000,"y":15},{"ano_mes":"2020-06","total_apreensoes":22,"data":"2020-06-01","x":1590969600000,"y":22},{"ano_mes":"2020-07","total_apreensoes":18,"data":"2020-07-01","x":1593561600000,"y":18},{"ano_mes":"2020-08","total_apreensoes":15,"data":"2020-08-01","x":1596240000000,"y":15},{"ano_mes":"2020-09","total_apreensoes":16,"data":"2020-09-01","x":1598918400000,"y":16},{"ano_mes":"2020-10","total_apreensoes":22,"data":"2020-10-01","x":1601510400000,"y":22},{"ano_mes":"2020-11","total_apreensoes":19,"data":"2020-11-01","x":1604188800000,"y":19},{"ano_mes":"2020-12","total_apreensoes":17,"data":"2020-12-01","x":1606780800000,"y":17},{"ano_mes":"2021-01","total_apreensoes":11,"data":"2021-01-01","x":1609459200000,"y":11},{"ano_mes":"2021-02","total_apreensoes":16,"data":"2021-02-01","x":1612137600000,"y":16},{"ano_mes":"2021-03","total_apreensoes":12,"data":"2021-03-01","x":1614556800000,"y":12},{"ano_mes":"2021-04","total_apreensoes":17,"data":"2021-04-01","x":1617235200000,"y":17},{"ano_mes":"2021-05","total_apreensoes":21,"data":"2021-05-01","x":1619827200000,"y":21},{"ano_mes":"2021-06","total_apreensoes":18,"data":"2021-06-01","x":1622505600000,"y":18},{"ano_mes":"2021-07","total_apreensoes":16,"data":"2021-07-01","x":1625097600000,"y":16},{"ano_mes":"2021-08","total_apreensoes":21,"data":"2021-08-01","x":1627776000000,"y":21},{"ano_mes":"2021-09","total_apreensoes":15,"data":"2021-09-01","x":1630454400000,"y":15},{"ano_mes":"2021-10","total_apreensoes":16,"data":"2021-10-01","x":1633046400000,"y":16},{"ano_mes":"2021-11","total_apreensoes":17,"data":"2021-11-01","x":1635724800000,"y":17},{"ano_mes":"2021-12","total_apreensoes":10,"data":"2021-12-01","x":1638316800000,"y":10},{"ano_mes":"2022-01","total_apreensoes":13,"data":"2022-01-01","x":1640995200000,"y":13},{"ano_mes":"2022-02","total_apreensoes":25,"data":"2022-02-01","x":1643673600000,"y":25},{"ano_mes":"2022-03","total_apreensoes":13,"data":"2022-03-01","x":1646092800000,"y":13},{"ano_mes":"2022-04","total_apreensoes":25,"data":"2022-04-01","x":1648771200000,"y":25},{"ano_mes":"2022-05","total_apreensoes":30,"data":"2022-05-01","x":1651363200000,"y":30},{"ano_mes":"2022-06","total_apreensoes":13,"data":"2022-06-01","x":1654041600000,"y":13},{"ano_mes":"2022-07","total_apreensoes":17,"data":"2022-07-01","x":1656633600000,"y":17},{"ano_mes":"2022-08","total_apreensoes":20,"data":"2022-08-01","x":1659312000000,"y":20},{"ano_mes":"2022-09","total_apreensoes":13,"data":"2022-09-01","x":1661990400000,"y":13},{"ano_mes":"2022-10","total_apreensoes":14,"data":"2022-10-01","x":1664582400000,"y":14},{"ano_mes":"2022-11","total_apreensoes":14,"data":"2022-11-01","x":1667260800000,"y":14},{"ano_mes":"2022-12","total_apreensoes":27,"data":"2022-12-01","x":1669852800000,"y":27},{"ano_mes":"2023-01","total_apreensoes":5,"data":"2023-01-01","x":1672531200000,"y":5},{"ano_mes":"2023-02","total_apreensoes":2,"data":"2023-02-01","x":1675209600000,"y":2},{"ano_mes":"2023-03","total_apreensoes":1,"data":"2023-03-01","x":1677628800000,"y":1}],"type":"line"}],"xAxis":{"type":"datetime","title":{"text":"Mês/Ano"},"labels":{"format":"{value:%b/%Y}"},"plotLines":[{"color":"red","width":2,"value":1514419200000,"dashStyle":"Dash","zIndex":5,"label":{"text":"Início do Programa","rotation":90,"verticalAlign":"middle","textAlign":"right","style":{"color":"red","fontWeight":"bold"}}}]},"tooltip":{"pointFormat":"<b>{point.total_apreensoes}<\/b> apreensões em <b>{point.x:%b/%Y}<\/b>"},"colors":["#1f77b4"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="relação-apreensão-e-categoria-de-psicoativo" class="level3">
+<h3 class="anchored" data-anchor-id="relação-apreensão-e-categoria-de-psicoativo">Relação apreensão e categoria de psicoativo</h3>
+<p>Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foi categorizado os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis.Os grupos foram:</p>
+<ul>
+<li><p>Cocaína e Derivados: Cocaína/Cloridrato de Cocaína, crack;</p></li>
+<li><p>Cannabis e Derivados: Maconha, pés de Maconha, Haxixe;</p></li>
+<li><p>Sintéticas/Estimulantes: Anfetaminas, ecstasy, lança-perfume;</p></li>
+<li><p>Farmacêuticos/Controlados: Barbitúricos, medicamentos;</p></li>
+<li><p>Outros:Qualquer outro tipo não listado(ex.: LSD).</p></li>
+</ul>
+<p>Desta forma, no gráfico 4, é possivel avaliar a quantidade e porcentagem de apreensões equivalente de cada grupo no respectivo ano. ::: {.cell} ::: {.cell-output-display}</p>
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-7c9ab9ab541da31731d2" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7c9ab9ab541da31731d2">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Distribuição Percentual das Apreensões por Ano"},"yAxis":{"title":{"text":"Percentual (%)"},"type":"linear","labels":{"format":"{value}%"},"max":100},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}},"column":{"dataLabels":{"enabled":false},"borderWidth":0}},"series":[{"name":"Cannabis e Derivados","data":[{"ano":2017,"grupo_droga":"Cannabis e Derivados","total_absoluto":56,"percentual":62.92134831460674,"x":2017,"y":62.92134831460674,"real":56},{"ano":2018,"grupo_droga":"Cannabis e Derivados","total_absoluto":65,"percentual":53.27868852459017,"x":2018,"y":53.27868852459017,"real":65},{"ano":2019,"grupo_droga":"Cannabis e Derivados","total_absoluto":92,"percentual":49.46236559139785,"x":2019,"y":49.46236559139785,"real":92},{"ano":2020,"grupo_droga":"Cannabis e Derivados","total_absoluto":112,"percentual":57.73195876288659,"x":2020,"y":57.73195876288659,"real":112},{"ano":2021,"grupo_droga":"Cannabis e Derivados","total_absoluto":103,"percentual":54.21052631578947,"x":2021,"y":54.21052631578947,"real":103},{"ano":2022,"grupo_droga":"Cannabis e Derivados","total_absoluto":103,"percentual":45.98214285714285,"x":2022,"y":45.98214285714285,"real":103},{"ano":2023,"grupo_droga":"Cannabis e Derivados","total_absoluto":5,"percentual":62.5,"x":2023,"y":62.5,"real":5}],"type":"column","stacking":"percent"},{"name":"Cocaína e Derivados","data":[{"ano":2017,"grupo_droga":"Cocaína e Derivados","total_absoluto":20,"percentual":22.47191011235955,"x":2017,"y":22.47191011235955,"real":20},{"ano":2018,"grupo_droga":"Cocaína e Derivados","total_absoluto":33,"percentual":27.04918032786885,"x":2018,"y":27.04918032786885,"real":33},{"ano":2019,"grupo_droga":"Cocaína e Derivados","total_absoluto":43,"percentual":23.11827956989247,"x":2019,"y":23.11827956989247,"real":43},{"ano":2020,"grupo_droga":"Cocaína e Derivados","total_absoluto":44,"percentual":22.68041237113402,"x":2020,"y":22.68041237113402,"real":44},{"ano":2021,"grupo_droga":"Cocaína e Derivados","total_absoluto":42,"percentual":22.10526315789474,"x":2021,"y":22.10526315789474,"real":42},{"ano":2022,"grupo_droga":"Cocaína e Derivados","total_absoluto":74,"percentual":33.03571428571428,"x":2022,"y":33.03571428571428,"real":74},{"ano":2023,"grupo_droga":"Cocaína e Derivados","total_absoluto":1,"percentual":12.5,"x":2023,"y":12.5,"real":1}],"type":"column","stacking":"percent"},{"name":"Farmacêuticos/Controlados","data":[{"ano":2017,"grupo_droga":"Farmacêuticos/Controlados","total_absoluto":2,"percentual":2.247191011235955,"x":2017,"y":2.247191011235955,"real":2},{"ano":2018,"grupo_droga":"Farmacêuticos/Controlados","total_absoluto":9,"percentual":7.377049180327869,"x":2018,"y":7.377049180327869,"real":9},{"ano":2019,"grupo_droga":"Farmacêuticos/Controlados","total_absoluto":18,"percentual":9.67741935483871,"x":2019,"y":9.67741935483871,"real":18},{"ano":2020,"grupo_droga":"Farmacêuticos/Controlados","total_absoluto":5,"percentual":2.577319587628866,"x":2020,"y":2.577319587628866,"real":5},{"ano":2021,"grupo_droga":"Farmacêuticos/Controlados","total_absoluto":6,"percentual":3.157894736842105,"x":2021,"y":3.157894736842105,"real":6},{"ano":2022,"grupo_droga":"Farmacêuticos/Controlados","total_absoluto":6,"percentual":2.678571428571428,"x":2022,"y":2.678571428571428,"real":6}],"type":"column","stacking":"percent"},{"name":"Outros","data":[{"ano":2019,"grupo_droga":"Outros","total_absoluto":4,"percentual":2.150537634408602,"x":2019,"y":2.150537634408602,"real":4},{"ano":2020,"grupo_droga":"Outros","total_absoluto":1,"percentual":0.5154639175257731,"x":2020,"y":0.5154639175257731,"real":1},{"ano":2021,"grupo_droga":"Outros","total_absoluto":1,"percentual":0.5263157894736842,"x":2021,"y":0.5263157894736842,"real":1},{"ano":2022,"grupo_droga":"Outros","total_absoluto":1,"percentual":0.4464285714285714,"x":2022,"y":0.4464285714285714,"real":1}],"type":"column","stacking":"percent"},{"name":"Sintéticas/Estimulantes","data":[{"ano":2017,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":11,"percentual":12.35955056179775,"x":2017,"y":12.35955056179775,"real":11},{"ano":2018,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":15,"percentual":12.29508196721311,"x":2018,"y":12.29508196721311,"real":15},{"ano":2019,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":29,"percentual":15.59139784946237,"x":2019,"y":15.59139784946237,"real":29},{"ano":2020,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":32,"percentual":16.49484536082474,"x":2020,"y":16.49484536082474,"real":32},{"ano":2021,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":38,"percentual":20,"x":2021,"y":20,"real":38},{"ano":2022,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":40,"percentual":17.85714285714286,"x":2022,"y":17.85714285714286,"real":40},{"ano":2023,"grupo_droga":"Sintéticas/Estimulantes","total_absoluto":2,"percentual":25,"x":2023,"y":25,"real":2}],"type":"column","stacking":"percent"}],"xAxis":{"type":"linear","title":{"text":"Ano"}},"tooltip":{"headerFormat":"<span style=\"font-size: 13px\"><b>Ano {point.x}<\/b><\/span><br/>","pointFormat":"<span style=\"color:{point.color}\">●<\/span> {series.name}:<br/>\n                  <b>Quantidade:<\/b> {point.real} apreensões<br/>\n                  <b>Percentual:<\/b> {point.y:.1f}%<br/>","shared":false},"colors":["#440154FF","#3B528BFF","#21908CFF","#5DC863FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<p>::: :::</p>
+</section>
+<section id="relação-apreensão-e-local-de-ocorrência" class="level3">
+<h3 class="anchored" data-anchor-id="relação-apreensão-e-local-de-ocorrência">Relação apreensão e local de ocorrência</h3>
+<p>Os principais locais de ocorrências foram avenidas BR, ambientes comerciais, residências, serviços, veiculos, via publica e outros. Devido a ser uma análise especifica da Policia Rodoviária Federal, a presença de apreensões que ocorreram em avaenidas BR é esperado. ::: {.cell} ::: {.cell-output-display}</p>
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-e416cfec3e5b80cc9e29" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e416cfec3e5b80cc9e29">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Distribuição Percentual das Apreensões por Ano"},"yAxis":{"title":{"text":"Percentual (%)"},"type":"linear","labels":{"format":"{value}%"},"max":100},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}},"column":{"dataLabels":{"enabled":false},"borderWidth":0}},"series":[{"name":"BR","data":[{"ano":2017,"tipo_local_ocorrencia":"BR","total_absoluto":87,"percentual":97.75280898876404,"x":2017,"y":97.75280898876404,"real":87},{"ano":2018,"tipo_local_ocorrencia":"BR","total_absoluto":115,"percentual":94.26229508196722,"x":2018,"y":94.26229508196722,"real":115},{"ano":2019,"tipo_local_ocorrencia":"BR","total_absoluto":180,"percentual":96.7741935483871,"x":2019,"y":96.7741935483871,"real":180},{"ano":2020,"tipo_local_ocorrencia":"BR","total_absoluto":175,"percentual":90.20618556701031,"x":2020,"y":90.20618556701031,"real":175},{"ano":2021,"tipo_local_ocorrencia":"BR","total_absoluto":170,"percentual":89.47368421052632,"x":2021,"y":89.47368421052632,"real":170},{"ano":2022,"tipo_local_ocorrencia":"BR","total_absoluto":198,"percentual":88.39285714285714,"x":2022,"y":88.39285714285714,"real":198},{"ano":2023,"tipo_local_ocorrencia":"BR","total_absoluto":8,"percentual":100,"x":2023,"y":100,"real":8}],"type":"column","stacking":"percent"},{"name":"COMERCIAL","data":[{"ano":2019,"tipo_local_ocorrencia":"COMERCIAL","total_absoluto":2,"percentual":1.075268817204301,"x":2019,"y":1.075268817204301,"real":2},{"ano":2020,"tipo_local_ocorrencia":"COMERCIAL","total_absoluto":4,"percentual":2.061855670103093,"x":2020,"y":2.061855670103093,"real":4},{"ano":2022,"tipo_local_ocorrencia":"COMERCIAL","total_absoluto":3,"percentual":1.339285714285714,"x":2022,"y":1.339285714285714,"real":3}],"type":"column","stacking":"percent"},{"name":"OUTROS","data":[{"ano":2019,"tipo_local_ocorrencia":"OUTROS","total_absoluto":1,"percentual":0.5376344086021506,"x":2019,"y":0.5376344086021506,"real":1},{"ano":2020,"tipo_local_ocorrencia":"OUTROS","total_absoluto":5,"percentual":2.577319587628866,"x":2020,"y":2.577319587628866,"real":5},{"ano":2021,"tipo_local_ocorrencia":"OUTROS","total_absoluto":4,"percentual":2.105263157894737,"x":2021,"y":2.105263157894737,"real":4},{"ano":2022,"tipo_local_ocorrencia":"OUTROS","total_absoluto":2,"percentual":0.8928571428571428,"x":2022,"y":0.8928571428571428,"real":2}],"type":"column","stacking":"percent"},{"name":"RESIDENCIA","data":[{"ano":2019,"tipo_local_ocorrencia":"RESIDENCIA","total_absoluto":1,"percentual":0.5376344086021506,"x":2019,"y":0.5376344086021506,"real":1},{"ano":2020,"tipo_local_ocorrencia":"RESIDENCIA","total_absoluto":3,"percentual":1.54639175257732,"x":2020,"y":1.54639175257732,"real":3},{"ano":2021,"tipo_local_ocorrencia":"RESIDENCIA","total_absoluto":4,"percentual":2.105263157894737,"x":2021,"y":2.105263157894737,"real":4},{"ano":2022,"tipo_local_ocorrencia":"RESIDENCIA","total_absoluto":3,"percentual":1.339285714285714,"x":2022,"y":1.339285714285714,"real":3}],"type":"column","stacking":"percent"},{"name":"SERVICOS","data":[{"ano":2017,"tipo_local_ocorrencia":"SERVICOS","total_absoluto":1,"percentual":1.123595505617978,"x":2017,"y":1.123595505617978,"real":1},{"ano":2018,"tipo_local_ocorrencia":"SERVICOS","total_absoluto":2,"percentual":1.639344262295082,"x":2018,"y":1.639344262295082,"real":2},{"ano":2020,"tipo_local_ocorrencia":"SERVICOS","total_absoluto":1,"percentual":0.5154639175257731,"x":2020,"y":0.5154639175257731,"real":1},{"ano":2021,"tipo_local_ocorrencia":"SERVICOS","total_absoluto":3,"percentual":1.578947368421053,"x":2021,"y":1.578947368421053,"real":3},{"ano":2022,"tipo_local_ocorrencia":"SERVICOS","total_absoluto":2,"percentual":0.8928571428571428,"x":2022,"y":0.8928571428571428,"real":2}],"type":"column","stacking":"percent"},{"name":"VEÍCULO","data":[{"ano":2019,"tipo_local_ocorrencia":"VEÍCULO","total_absoluto":2,"percentual":1.075268817204301,"x":2019,"y":1.075268817204301,"real":2}],"type":"column","stacking":"percent"},{"name":"VIAPUBLICA","data":[{"ano":2017,"tipo_local_ocorrencia":"VIAPUBLICA","total_absoluto":1,"percentual":1.123595505617978,"x":2017,"y":1.123595505617978,"real":1},{"ano":2018,"tipo_local_ocorrencia":"VIAPUBLICA","total_absoluto":5,"percentual":4.098360655737705,"x":2018,"y":4.098360655737705,"real":5},{"ano":2020,"tipo_local_ocorrencia":"VIAPUBLICA","total_absoluto":6,"percentual":3.092783505154639,"x":2020,"y":3.092783505154639,"real":6},{"ano":2021,"tipo_local_ocorrencia":"VIAPUBLICA","total_absoluto":9,"percentual":4.736842105263158,"x":2021,"y":4.736842105263158,"real":9},{"ano":2022,"tipo_local_ocorrencia":"VIAPUBLICA","total_absoluto":16,"percentual":7.142857142857142,"x":2022,"y":7.142857142857142,"real":16}],"type":"column","stacking":"percent"}],"xAxis":{"type":"linear","title":{"text":"Ano"}},"tooltip":{"headerFormat":"<span style=\"font-size: 13px\"><b>Ano {point.x}<\/b><\/span><br/>","pointFormat":"<span style=\"color:{point.color}\">●<\/span> {series.name}:<br/>\n                  <b>Quantidade:<\/b> {point.real} apreensões<br/>\n                  <b>Percentual:<\/b> {point.y:.1f}%<br/>","shared":false},"colors":["#440154FF","#443A83FF","#31688EFF","#21908CFF","#35B779FF","#8FD744FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<p>::: :::</p>
+</section>
+<section id="relação-apreensão-e-zona-de-ocorrência" class="level3">
+<h3 class="anchored" data-anchor-id="relação-apreensão-e-zona-de-ocorrência">Relação apreensão e zona de ocorrência</h3>
+<p>Nos dados disponibilizados também definido se a apreensão ocorreu em zona rural ou zona urbana.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-45d6c7c58d85da3265fc" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-45d6c7c58d85da3265fc">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Distribuição Percentual das Apreensões por Ano"},"yAxis":{"title":{"text":"Percentual (%)"},"type":"linear","labels":{"format":"{value}%"},"max":100},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}},"column":{"dataLabels":{"enabled":false},"borderWidth":0}},"series":[{"name":"RURAL","data":[{"ano":2017,"zona_ocorrencia":"RURAL","total_absoluto":47,"percentual":52.80898876404494,"x":2017,"y":52.80898876404494,"real":47},{"ano":2018,"zona_ocorrencia":"RURAL","total_absoluto":56,"percentual":45.90163934426229,"x":2018,"y":45.90163934426229,"real":56},{"ano":2019,"zona_ocorrencia":"RURAL","total_absoluto":63,"percentual":33.87096774193548,"x":2019,"y":33.87096774193548,"real":63},{"ano":2020,"zona_ocorrencia":"RURAL","total_absoluto":93,"percentual":47.93814432989691,"x":2020,"y":47.93814432989691,"real":93},{"ano":2021,"zona_ocorrencia":"RURAL","total_absoluto":109,"percentual":57.36842105263158,"x":2021,"y":57.36842105263158,"real":109},{"ano":2022,"zona_ocorrencia":"RURAL","total_absoluto":124,"percentual":55.35714285714286,"x":2022,"y":55.35714285714286,"real":124},{"ano":2023,"zona_ocorrencia":"RURAL","total_absoluto":6,"percentual":75,"x":2023,"y":75,"real":6}],"type":"column","stacking":"percent"},{"name":"URBANA","data":[{"ano":2017,"zona_ocorrencia":"URBANA","total_absoluto":42,"percentual":47.19101123595505,"x":2017,"y":47.19101123595505,"real":42},{"ano":2018,"zona_ocorrencia":"URBANA","total_absoluto":66,"percentual":54.09836065573771,"x":2018,"y":54.09836065573771,"real":66},{"ano":2019,"zona_ocorrencia":"URBANA","total_absoluto":123,"percentual":66.12903225806451,"x":2019,"y":66.12903225806451,"real":123},{"ano":2020,"zona_ocorrencia":"URBANA","total_absoluto":101,"percentual":52.0618556701031,"x":2020,"y":52.0618556701031,"real":101},{"ano":2021,"zona_ocorrencia":"URBANA","total_absoluto":81,"percentual":42.63157894736842,"x":2021,"y":42.63157894736842,"real":81},{"ano":2022,"zona_ocorrencia":"URBANA","total_absoluto":100,"percentual":44.64285714285715,"x":2022,"y":44.64285714285715,"real":100},{"ano":2023,"zona_ocorrencia":"URBANA","total_absoluto":2,"percentual":25,"x":2023,"y":25,"real":2}],"type":"column","stacking":"percent"}],"xAxis":{"type":"linear","title":{"text":"Ano"}},"tooltip":{"headerFormat":"<span style=\"font-size: 13px\"><b>Ano {point.x}<\/b><\/span><br/>","pointFormat":"<span style=\"color:{point.color}\">●<\/span> {series.name}:<br/>\n                  <b>Quantidade:<\/b> {point.real} apreensões<br/>\n                  <b>Percentual:<\/b> {point.y:.1f}%<br/>","shared":false},"colors":["#440154FF","#443A83FF","#31688EFF","#21908CFF","#35B779FF","#8FD744FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="avaliação-do-impacto-do-programa-estado-presente" class="level2">
+<h2 class="anchored" data-anchor-id="avaliação-do-impacto-do-programa-estado-presente">Avaliação do impacto do Programa Estado Presente</h2>
+<p>O teste de Mann-Kendall é um teste estatístico não paramétrico amplamente utilizado para detectar tendências monotônicas (crescente ou decrescente) ao longo do tempo em séries temporais. Neste relatório, iremos avaliar se o programa Estado Presente alterou de alguma forma o número médio de apreensões por mês avaliando se há presença de alguma tendência após a aplciação do programa.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Resultados do teste de Mann-Kendall</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Estatística_Z</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Valor_p</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Tendência</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">z</td>
+<td style="text-align: right;">1.553</td>
+<td style="text-align: left;">0.121</td>
+<td style="text-align: left;">Não significativa</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Não há evidência estatística suficiente para rejeitar a hipótese nula de ausência de tendência (ao nível de significância de 5% ou mesmo de 10%). ou seja, não podemos afirmar com confiança que o total de apreensões por mês decaiu ou decreceu nas cidadas participantes do programa Estado Presente.</p>
+</section>
+</section>
+<section id="análise-das-apreensões-realizadas-pela-policia-federal" class="level1">
+<h1>Análise das apreensões realizadas pela policia federal</h1>
+<section id="sobre-os-dados-1" class="level2">
+<h2 class="anchored" data-anchor-id="sobre-os-dados-1">Sobre os dados</h2>
+<p>Os dados são referentes as apreensões de drogas feitas pela Polícia Federal e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), <a href="https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica">obid/seguranca-publica</a>, vinculado ao Ministério da Justiça e Segurança Pública.</p>
+<p>Ao total são quatro bases relacionadas as apreensões feitas pela PF, <strong>PF_Apreensoes_Portos_Aeroportos</strong>, <strong>PF_Apreensoes</strong>, <strong>PF_BaseCircunscricao</strong> e <strong>PF_NovasSubstanciasPsicoativas</strong>.</p>
+<p>A base <strong>PF_BaseCircunscricao</strong> não será utilizada na análise por se limitar a informações administrativas sobre delegacias. Da mesma forma, a base <strong>PF_NovasSubstanciasPsicoativas</strong> não será utilizada por não conter qualquer informação geográfica que permitisse localizar as apreensões no território nacional.</p>
+<p>Após a filtragem por ocorrencias no estado do Espírito Santo, foi verificado que a base <strong>PF_Apreensoes_Portos_Aeroportos</strong> se limita a somente apreensões feitas no aeroporto e porto de Vitória, já a base <strong>PF_Apreensoes</strong> se limita a apreensões feitas nas regiões central e litoral, noroeste e nordeste e sul do Espírito Santo.</p>
+<p>Separação municipal utilizada na base <strong>PF_Apreensoes</strong>:</p>
+<ul>
+<li><p><strong>Central e litoral</strong>: Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória.</p></li>
+<li><p><strong>Noroeste e Nordeste</strong>: Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério.</p></li>
+<li><p><strong>Sul</strong>: Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado, Vargem Alta.</p></li>
+</ul>
+<p>Dos municipios com bairros abrangidos pelo Projeto Estado Presente, nove se localizam nas regiões central e litoral, Aracruz, Cariacica, Colatina, Linhares, Serra, Vila Velha, Vitória, um nas regiões noroeste e nordeste, São Mateus, e um na região sul, Cachoeiro de Itapemirim.</p>
+</section>
+<section id="análise-descritiva" class="level2">
+<h2 class="anchored" data-anchor-id="análise-descritiva">Análise descritiva</h2>
+<section id="apreensão-de-drogas-em-portos-e-aeroportos-pela-polícia-federal" class="level3">
+<h3 class="anchored" data-anchor-id="apreensão-de-drogas-em-portos-e-aeroportos-pela-polícia-federal">Apreensão de drogas em portos e aeroportos pela Polícia Federal</h3>
+<p>Breve apresentação da base (primeiras cinco linhas).</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 21%">
+<col style="width: 12%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">uf</th>
+<th style="text-align: left;">unidade</th>
+<th style="text-align: left;">unidade_padrao_aeroportuario</th>
+<th style="text-align: left;">cidade_apreensao</th>
+<th style="text-align: left;">data</th>
+<th style="text-align: left;">droga</th>
+<th style="text-align: left;">quantidade</th>
+<th style="text-align: left;">unidade_medida</th>
+<th style="text-align: left;">origem</th>
+<th style="text-align: left;">lat</th>
+<th style="text-align: left;">lon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">SR/PF/ES</td>
+<td style="text-align: left;">VIX</td>
+<td style="text-align: left;">VITORIA</td>
+<td style="text-align: left;">11/21/2014</td>
+<td style="text-align: left;">cocaina</td>
+<td style="text-align: left;">1849</td>
+<td style="text-align: left;">gramas</td>
+<td style="text-align: left;">aeroporto</td>
+<td style="text-align: left;">-20,25805664</td>
+<td style="text-align: left;">-40,2863884</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">SR/PF/ES</td>
+<td style="text-align: left;">VIX</td>
+<td style="text-align: left;">VITORIA</td>
+<td style="text-align: left;">05/19/2016</td>
+<td style="text-align: left;">maconha</td>
+<td style="text-align: left;">2110</td>
+<td style="text-align: left;">gramas</td>
+<td style="text-align: left;">aeroporto</td>
+<td style="text-align: left;">-20,25805664</td>
+<td style="text-align: left;">-40,2863884</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">SR/PF/ES</td>
+<td style="text-align: left;">VIX</td>
+<td style="text-align: left;">VITORIA</td>
+<td style="text-align: left;">05/19/2016</td>
+<td style="text-align: left;">maconha</td>
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">gramas</td>
+<td style="text-align: left;">aeroporto</td>
+<td style="text-align: left;">-20,25805664</td>
+<td style="text-align: left;">-40,2863884</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">SR/PF/ES</td>
+<td style="text-align: left;">VIX</td>
+<td style="text-align: left;">VITORIA</td>
+<td style="text-align: left;">04/25/2019</td>
+<td style="text-align: left;">maconha</td>
+<td style="text-align: left;">34777</td>
+<td style="text-align: left;">gramas</td>
+<td style="text-align: left;">aeroporto</td>
+<td style="text-align: left;">-20,25805664</td>
+<td style="text-align: left;">-40,2863884</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">SR/PF/ES</td>
+<td style="text-align: left;">VIX</td>
+<td style="text-align: left;">VITORIA</td>
+<td style="text-align: left;">05/21/2019</td>
+<td style="text-align: left;">cocaina</td>
+<td style="text-align: left;">7291</td>
+<td style="text-align: left;">gramas</td>
+<td style="text-align: left;">aeroporto</td>
+<td style="text-align: left;">-20,25805664</td>
+<td style="text-align: left;">-40,2863884</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-748d2ef3f06afe0c5c4e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-748d2ef3f06afe0c5c4e">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Frequência Anual de Apreensões de Drogas por Origem"},"yAxis":{"title":{"text":"Número de Apreensões"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"column":{"stacking":"normal","dataLabels":{"enabled":false}}},"series":[{"name":"aeroporto","data":[{"origem":"aeroporto","ano":2014,"n":1,"x":2014,"y":1},{"origem":"aeroporto","ano":2016,"n":2,"x":2016,"y":2},{"origem":"aeroporto","ano":2019,"n":11,"x":2019,"y":11},{"origem":"aeroporto","ano":2022,"n":5,"x":2022,"y":5},{"origem":"aeroporto","ano":2023,"n":3,"x":2023,"y":3}],"type":"column"},{"name":"porto","data":[{"origem":"porto","ano":2017,"n":2,"x":2017,"y":2},{"origem":"porto","ano":2019,"n":2,"x":2019,"y":2},{"origem":"porto","ano":2021,"n":2,"x":2021,"y":2},{"origem":"porto","ano":2022,"n":6,"x":2022,"y":6},{"origem":"porto","ano":2023,"n":1,"x":2023,"y":1}],"type":"column"}],"xAxis":{"title":{"text":"Ano"},"categories":[2014,2016,2019,2022,2023,2017,2021]},"subtitle":{"text":"Dados Polícia Federal Portos e Aeroportos"},"tooltip":{"shared":true,"headerFormat":"<b>Ano: {point.key}<\/b><br/>","pointFormat":"{series.name}: {point.y} <\/b><br/>"},"legend":{"enabled":true},"colors":["#440154FF","#31688EFF","#35B779FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Aqui temos a distribuição de preensões de acordo com a origem, podendo ser original de porto ou aeroporto, para o Espírito Santo ambos estão localizados em no municipio de Vitória.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-54c08551f2f64f1453a6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-54c08551f2f64f1453a6">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Frequência Anual de Apreensões de Drogas por tipo de Droga"},"yAxis":{"title":{"text":"Número de Apreensões"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"column":{"stacking":"normal","dataLabels":{"enabled":false}}},"series":[{"name":"cocaina","data":[{"droga":"cocaina","ano":2014,"n":1,"x":2014,"y":1},{"droga":"cocaina","ano":2017,"n":2,"x":2017,"y":2},{"droga":"cocaina","ano":2019,"n":8,"x":2019,"y":8},{"droga":"cocaina","ano":2021,"n":2,"x":2021,"y":2},{"droga":"cocaina","ano":2022,"n":11,"x":2022,"y":11},{"droga":"cocaina","ano":2023,"n":3,"x":2023,"y":3}],"type":"column"},{"name":"ecstasy","data":[{"droga":"ecstasy","ano":2019,"n":1,"x":2019,"y":1}],"type":"column"},{"name":"maconha","data":[{"droga":"maconha","ano":2016,"n":2,"x":2016,"y":2},{"droga":"maconha","ano":2019,"n":4,"x":2019,"y":4},{"droga":"maconha","ano":2023,"n":1,"x":2023,"y":1}],"type":"column"}],"xAxis":{"title":{"text":"Ano"},"categories":[2014,2017,2019,2021,2022,2023,2016]},"subtitle":{"text":"Dados Polícia Federal Portos e Aeroportos"},"tooltip":{"shared":true,"headerFormat":"<b>Ano: {point.key}<\/b><br/>","pointFormat":"{series.name}: {point.y} <\/b><br/>"},"legend":{"enabled":true},"colors":["#440154FF","#31688EFF","#35B779FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-84c7d6a6f38e3ce0600f" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-84c7d6a6f38e3ce0600f">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Apreensões Anuais de Drogas por tipo de Droga"},"yAxis":{"title":{"text":"Quantidade Apreendida (gramas)"},"labels":{"format":"{value:,.0f}"},"min":0},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"series":[{"name":"cocaina","data":[{"ano":2014,"droga":"cocaina","total_apreendido":1849,"x":2014,"y":1849},{"ano":2017,"droga":"cocaina","total_apreendido":618000,"x":2017,"y":618000},{"ano":2019,"droga":"cocaina","total_apreendido":191939,"x":2019,"y":191939},{"ano":2021,"droga":"cocaina","total_apreendido":729150,"x":2021,"y":729150},{"ano":2022,"droga":"cocaina","total_apreendido":1342260,"x":2022,"y":1342260},{"ano":2023,"droga":"cocaina","total_apreendido":1608293,"x":2023,"y":1608293}],"type":"line","marker":{"radius":4}},{"name":"maconha","data":[{"ano":2016,"droga":"maconha","total_apreendido":2123,"x":2016,"y":2123},{"ano":2019,"droga":"maconha","total_apreendido":54278,"x":2019,"y":54278},{"ano":2023,"droga":"maconha","total_apreendido":10620,"x":2023,"y":10620}],"type":"line","marker":{"radius":4}}],"xAxis":{"title":{"text":"Ano"},"allowDecimals":false,"gridLineWidth":1},"subtitle":{"text":"Dados Polícia Federal Portos e Aeroportos"},"tooltip":{"headerFormat":"<b>Ano: {point.x}<\/b><br>","pointFormat":"{series.name}: <b>{point.y:,.0f} gramas<\/b>","shared":false},"legend":{"align":"right","verticalAlign":"top","layout":"vertical"},"colors":["#440154FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="apreensões-de-drogas-pela-polícias-federal" class="level3">
+<h3 class="anchored" data-anchor-id="apreensões-de-drogas-pela-polícias-federal">Apreensões de drogas pela Polícias Federal</h3>
+<p>Breve apresentação da base (primeiras cinco linhas).</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 0%">
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 20%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">delegacia_code</th>
+<th style="text-align: left;">uf</th>
+<th style="text-align: left;">regiao</th>
+<th style="text-align: left;">data</th>
+<th style="text-align: right;">dia</th>
+<th style="text-align: right;">ano</th>
+<th style="text-align: left;">mes</th>
+<th style="text-align: left;">item</th>
+<th style="text-align: left;">quantidade</th>
+<th style="text-align: left;">unidade</th>
+<th style="text-align: left;">delegacia_name_cep</th>
+<th style="text-align: left;">cep</th>
+<th style="text-align: left;">tipo_delegacia</th>
+<th style="text-align: left;">municipio_cep</th>
+<th style="text-align: left;">uf_delegacia</th>
+<th style="text-align: right;">localidade</th>
+<th style="text-align: left;">latitude</th>
+<th style="text-align: left;">longitude</th>
+<th style="text-align: left;">sede</th>
+<th style="text-align: left;">uf_municipios</th>
+<th style="text-align: left;">regiao_es</th>
+<th style="text-align: right;">mismatch_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SR/DPF/ES</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Sudeste</td>
+<td style="text-align: left;">2014-06-26 00:00:00</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: left;">jun</td>
+<td style="text-align: left;">Cocaina (g)</td>
+<td style="text-align: left;">7575</td>
+<td style="text-align: left;">Gramas</td>
+<td style="text-align: left;">Superintendência Regional de Polícia Federal no Espírito Santo</td>
+<td style="text-align: left;">29114-105</td>
+<td style="text-align: left;">SR</td>
+<td style="text-align: left;">Vitória</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">-20,32736398</td>
+<td style="text-align: left;">-40,35355552</td>
+<td style="text-align: left;">VILA VELHA</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Central e litoral</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DPF/SMT/ES</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Sudeste</td>
+<td style="text-align: left;">2014-09-01 00:00:00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: left;">set</td>
+<td style="text-align: left;">Cocaina (g)</td>
+<td style="text-align: left;">11070</td>
+<td style="text-align: left;">Gramas</td>
+<td style="text-align: left;">Delegacia da Polícia Federal em São Mateus</td>
+<td style="text-align: left;">29932-340</td>
+<td style="text-align: left;">DPF</td>
+<td style="text-align: left;">São Mateus</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">-18,7128341</td>
+<td style="text-align: left;">-39,8759372</td>
+<td style="text-align: left;">SÃO MATEUS</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Noroeste e Nordeste</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SR/DPF/ES</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Sudeste</td>
+<td style="text-align: left;">2014-08-29 00:00:00</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: left;">ago</td>
+<td style="text-align: left;">Cocaina (g)</td>
+<td style="text-align: left;">16910</td>
+<td style="text-align: left;">Gramas</td>
+<td style="text-align: left;">Superintendência Regional de Polícia Federal no Espírito Santo</td>
+<td style="text-align: left;">29114-105</td>
+<td style="text-align: left;">SR</td>
+<td style="text-align: left;">Vitória</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">-20,32736398</td>
+<td style="text-align: left;">-40,35355552</td>
+<td style="text-align: left;">VILA VELHA</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Central e litoral</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SR/DPF/ES</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Sudeste</td>
+<td style="text-align: left;">2014-02-07 00:00:00</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: left;">fev</td>
+<td style="text-align: left;">Cocaina (g)</td>
+<td style="text-align: left;">18039</td>
+<td style="text-align: left;">Gramas</td>
+<td style="text-align: left;">Superintendência Regional de Polícia Federal no Espírito Santo</td>
+<td style="text-align: left;">29114-105</td>
+<td style="text-align: left;">SR</td>
+<td style="text-align: left;">Vitória</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">-20,32736398</td>
+<td style="text-align: left;">-40,35355552</td>
+<td style="text-align: left;">VILA VELHA</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Central e litoral</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SR/DPF/ES</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Sudeste</td>
+<td style="text-align: left;">2014-03-13 00:00:00</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: left;">mar</td>
+<td style="text-align: left;">Cocaina (g)</td>
+<td style="text-align: left;">24447</td>
+<td style="text-align: left;">Gramas</td>
+<td style="text-align: left;">Superintendência Regional de Polícia Federal no Espírito Santo</td>
+<td style="text-align: left;">29114-105</td>
+<td style="text-align: left;">SR</td>
+<td style="text-align: left;">Vitória</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">-20,32736398</td>
+<td style="text-align: left;">-40,35355552</td>
+<td style="text-align: left;">VILA VELHA</td>
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">Central e litoral</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-e8a283c30a4b2e00881d" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e8a283c30a4b2e00881d">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Porcentagem Anual de Apreensões de Drogas por Item"},"yAxis":{"title":{"text":"Porcentagem de Apreensões"},"labels":{"format":"{value}%"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"column":{"stacking":"percent","events":"function() {\n          var points = this.points || [];\n          points.forEach(function(point) {\n            point.percent = point.percentage;  // Garante acesso ao percentual\n            point.n = point.y / point.percentage * 100;  // Calcula o valor absoluto\n          });\n        }"}},"series":[{"name":"Cocaina (g)","data":[{"item":"Cocaina (g)","ano":2014,"n":6,"percent":60,"x":2014,"y":60},{"item":"Cocaina (g)","ano":2015,"n":4,"percent":44.44444444444444,"x":2015,"y":44.44444444444444},{"item":"Cocaina (g)","ano":2016,"n":5,"percent":71.42857142857143,"x":2016,"y":71.42857142857143},{"item":"Cocaina (g)","ano":2017,"n":1,"percent":100,"x":2017,"y":100},{"item":"Cocaina (g)","ano":2019,"n":13,"percent":52,"x":2019,"y":52},{"item":"Cocaina (g)","ano":2020,"n":11,"percent":13.92405063291139,"x":2020,"y":13.92405063291139},{"item":"Cocaina (g)","ano":2021,"n":19,"percent":33.92857142857143,"x":2021,"y":33.92857142857143},{"item":"Cocaina (g)","ano":2022,"n":16,"percent":29.09090909090909,"x":2022,"y":29.09090909090909},{"item":"Cocaina (g)","ano":2023,"n":15,"percent":22.38805970149254,"x":2023,"y":22.38805970149254}],"type":"column"},{"name":"Ecstasy (com)","data":[{"item":"Ecstasy (com)","ano":2015,"n":1,"percent":11.11111111111111,"x":2015,"y":11.11111111111111},{"item":"Ecstasy (com)","ano":2019,"n":1,"percent":4,"x":2019,"y":4},{"item":"Ecstasy (com)","ano":2020,"n":6,"percent":7.59493670886076,"x":2020,"y":7.59493670886076},{"item":"Ecstasy (com)","ano":2021,"n":7,"percent":12.5,"x":2021,"y":12.5},{"item":"Ecstasy (com)","ano":2022,"n":2,"percent":3.636363636363636,"x":2022,"y":3.636363636363636},{"item":"Ecstasy (com)","ano":2023,"n":5,"percent":7.462686567164178,"x":2023,"y":7.462686567164178}],"type":"column"},{"name":"Haxixe (g)","data":[{"item":"Haxixe (g)","ano":2015,"n":1,"percent":11.11111111111111,"x":2015,"y":11.11111111111111},{"item":"Haxixe (g)","ano":2019,"n":3,"percent":12,"x":2019,"y":12},{"item":"Haxixe (g)","ano":2020,"n":11,"percent":13.92405063291139,"x":2020,"y":13.92405063291139},{"item":"Haxixe (g)","ano":2021,"n":3,"percent":5.357142857142857,"x":2021,"y":5.357142857142857},{"item":"Haxixe (g)","ano":2022,"n":9,"percent":16.36363636363636,"x":2022,"y":16.36363636363636},{"item":"Haxixe (g)","ano":2023,"n":13,"percent":19.40298507462687,"x":2023,"y":19.40298507462687}],"type":"column"},{"name":"LSD (pt)","data":[{"item":"LSD (pt)","ano":2015,"n":1,"percent":11.11111111111111,"x":2015,"y":11.11111111111111},{"item":"LSD (pt)","ano":2018,"n":1,"percent":100,"x":2018,"y":100},{"item":"LSD (pt)","ano":2020,"n":7,"percent":8.860759493670885,"x":2020,"y":8.860759493670885},{"item":"LSD (pt)","ano":2021,"n":2,"percent":3.571428571428571,"x":2021,"y":3.571428571428571},{"item":"LSD (pt)","ano":2022,"n":2,"percent":3.636363636363636,"x":2022,"y":3.636363636363636},{"item":"LSD (pt)","ano":2023,"n":2,"percent":2.985074626865671,"x":2023,"y":2.985074626865671}],"type":"column"},{"name":"Lança Perfume (fr)","data":[{"item":"Lança Perfume (fr)","ano":2020,"n":11,"percent":13.92405063291139,"x":2020,"y":13.92405063291139},{"item":"Lança Perfume (fr)","ano":2021,"n":4,"percent":7.142857142857142,"x":2021,"y":7.142857142857142},{"item":"Lança Perfume (fr)","ano":2022,"n":2,"percent":3.636363636363636,"x":2022,"y":3.636363636363636},{"item":"Lança Perfume (fr)","ano":2023,"n":2,"percent":2.985074626865671,"x":2023,"y":2.985074626865671}],"type":"column"},{"name":"Maconha (g)","data":[{"item":"Maconha (g)","ano":2014,"n":3,"percent":30,"x":2014,"y":30},{"item":"Maconha (g)","ano":2015,"n":2,"percent":22.22222222222222,"x":2015,"y":22.22222222222222},{"item":"Maconha (g)","ano":2016,"n":2,"percent":28.57142857142857,"x":2016,"y":28.57142857142857},{"item":"Maconha (g)","ano":2019,"n":8,"percent":32,"x":2019,"y":32},{"item":"Maconha (g)","ano":2020,"n":30,"percent":37.9746835443038,"x":2020,"y":37.9746835443038},{"item":"Maconha (g)","ano":2021,"n":21,"percent":37.5,"x":2021,"y":37.5},{"item":"Maconha (g)","ano":2022,"n":24,"percent":43.63636363636363,"x":2022,"y":43.63636363636363},{"item":"Maconha (g)","ano":2023,"n":28,"percent":41.7910447761194,"x":2023,"y":41.7910447761194}],"type":"column"},{"name":"Skunk (g)","data":[{"item":"Skunk (g)","ano":2020,"n":1,"percent":1.265822784810127,"x":2020,"y":1.265822784810127},{"item":"Skunk (g)","ano":2023,"n":2,"percent":2.985074626865671,"x":2023,"y":2.985074626865671}],"type":"column"},{"name":"semmac (g)","data":[{"item":"semmac (g)","ano":2014,"n":1,"percent":10,"x":2014,"y":10},{"item":"semmac (g)","ano":2020,"n":2,"percent":2.531645569620253,"x":2020,"y":2.531645569620253}],"type":"column"}],"xAxis":{"title":{"text":"Ano"},"categories":[2014,2015,2016,2017,2019,2020,2021,2022,2023,2018]},"subtitle":{"text":"Dados Polícia Federal"},"tooltip":{"shared":true,"headerFormat":"<b>Ano: {point.key}<\/b><br/>","pointFormat":"{series.name}: <b>{point.n}<\/b> ({point.percent:.1f}%)<br/>"},"legend":{"enabled":true},"colors":["#440154FF","#46337EFF","#365C8DFF","#277F8EFF","#1FA187FF","#4AC16DFF","#9FDA3AFF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":["hc_opts.plotOptions.column.events"],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-28db4089983e62a0f423" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-28db4089983e62a0f423">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Quantidade anual de apreensões de Drogas por Item"},"yAxis":{"title":{"text":"Quantidade Apreendida (gramas)"},"labels":{"format":"{value:,.0f}"},"min":0},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"line":{"lineWidth":3,"states":{"hover":{"lineWidthPlus":2}}}},"series":[{"name":"Cocaina (g)","data":[{"ano":2014,"item":"Cocaina (g)","total_apreendido":102841,"x":2014,"y":102841},{"ano":2015,"item":"Cocaina (g)","total_apreendido":74312,"x":2015,"y":74312},{"ano":2016,"item":"Cocaina (g)","total_apreendido":25447,"x":2016,"y":25447},{"ano":2017,"item":"Cocaina (g)","total_apreendido":184000,"x":2017,"y":184000},{"ano":2019,"item":"Cocaina (g)","total_apreendido":161002,"x":2019,"y":161002},{"ano":2020,"item":"Cocaina (g)","total_apreendido":241231,"x":2020,"y":241231},{"ano":2021,"item":"Cocaina (g)","total_apreendido":1581523,"x":2021,"y":1581523},{"ano":2022,"item":"Cocaina (g)","total_apreendido":1681391,"x":2022,"y":1681391},{"ano":2023,"item":"Cocaina (g)","total_apreendido":1643883,"x":2023,"y":1643883}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}},{"name":"Haxixe (g)","data":[{"ano":2015,"item":"Haxixe (g)","total_apreendido":14455,"x":2015,"y":14455},{"ano":2019,"item":"Haxixe (g)","total_apreendido":11,"x":2019,"y":11},{"ano":2020,"item":"Haxixe (g)","total_apreendido":7763,"x":2020,"y":7763},{"ano":2021,"item":"Haxixe (g)","total_apreendido":482105,"x":2021,"y":482105},{"ano":2022,"item":"Haxixe (g)","total_apreendido":10038,"x":2022,"y":10038},{"ano":2023,"item":"Haxixe (g)","total_apreendido":8678,"x":2023,"y":8678}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}},{"name":"Maconha (g)","data":[{"ano":2014,"item":"Maconha (g)","total_apreendido":249268,"x":2014,"y":249268},{"ano":2015,"item":"Maconha (g)","total_apreendido":635857,"x":2015,"y":635857},{"ano":2016,"item":"Maconha (g)","total_apreendido":33511,"x":2016,"y":33511},{"ano":2019,"item":"Maconha (g)","total_apreendido":433744,"x":2019,"y":433744},{"ano":2020,"item":"Maconha (g)","total_apreendido":2741127,"x":2020,"y":2741127},{"ano":2021,"item":"Maconha (g)","total_apreendido":643807,"x":2021,"y":643807},{"ano":2022,"item":"Maconha (g)","total_apreendido":3715379,"x":2022,"y":3715379},{"ano":2023,"item":"Maconha (g)","total_apreendido":116402,"x":2023,"y":116402}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}},{"name":"Skunk (g)","data":[{"ano":2020,"item":"Skunk (g)","total_apreendido":145,"x":2020,"y":145},{"ano":2023,"item":"Skunk (g)","total_apreendido":630,"x":2023,"y":630}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}}],"xAxis":{"title":{"text":"Ano"},"allowDecimals":false,"labels":{"formatter":"function() { return this.value; }"}},"subtitle":{"text":"Dados Polícia Federal"},"tooltip":{"headerFormat":"<b>Ano: {point.x}<\/b><br>","pointFormat":"<span style=\"color:{point.color}\">●<\/span> {series.name}: <b>{point.y:,.0f} g<\/b>","shared":false,"crosshairs":true,"valueDecimals":0},"legend":{"align":"right","verticalAlign":"middle","layout":"vertical","itemStyle":{"fontWeight":"normal"}},"colors":["#440154FF","#31688EFF","#35B779FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":["hc_opts.xAxis.labels.formatter"],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-eb844ae411350fa323a4" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-eb844ae411350fa323a4">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Quantidade anual de apreensões de Drogas por Regiões do Espírito Santo"},"yAxis":{"title":{"text":"Quantidade Apreendida (gramas)"},"labels":{"format":"{value:,.0f}"},"min":0},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"line":{"lineWidth":3,"states":{"hover":{"lineWidthPlus":2}}}},"series":[{"name":"Central e litoral","data":[{"ano":2014,"regiao_es":"Central e litoral","total_apreendido":341039,"x":2014,"y":341039},{"ano":2015,"regiao_es":"Central e litoral","total_apreendido":724624,"x":2015,"y":724624},{"ano":2016,"regiao_es":"Central e litoral","total_apreendido":58958,"x":2016,"y":58958},{"ano":2017,"regiao_es":"Central e litoral","total_apreendido":184000,"x":2017,"y":184000},{"ano":2019,"regiao_es":"Central e litoral","total_apreendido":594757,"x":2019,"y":594757},{"ano":2020,"regiao_es":"Central e litoral","total_apreendido":2941067,"x":2020,"y":2941067},{"ano":2021,"regiao_es":"Central e litoral","total_apreendido":2077758,"x":2021,"y":2077758},{"ano":2022,"regiao_es":"Central e litoral","total_apreendido":5264512,"x":2022,"y":5264512},{"ano":2023,"regiao_es":"Central e litoral","total_apreendido":1769571,"x":2023,"y":1769571}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}},{"name":"Noroeste e Nordeste","data":[{"ano":2014,"regiao_es":"Noroeste e Nordeste","total_apreendido":11070,"x":2014,"y":11070},{"ano":2020,"regiao_es":"Noroeste e Nordeste","total_apreendido":38805,"x":2020,"y":38805},{"ano":2021,"regiao_es":"Noroeste e Nordeste","total_apreendido":206377,"x":2021,"y":206377},{"ano":2022,"regiao_es":"Noroeste e Nordeste","total_apreendido":142295,"x":2022,"y":142295},{"ano":2023,"regiao_es":"Noroeste e Nordeste","total_apreendido":22,"x":2023,"y":22}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}},{"name":"Sul","data":[{"ano":2020,"regiao_es":"Sul","total_apreendido":10394,"x":2020,"y":10394},{"ano":2021,"regiao_es":"Sul","total_apreendido":423300,"x":2021,"y":423300},{"ano":2022,"regiao_es":"Sul","total_apreendido":1,"x":2022,"y":1}],"type":"line","marker":{"radius":4,"symbol":"circle","lineWidth":1}}],"xAxis":{"title":{"text":"Ano"},"allowDecimals":false,"labels":{"formatter":"function() { return this.value; }"}},"subtitle":{"text":"Dados Polícia Federal"},"tooltip":{"headerFormat":"<b>Ano: {point.x}<\/b><br>","pointFormat":"<span style=\"color:{point.color}\">●<\/span> {series.name}: <b>{point.y:,.0f} g<\/b>","shared":false,"crosshairs":true,"valueDecimals":0},"legend":{"align":"right","verticalAlign":"middle","layout":"vertical","itemStyle":{"fontWeight":"normal"}},"colors":["#00204DFF","#7C7B78FF","#FFEA46FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":["hc_opts.xAxis.labels.formatter"],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Aqui temos a distribuição de preensões de acordo com as Regiões do Espírito Santo, pode-se notar a diferença em relação a cada grupo de regiões, sendo as regiões Central e Litoral responsavéis pela grande maioria das apreensões.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-491d9a3a5874b5e8b7ef" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-491d9a3a5874b5e8b7ef">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Quantidade anual de apreensões de Drogas"},"yAxis":{"title":{"text":"Peso Total Apreendido (gramas)"},"labels":{"format":"{value:,.0f}"},"min":0},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"series":[{"group":"group","data":[{"ano":2014,"total_gramas":352109,"x":2014,"y":352109},{"ano":2015,"total_gramas":724657,"x":2015,"y":724657},{"ano":2016,"total_gramas":58958,"x":2016,"y":58958},{"ano":2017,"total_gramas":184000,"x":2017,"y":184000},{"ano":2018,"total_gramas":2935,"x":2018,"y":2935},{"ano":2019,"total_gramas":594762,"x":2019,"y":594762},{"ano":2020,"total_gramas":2991245,"x":2020,"y":2991245},{"ano":2021,"total_gramas":2709242,"x":2021,"y":2709242},{"ano":2022,"total_gramas":5407473,"x":2022,"y":5407473},{"ano":2023,"total_gramas":1770198,"x":2023,"y":1770198}],"type":"line","name":"Total Apreendido","showInLegend":true,"marker":{"enabled":true,"radius":4},"lineWidth":3,"color":"#4285F4"}],"xAxis":{"title":{"text":"Ano"},"allowDecimals":false,"gridLineWidth":1},"subtitle":{"text":"Dados Polícia Federal"},"tooltip":{"headerFormat":"<b>Ano: {point.x}<\/b><br>","pointFormat":"Total apreendido: <b>{point.y:,.0f} gramas<\/b>","shared":false}},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="análise-das-apreensões-realizadas-pelas-policias-estaduais" class="level1">
+<h1>Análise das apreensões realizadas pelas policias estaduais</h1>
+<section id="sobre-os-dados-2" class="level2">
+<h2 class="anchored" data-anchor-id="sobre-os-dados-2">Sobre os dados</h2>
+<p>Os dados são referentes as apreensões de drogas feitas pelas polícias estaduais e foram obtidos através do Observatório Brasileiro de Informações sobre Drogas (OBID), <a href="https://www.gov.br/mj/pt-br/assuntos/sua-protecao/politicas-sobre-drogas/obid/seguranca-publica">obid/seguranca-publica</a>, vinculado ao Ministério da Justiça e Segurança Pública.</p>
+<p>Embora a base de dados contenha registros a partir de 2016, as variáveis de interesse ‘total’ e ‘peso_total’ apresentam valores exclusivamente disponíveis a partir de 2018. Os registros dos anos de 2016 e 2017 para essas métricas específicas consistem inteiramente em valores NA, indicando ausência de dados mensuráveis nesse período inicial.</p>
+</section>
+<section id="análise-descritiva-1" class="level2">
+<h2 class="anchored" data-anchor-id="análise-descritiva-1">Análise descritiva</h2>
+<section id="apreensões-de-drogas-pelas-polícias-estaduais" class="level3">
+<h3 class="anchored" data-anchor-id="apreensões-de-drogas-pelas-polícias-estaduais">Apreensões de drogas pelas polícias estaduais</h3>
+<p>Breve apresentação da base (primeiras cinco linhas).</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 10%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">uf</th>
+<th style="text-align: left;">municipio</th>
+<th style="text-align: left;">evento</th>
+<th style="text-align: left;">data_referencia</th>
+<th style="text-align: right;">total</th>
+<th style="text-align: right;">total_peso</th>
+<th style="text-align: left;">abrangencia</th>
+<th style="text-align: left;">formulario</th>
+<th style="text-align: right;">ano</th>
+<th style="text-align: right;">ano_data</th>
+<th style="text-align: right;">mes_data</th>
+<th style="text-align: right;">trimestre_data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">NÃO INFORMADO</td>
+<td style="text-align: left;">Tráfico de drogas</td>
+<td style="text-align: left;">2018-01-01</td>
+<td style="text-align: right;">332</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Estadual</td>
+<td style="text-align: left;">Formulário 4</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">NÃO INFORMADO</td>
+<td style="text-align: left;">Tráfico de drogas</td>
+<td style="text-align: left;">2018-02-01</td>
+<td style="text-align: right;">309</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Estadual</td>
+<td style="text-align: left;">Formulário 4</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">NÃO INFORMADO</td>
+<td style="text-align: left;">Tráfico de drogas</td>
+<td style="text-align: left;">2018-03-01</td>
+<td style="text-align: right;">384</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Estadual</td>
+<td style="text-align: left;">Formulário 4</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">NÃO INFORMADO</td>
+<td style="text-align: left;">Tráfico de drogas</td>
+<td style="text-align: left;">2018-04-01</td>
+<td style="text-align: right;">370</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Estadual</td>
+<td style="text-align: left;">Formulário 4</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ES</td>
+<td style="text-align: left;">NÃO INFORMADO</td>
+<td style="text-align: left;">Tráfico de drogas</td>
+<td style="text-align: left;">2018-05-01</td>
+<td style="text-align: right;">362</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Estadual</td>
+<td style="text-align: left;">Formulário 4</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-f25f8364317e8bba8517" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f25f8364317e8bba8517">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Total peso mensal de Drogas Apreendidas"},"yAxis":{"title":{"text":"Total peso"},"labels":{"format":"{value:,.0f}"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"line":{"colorByPoint":false,"lineWidth":3,"states":{"hover":{"lineWidthPlus":1}}}},"series":[{"name":"Apreensão de Cocaína","data":[{"data_referencia":"2018-01-01","evento":"Apreensão de Cocaína","total_apreendido":1.464,"x":1514764800000,"y":1.464},{"data_referencia":"2018-02-01","evento":"Apreensão de Cocaína","total_apreendido":1.836,"x":1517443200000,"y":1.836},{"data_referencia":"2018-03-01","evento":"Apreensão de Cocaína","total_apreendido":6.415,"x":1519862400000,"y":6.415},{"data_referencia":"2018-04-01","evento":"Apreensão de Cocaína","total_apreendido":3.966,"x":1522540800000,"y":3.966},{"data_referencia":"2018-05-01","evento":"Apreensão de Cocaína","total_apreendido":2.626,"x":1525132800000,"y":2.626},{"data_referencia":"2018-06-01","evento":"Apreensão de Cocaína","total_apreendido":16.248,"x":1527811200000,"y":16.248},{"data_referencia":"2018-07-01","evento":"Apreensão de Cocaína","total_apreendido":5.454,"x":1530403200000,"y":5.454},{"data_referencia":"2018-08-01","evento":"Apreensão de Cocaína","total_apreendido":0.263,"x":1533081600000,"y":0.263},{"data_referencia":"2018-09-01","evento":"Apreensão de Cocaína","total_apreendido":1.48,"x":1535760000000,"y":1.48},{"data_referencia":"2018-10-01","evento":"Apreensão de Cocaína","total_apreendido":21.57,"x":1538352000000,"y":21.57},{"data_referencia":"2018-11-01","evento":"Apreensão de Cocaína","total_apreendido":3.748,"x":1541030400000,"y":3.748},{"data_referencia":"2018-12-01","evento":"Apreensão de Cocaína","total_apreendido":0.338,"x":1543622400000,"y":0.338},{"data_referencia":"2019-01-01","evento":"Apreensão de Cocaína","total_apreendido":1.644,"x":1546300800000,"y":1.644},{"data_referencia":"2019-02-01","evento":"Apreensão de Cocaína","total_apreendido":4.634,"x":1548979200000,"y":4.634},{"data_referencia":"2019-03-01","evento":"Apreensão de Cocaína","total_apreendido":4.481,"x":1551398400000,"y":4.481},{"data_referencia":"2019-04-01","evento":"Apreensão de Cocaína","total_apreendido":1.668,"x":1554076800000,"y":1.668},{"data_referencia":"2019-05-01","evento":"Apreensão de Cocaína","total_apreendido":21.543,"x":1556668800000,"y":21.543},{"data_referencia":"2019-06-01","evento":"Apreensão de Cocaína","total_apreendido":19.681,"x":1559347200000,"y":19.681},{"data_referencia":"2019-07-01","evento":"Apreensão de Cocaína","total_apreendido":5.825,"x":1561939200000,"y":5.825},{"data_referencia":"2019-08-01","evento":"Apreensão de Cocaína","total_apreendido":1.252,"x":1564617600000,"y":1.252},{"data_referencia":"2019-09-01","evento":"Apreensão de Cocaína","total_apreendido":3.007,"x":1567296000000,"y":3.007},{"data_referencia":"2019-10-01","evento":"Apreensão de Cocaína","total_apreendido":3.929,"x":1569888000000,"y":3.929},{"data_referencia":"2019-11-01","evento":"Apreensão de Cocaína","total_apreendido":9.359999999999999,"x":1572566400000,"y":9.359999999999999},{"data_referencia":"2019-12-01","evento":"Apreensão de Cocaína","total_apreendido":2.804,"x":1575158400000,"y":2.804},{"data_referencia":"2020-01-01","evento":"Apreensão de Cocaína","total_apreendido":0.189,"x":1577836800000,"y":0.189},{"data_referencia":"2020-02-01","evento":"Apreensão de Cocaína","total_apreendido":2.765,"x":1580515200000,"y":2.765},{"data_referencia":"2020-03-01","evento":"Apreensão de Cocaína","total_apreendido":1.435,"x":1583020800000,"y":1.435},{"data_referencia":"2020-04-01","evento":"Apreensão de Cocaína","total_apreendido":10.808,"x":1585699200000,"y":10.808},{"data_referencia":"2020-05-01","evento":"Apreensão de Cocaína","total_apreendido":2.31,"x":1588291200000,"y":2.31},{"data_referencia":"2020-06-01","evento":"Apreensão de Cocaína","total_apreendido":10.585,"x":1590969600000,"y":10.585},{"data_referencia":"2020-07-01","evento":"Apreensão de Cocaína","total_apreendido":4.617,"x":1593561600000,"y":4.617},{"data_referencia":"2020-08-01","evento":"Apreensão de Cocaína","total_apreendido":17.4,"x":1596240000000,"y":17.4},{"data_referencia":"2020-09-01","evento":"Apreensão de Cocaína","total_apreendido":3.481,"x":1598918400000,"y":3.481},{"data_referencia":"2020-10-01","evento":"Apreensão de Cocaína","total_apreendido":6.605,"x":1601510400000,"y":6.605},{"data_referencia":"2020-11-01","evento":"Apreensão de Cocaína","total_apreendido":19.912,"x":1604188800000,"y":19.912},{"data_referencia":"2020-12-01","evento":"Apreensão de Cocaína","total_apreendido":16.347,"x":1606780800000,"y":16.347},{"data_referencia":"2021-01-01","evento":"Apreensão de Cocaína","total_apreendido":1.152,"x":1609459200000,"y":1.152},{"data_referencia":"2021-02-01","evento":"Apreensão de Cocaína","total_apreendido":4.127,"x":1612137600000,"y":4.127},{"data_referencia":"2021-03-01","evento":"Apreensão de Cocaína","total_apreendido":6.184,"x":1614556800000,"y":6.184},{"data_referencia":"2021-04-01","evento":"Apreensão de Cocaína","total_apreendido":3.608,"x":1617235200000,"y":3.608},{"data_referencia":"2021-05-01","evento":"Apreensão de Cocaína","total_apreendido":23.674,"x":1619827200000,"y":23.674},{"data_referencia":"2021-06-01","evento":"Apreensão de Cocaína","total_apreendido":54.671,"x":1622505600000,"y":54.671},{"data_referencia":"2021-07-01","evento":"Apreensão de Cocaína","total_apreendido":7.729,"x":1625097600000,"y":7.729},{"data_referencia":"2021-08-01","evento":"Apreensão de Cocaína","total_apreendido":3.993,"x":1627776000000,"y":3.993},{"data_referencia":"2021-09-01","evento":"Apreensão de Cocaína","total_apreendido":1.385,"x":1630454400000,"y":1.385},{"data_referencia":"2021-10-01","evento":"Apreensão de Cocaína","total_apreendido":8.416,"x":1633046400000,"y":8.416},{"data_referencia":"2021-11-01","evento":"Apreensão de Cocaína","total_apreendido":27.192,"x":1635724800000,"y":27.192},{"data_referencia":"2021-12-01","evento":"Apreensão de Cocaína","total_apreendido":5.269,"x":1638316800000,"y":5.269},{"data_referencia":"2022-01-01","evento":"Apreensão de Cocaína","total_apreendido":3.3,"x":1640995200000,"y":3.3},{"data_referencia":"2022-02-01","evento":"Apreensão de Cocaína","total_apreendido":4.1,"x":1643673600000,"y":4.1},{"data_referencia":"2022-03-01","evento":"Apreensão de Cocaína","total_apreendido":0.8100000000000001,"x":1646092800000,"y":0.8100000000000001},{"data_referencia":"2022-04-01","evento":"Apreensão de Cocaína","total_apreendido":52.2,"x":1648771200000,"y":52.2},{"data_referencia":"2022-05-01","evento":"Apreensão de Cocaína","total_apreendido":1.9,"x":1651363200000,"y":1.9},{"data_referencia":"2022-06-01","evento":"Apreensão de Cocaína","total_apreendido":9.5,"x":1654041600000,"y":9.5},{"data_referencia":"2022-07-01","evento":"Apreensão de Cocaína","total_apreendido":4.1,"x":1656633600000,"y":4.1},{"data_referencia":"2022-08-01","evento":"Apreensão de Cocaína","total_apreendido":26.2,"x":1659312000000,"y":26.2},{"data_referencia":"2022-09-01","evento":"Apreensão de Cocaína","total_apreendido":6.8,"x":1661990400000,"y":6.8},{"data_referencia":"2022-10-01","evento":"Apreensão de Cocaína","total_apreendido":12.2,"x":1664582400000,"y":12.2},{"data_referencia":"2022-11-01","evento":"Apreensão de Cocaína","total_apreendido":4.8,"x":1667260800000,"y":4.8},{"data_referencia":"2022-12-01","evento":"Apreensão de Cocaína","total_apreendido":16.9,"x":1669852800000,"y":16.9},{"data_referencia":"2023-01-01","evento":"Apreensão de Cocaína","total_apreendido":21.013,"x":1672531200000,"y":21.013},{"data_referencia":"2023-02-01","evento":"Apreensão de Cocaína","total_apreendido":9.646000000000001,"x":1675209600000,"y":9.646000000000001},{"data_referencia":"2023-03-01","evento":"Apreensão de Cocaína","total_apreendido":43.757,"x":1677628800000,"y":43.757},{"data_referencia":"2023-04-01","evento":"Apreensão de Cocaína","total_apreendido":7.147,"x":1680307200000,"y":7.147},{"data_referencia":"2023-05-01","evento":"Apreensão de Cocaína","total_apreendido":39.615,"x":1682899200000,"y":39.615},{"data_referencia":"2023-06-01","evento":"Apreensão de Cocaína","total_apreendido":22.26,"x":1685577600000,"y":22.26},{"data_referencia":"2023-07-01","evento":"Apreensão de Cocaína","total_apreendido":15.8,"x":1688169600000,"y":15.8},{"data_referencia":"2023-08-01","evento":"Apreensão de Cocaína","total_apreendido":12.9,"x":1690848000000,"y":12.9},{"data_referencia":"2023-09-01","evento":"Apreensão de Cocaína","total_apreendido":13.16,"x":1693526400000,"y":13.16},{"data_referencia":"2023-10-01","evento":"Apreensão de Cocaína","total_apreendido":22.07,"x":1696118400000,"y":22.07},{"data_referencia":"2023-11-01","evento":"Apreensão de Cocaína","total_apreendido":9.24,"x":1698796800000,"y":9.24},{"data_referencia":"2023-12-01","evento":"Apreensão de Cocaína","total_apreendido":10.11,"x":1701388800000,"y":10.11}],"type":"line","marker":{"radius":4}},{"name":"Apreensão de Maconha","data":[{"data_referencia":"2018-01-01","evento":"Apreensão de Maconha","total_apreendido":34.578,"x":1514764800000,"y":34.578},{"data_referencia":"2018-02-01","evento":"Apreensão de Maconha","total_apreendido":19.562,"x":1517443200000,"y":19.562},{"data_referencia":"2018-03-01","evento":"Apreensão de Maconha","total_apreendido":41.721,"x":1519862400000,"y":41.721},{"data_referencia":"2018-04-01","evento":"Apreensão de Maconha","total_apreendido":79.033,"x":1522540800000,"y":79.033},{"data_referencia":"2018-05-01","evento":"Apreensão de Maconha","total_apreendido":1107.525,"x":1525132800000,"y":1107.525},{"data_referencia":"2018-06-01","evento":"Apreensão de Maconha","total_apreendido":120.869,"x":1527811200000,"y":120.869},{"data_referencia":"2018-07-01","evento":"Apreensão de Maconha","total_apreendido":52.035,"x":1530403200000,"y":52.035},{"data_referencia":"2018-08-01","evento":"Apreensão de Maconha","total_apreendido":30.847,"x":1533081600000,"y":30.847},{"data_referencia":"2018-09-01","evento":"Apreensão de Maconha","total_apreendido":62.993,"x":1535760000000,"y":62.993},{"data_referencia":"2018-10-01","evento":"Apreensão de Maconha","total_apreendido":22.985,"x":1538352000000,"y":22.985},{"data_referencia":"2018-11-01","evento":"Apreensão de Maconha","total_apreendido":53.257,"x":1541030400000,"y":53.257},{"data_referencia":"2018-12-01","evento":"Apreensão de Maconha","total_apreendido":658.946,"x":1543622400000,"y":658.946},{"data_referencia":"2019-01-01","evento":"Apreensão de Maconha","total_apreendido":394.265,"x":1546300800000,"y":394.265},{"data_referencia":"2019-02-01","evento":"Apreensão de Maconha","total_apreendido":82.767,"x":1548979200000,"y":82.767},{"data_referencia":"2019-03-01","evento":"Apreensão de Maconha","total_apreendido":579.2190000000001,"x":1551398400000,"y":579.2190000000001},{"data_referencia":"2019-04-01","evento":"Apreensão de Maconha","total_apreendido":575.057,"x":1554076800000,"y":575.057},{"data_referencia":"2019-05-01","evento":"Apreensão de Maconha","total_apreendido":69.367,"x":1556668800000,"y":69.367},{"data_referencia":"2019-06-01","evento":"Apreensão de Maconha","total_apreendido":306.451,"x":1559347200000,"y":306.451},{"data_referencia":"2019-07-01","evento":"Apreensão de Maconha","total_apreendido":100.525,"x":1561939200000,"y":100.525},{"data_referencia":"2019-08-01","evento":"Apreensão de Maconha","total_apreendido":122.783,"x":1564617600000,"y":122.783},{"data_referencia":"2019-09-01","evento":"Apreensão de Maconha","total_apreendido":52.501,"x":1567296000000,"y":52.501},{"data_referencia":"2019-10-01","evento":"Apreensão de Maconha","total_apreendido":512.278,"x":1569888000000,"y":512.278},{"data_referencia":"2019-11-01","evento":"Apreensão de Maconha","total_apreendido":21.904,"x":1572566400000,"y":21.904},{"data_referencia":"2019-12-01","evento":"Apreensão de Maconha","total_apreendido":66.488,"x":1575158400000,"y":66.488},{"data_referencia":"2020-01-01","evento":"Apreensão de Maconha","total_apreendido":21.196,"x":1577836800000,"y":21.196},{"data_referencia":"2020-02-01","evento":"Apreensão de Maconha","total_apreendido":31.39,"x":1580515200000,"y":31.39},{"data_referencia":"2020-03-01","evento":"Apreensão de Maconha","total_apreendido":7.37,"x":1583020800000,"y":7.37},{"data_referencia":"2020-04-01","evento":"Apreensão de Maconha","total_apreendido":27.131,"x":1585699200000,"y":27.131},{"data_referencia":"2020-05-01","evento":"Apreensão de Maconha","total_apreendido":702.272,"x":1588291200000,"y":702.272},{"data_referencia":"2020-06-01","evento":"Apreensão de Maconha","total_apreendido":229.546,"x":1590969600000,"y":229.546},{"data_referencia":"2020-07-01","evento":"Apreensão de Maconha","total_apreendido":49.075,"x":1593561600000,"y":49.075},{"data_referencia":"2020-08-01","evento":"Apreensão de Maconha","total_apreendido":112.973,"x":1596240000000,"y":112.973},{"data_referencia":"2020-09-01","evento":"Apreensão de Maconha","total_apreendido":389.443,"x":1598918400000,"y":389.443},{"data_referencia":"2020-10-01","evento":"Apreensão de Maconha","total_apreendido":317.136,"x":1601510400000,"y":317.136},{"data_referencia":"2020-11-01","evento":"Apreensão de Maconha","total_apreendido":17.953,"x":1604188800000,"y":17.953},{"data_referencia":"2020-12-01","evento":"Apreensão de Maconha","total_apreendido":25.571,"x":1606780800000,"y":25.571},{"data_referencia":"2021-01-01","evento":"Apreensão de Maconha","total_apreendido":380.644,"x":1609459200000,"y":380.644},{"data_referencia":"2021-02-01","evento":"Apreensão de Maconha","total_apreendido":29.18,"x":1612137600000,"y":29.18},{"data_referencia":"2021-03-01","evento":"Apreensão de Maconha","total_apreendido":168.017,"x":1614556800000,"y":168.017},{"data_referencia":"2021-04-01","evento":"Apreensão de Maconha","total_apreendido":139.778,"x":1617235200000,"y":139.778},{"data_referencia":"2021-05-01","evento":"Apreensão de Maconha","total_apreendido":57.112,"x":1619827200000,"y":57.112},{"data_referencia":"2021-06-01","evento":"Apreensão de Maconha","total_apreendido":463.15,"x":1622505600000,"y":463.15},{"data_referencia":"2021-07-01","evento":"Apreensão de Maconha","total_apreendido":105.884,"x":1625097600000,"y":105.884},{"data_referencia":"2021-08-01","evento":"Apreensão de Maconha","total_apreendido":182.706,"x":1627776000000,"y":182.706},{"data_referencia":"2021-09-01","evento":"Apreensão de Maconha","total_apreendido":12.249,"x":1630454400000,"y":12.249},{"data_referencia":"2021-10-01","evento":"Apreensão de Maconha","total_apreendido":232.325,"x":1633046400000,"y":232.325},{"data_referencia":"2021-11-01","evento":"Apreensão de Maconha","total_apreendido":26.717,"x":1635724800000,"y":26.717},{"data_referencia":"2021-12-01","evento":"Apreensão de Maconha","total_apreendido":57.589,"x":1638316800000,"y":57.589},{"data_referencia":"2022-01-01","evento":"Apreensão de Maconha","total_apreendido":98.3,"x":1640995200000,"y":98.3},{"data_referencia":"2022-02-01","evento":"Apreensão de Maconha","total_apreendido":20.6,"x":1643673600000,"y":20.6},{"data_referencia":"2022-03-01","evento":"Apreensão de Maconha","total_apreendido":67.40000000000001,"x":1646092800000,"y":67.40000000000001},{"data_referencia":"2022-04-01","evento":"Apreensão de Maconha","total_apreendido":81,"x":1648771200000,"y":81},{"data_referencia":"2022-05-01","evento":"Apreensão de Maconha","total_apreendido":17.5,"x":1651363200000,"y":17.5},{"data_referencia":"2022-06-01","evento":"Apreensão de Maconha","total_apreendido":10.1,"x":1654041600000,"y":10.1},{"data_referencia":"2022-07-01","evento":"Apreensão de Maconha","total_apreendido":240.1,"x":1656633600000,"y":240.1},{"data_referencia":"2022-08-01","evento":"Apreensão de Maconha","total_apreendido":493.3,"x":1659312000000,"y":493.3},{"data_referencia":"2022-09-01","evento":"Apreensão de Maconha","total_apreendido":122.3,"x":1661990400000,"y":122.3},{"data_referencia":"2022-10-01","evento":"Apreensão de Maconha","total_apreendido":54.5,"x":1664582400000,"y":54.5},{"data_referencia":"2022-11-01","evento":"Apreensão de Maconha","total_apreendido":1086.5,"x":1667260800000,"y":1086.5},{"data_referencia":"2022-12-01","evento":"Apreensão de Maconha","total_apreendido":1033.4,"x":1669852800000,"y":1033.4},{"data_referencia":"2023-01-01","evento":"Apreensão de Maconha","total_apreendido":34.358,"x":1672531200000,"y":34.358},{"data_referencia":"2023-02-01","evento":"Apreensão de Maconha","total_apreendido":437.491,"x":1675209600000,"y":437.491},{"data_referencia":"2023-03-01","evento":"Apreensão de Maconha","total_apreendido":51.66,"x":1677628800000,"y":51.66},{"data_referencia":"2023-04-01","evento":"Apreensão de Maconha","total_apreendido":28.418,"x":1680307200000,"y":28.418},{"data_referencia":"2023-05-01","evento":"Apreensão de Maconha","total_apreendido":1046.027,"x":1682899200000,"y":1046.027},{"data_referencia":"2023-06-01","evento":"Apreensão de Maconha","total_apreendido":137,"x":1685577600000,"y":137},{"data_referencia":"2023-07-01","evento":"Apreensão de Maconha","total_apreendido":136.2,"x":1688169600000,"y":136.2},{"data_referencia":"2023-08-01","evento":"Apreensão de Maconha","total_apreendido":17.7,"x":1690848000000,"y":17.7},{"data_referencia":"2023-09-01","evento":"Apreensão de Maconha","total_apreendido":72.02,"x":1693526400000,"y":72.02},{"data_referencia":"2023-10-01","evento":"Apreensão de Maconha","total_apreendido":174.62,"x":1696118400000,"y":174.62},{"data_referencia":"2023-11-01","evento":"Apreensão de Maconha","total_apreendido":26.645,"x":1698796800000,"y":26.645},{"data_referencia":"2023-12-01","evento":"Apreensão de Maconha","total_apreendido":10.01,"x":1701388800000,"y":10.01}],"type":"line","marker":{"radius":4}}],"xAxis":{"type":"datetime","title":{"text":"Data da Apreensão"},"labels":{"format":"{value:%d/%m/%Y}"}},"subtitle":{"text":"Dados polícia estadual do Espírito Santo"},"tooltip":{"headerFormat":"<b>Data: {point.x:%d/%m/%Y}<\/b><br>","pointFormat":"{series.name}: <b>{point.y:,.0f} <\/b>","shared":false,"crosshairs":true},"legend":{"align":"right","verticalAlign":"top","layout":"vertical"},"colors":["#440154FF","#31688EFF","#35B779FF","#FDE725FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Aqui temos a série temporal do total peso de preensões, para apreenções de cocaína e maconha, no dicionário da base essa variável é descrita como “Valor numérico da quantidade, peso ou volume apreendido”.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-ae8ae9473f7afd5eb704" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ae8ae9473f7afd5eb704">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Total mensal de Drogas Apreendidas"},"yAxis":{"title":{"text":"Total"},"labels":{"format":"{value:,.0f}"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"line":{"colorByPoint":false,"lineWidth":3,"states":{"hover":{"lineWidthPlus":1}}}},"series":[{"name":"Tráfico de drogas","data":[{"data_referencia":"2018-01-01","evento":"Tráfico de drogas","total_apreendido":332,"x":1514764800000,"y":332},{"data_referencia":"2018-02-01","evento":"Tráfico de drogas","total_apreendido":309,"x":1517443200000,"y":309},{"data_referencia":"2018-03-01","evento":"Tráfico de drogas","total_apreendido":384,"x":1519862400000,"y":384},{"data_referencia":"2018-04-01","evento":"Tráfico de drogas","total_apreendido":370,"x":1522540800000,"y":370},{"data_referencia":"2018-05-01","evento":"Tráfico de drogas","total_apreendido":362,"x":1525132800000,"y":362},{"data_referencia":"2018-06-01","evento":"Tráfico de drogas","total_apreendido":378,"x":1527811200000,"y":378},{"data_referencia":"2018-07-01","evento":"Tráfico de drogas","total_apreendido":416,"x":1530403200000,"y":416},{"data_referencia":"2018-08-01","evento":"Tráfico de drogas","total_apreendido":367,"x":1533081600000,"y":367},{"data_referencia":"2018-09-01","evento":"Tráfico de drogas","total_apreendido":329,"x":1535760000000,"y":329},{"data_referencia":"2018-10-01","evento":"Tráfico de drogas","total_apreendido":382,"x":1538352000000,"y":382},{"data_referencia":"2018-11-01","evento":"Tráfico de drogas","total_apreendido":347,"x":1541030400000,"y":347},{"data_referencia":"2018-12-01","evento":"Tráfico de drogas","total_apreendido":371,"x":1543622400000,"y":371},{"data_referencia":"2019-01-01","evento":"Tráfico de drogas","total_apreendido":407,"x":1546300800000,"y":407},{"data_referencia":"2019-02-01","evento":"Tráfico de drogas","total_apreendido":408,"x":1548979200000,"y":408},{"data_referencia":"2019-03-01","evento":"Tráfico de drogas","total_apreendido":460,"x":1551398400000,"y":460},{"data_referencia":"2019-04-01","evento":"Tráfico de drogas","total_apreendido":440,"x":1554076800000,"y":440},{"data_referencia":"2019-05-01","evento":"Tráfico de drogas","total_apreendido":390,"x":1556668800000,"y":390},{"data_referencia":"2019-06-01","evento":"Tráfico de drogas","total_apreendido":462,"x":1559347200000,"y":462},{"data_referencia":"2019-07-01","evento":"Tráfico de drogas","total_apreendido":432,"x":1561939200000,"y":432},{"data_referencia":"2019-08-01","evento":"Tráfico de drogas","total_apreendido":470,"x":1564617600000,"y":470},{"data_referencia":"2019-09-01","evento":"Tráfico de drogas","total_apreendido":463,"x":1567296000000,"y":463},{"data_referencia":"2019-10-01","evento":"Tráfico de drogas","total_apreendido":444,"x":1569888000000,"y":444},{"data_referencia":"2019-11-01","evento":"Tráfico de drogas","total_apreendido":364,"x":1572566400000,"y":364},{"data_referencia":"2019-12-01","evento":"Tráfico de drogas","total_apreendido":426,"x":1575158400000,"y":426},{"data_referencia":"2020-01-01","evento":"Tráfico de drogas","total_apreendido":367,"x":1577836800000,"y":367},{"data_referencia":"2020-02-01","evento":"Tráfico de drogas","total_apreendido":347,"x":1580515200000,"y":347},{"data_referencia":"2020-03-01","evento":"Tráfico de drogas","total_apreendido":335,"x":1583020800000,"y":335},{"data_referencia":"2020-04-01","evento":"Tráfico de drogas","total_apreendido":395,"x":1585699200000,"y":395},{"data_referencia":"2020-05-01","evento":"Tráfico de drogas","total_apreendido":497,"x":1588291200000,"y":497},{"data_referencia":"2020-06-01","evento":"Tráfico de drogas","total_apreendido":537,"x":1590969600000,"y":537},{"data_referencia":"2020-07-01","evento":"Tráfico de drogas","total_apreendido":584,"x":1593561600000,"y":584},{"data_referencia":"2020-08-01","evento":"Tráfico de drogas","total_apreendido":532,"x":1596240000000,"y":532},{"data_referencia":"2020-09-01","evento":"Tráfico de drogas","total_apreendido":499,"x":1598918400000,"y":499},{"data_referencia":"2020-10-01","evento":"Tráfico de drogas","total_apreendido":439,"x":1601510400000,"y":439},{"data_referencia":"2020-11-01","evento":"Tráfico de drogas","total_apreendido":393,"x":1604188800000,"y":393},{"data_referencia":"2020-12-01","evento":"Tráfico de drogas","total_apreendido":430,"x":1606780800000,"y":430},{"data_referencia":"2021-01-01","evento":"Tráfico de drogas","total_apreendido":399,"x":1609459200000,"y":399},{"data_referencia":"2021-02-01","evento":"Tráfico de drogas","total_apreendido":395,"x":1612137600000,"y":395},{"data_referencia":"2021-03-01","evento":"Tráfico de drogas","total_apreendido":453,"x":1614556800000,"y":453},{"data_referencia":"2021-04-01","evento":"Tráfico de drogas","total_apreendido":452,"x":1617235200000,"y":452},{"data_referencia":"2021-05-01","evento":"Tráfico de drogas","total_apreendido":439,"x":1619827200000,"y":439},{"data_referencia":"2021-06-01","evento":"Tráfico de drogas","total_apreendido":427,"x":1622505600000,"y":427},{"data_referencia":"2021-07-01","evento":"Tráfico de drogas","total_apreendido":439,"x":1625097600000,"y":439},{"data_referencia":"2021-08-01","evento":"Tráfico de drogas","total_apreendido":429,"x":1627776000000,"y":429},{"data_referencia":"2021-09-01","evento":"Tráfico de drogas","total_apreendido":424,"x":1630454400000,"y":424},{"data_referencia":"2021-10-01","evento":"Tráfico de drogas","total_apreendido":378,"x":1633046400000,"y":378},{"data_referencia":"2021-11-01","evento":"Tráfico de drogas","total_apreendido":361,"x":1635724800000,"y":361},{"data_referencia":"2021-12-01","evento":"Tráfico de drogas","total_apreendido":362,"x":1638316800000,"y":362},{"data_referencia":"2022-01-01","evento":"Tráfico de drogas","total_apreendido":418,"x":1640995200000,"y":418},{"data_referencia":"2022-02-01","evento":"Tráfico de drogas","total_apreendido":421,"x":1643673600000,"y":421},{"data_referencia":"2022-03-01","evento":"Tráfico de drogas","total_apreendido":467,"x":1646092800000,"y":467},{"data_referencia":"2022-04-01","evento":"Tráfico de drogas","total_apreendido":377,"x":1648771200000,"y":377},{"data_referencia":"2022-05-01","evento":"Tráfico de drogas","total_apreendido":435,"x":1651363200000,"y":435},{"data_referencia":"2022-06-01","evento":"Tráfico de drogas","total_apreendido":392,"x":1654041600000,"y":392},{"data_referencia":"2022-07-01","evento":"Tráfico de drogas","total_apreendido":389,"x":1656633600000,"y":389},{"data_referencia":"2022-08-01","evento":"Tráfico de drogas","total_apreendido":347,"x":1659312000000,"y":347},{"data_referencia":"2022-09-01","evento":"Tráfico de drogas","total_apreendido":391,"x":1661990400000,"y":391},{"data_referencia":"2022-10-01","evento":"Tráfico de drogas","total_apreendido":340,"x":1664582400000,"y":340},{"data_referencia":"2022-11-01","evento":"Tráfico de drogas","total_apreendido":315,"x":1667260800000,"y":315},{"data_referencia":"2022-12-01","evento":"Tráfico de drogas","total_apreendido":352,"x":1669852800000,"y":352},{"data_referencia":"2023-01-01","evento":"Tráfico de drogas","total_apreendido":367,"x":1672531200000,"y":367},{"data_referencia":"2023-02-01","evento":"Tráfico de drogas","total_apreendido":351,"x":1675209600000,"y":351},{"data_referencia":"2023-03-01","evento":"Tráfico de drogas","total_apreendido":377,"x":1677628800000,"y":377},{"data_referencia":"2023-04-01","evento":"Tráfico de drogas","total_apreendido":395,"x":1680307200000,"y":395},{"data_referencia":"2023-05-01","evento":"Tráfico de drogas","total_apreendido":412,"x":1682899200000,"y":412},{"data_referencia":"2023-06-01","evento":"Tráfico de drogas","total_apreendido":387,"x":1685577600000,"y":387},{"data_referencia":"2023-07-01","evento":"Tráfico de drogas","total_apreendido":397,"x":1688169600000,"y":397},{"data_referencia":"2023-08-01","evento":"Tráfico de drogas","total_apreendido":370,"x":1690848000000,"y":370},{"data_referencia":"2023-09-01","evento":"Tráfico de drogas","total_apreendido":355,"x":1693526400000,"y":355},{"data_referencia":"2023-10-01","evento":"Tráfico de drogas","total_apreendido":363,"x":1696118400000,"y":363},{"data_referencia":"2023-11-01","evento":"Tráfico de drogas","total_apreendido":317,"x":1698796800000,"y":317},{"data_referencia":"2023-12-01","evento":"Tráfico de drogas","total_apreendido":381,"x":1701388800000,"y":381}],"type":"line","marker":{"radius":4}}],"xAxis":{"type":"datetime","title":{"text":"Data da Apreensão"},"labels":{"format":"{value:%d/%m/%Y}"}},"subtitle":{"text":"Dados polícia estadual do Espírito Santo"},"tooltip":{"headerFormat":"<b>Data: {point.x:%d/%m/%Y}<\/b><br>","pointFormat":"{series.name}: <b>{point.y:,.0f} <\/b>","shared":false,"crosshairs":true},"legend":{"align":"right","verticalAlign":"top","layout":"vertical"},"colors":["#35B779FF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Aqui temos a série temporal do total de preensões relacionadas a tráfico de drogas, no dicionário da base essa variável é descrita como “Valor numérico da quantidade, peso ou volume apreendido”.</p>
+</section>
+</section>
+<section id="análise-temporal" class="level2">
+<h2 class="anchored" data-anchor-id="análise-temporal">Análise temporal</h2>
+<p>A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técnica estatística para analisar séries temporais, decompondo-as em três componentes principais:</p>
+<ul>
+<li><p><strong>Tendência (Trend)</strong>: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)</p></li>
+<li><p><strong>Sazonalidade (Seasonal)</strong>: Revela padrões que se repetem em intervalos fixos (como mensal, anual)</p></li>
+<li><p><strong>Resíduo (Remainder/Random)</strong>: Representa variações aleatórias ou eventos não explicados</p></li>
+</ul>
+<p>Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo.</p>
+<p>O <strong>Teste de Mann-Kendall</strong> é um teste que verifica se uma série temporal possui tendência, ou seja, responde a pergunta “Meus dados estão subindo, descendo ou ficando estáveis ao longo do tempo?”.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-804f847f5968b3c3d5e5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-804f847f5968b3c3d5e5">{"x":{"hc_opts":{"chart":{"reflow":true,"type":"line"},"title":{"text":"Decomposição STL - Total peso mensal de Drogas Apreendidas - Maconha"},"yAxis":{"title":{"text":"Valor"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"marker":{"enabled":false},"lineWidth":2},"treemap":{"layoutAlgorithm":"squarified"}},"subtitle":{"text":"Dados polícia estadual do Espírito Santo"},"xAxis":{"type":"datetime","title":{"text":"Data"},"labels":{"format":"{value:%Y-%m}"}},"series":[{"name":"Observado","data":[{"x":1514764800000,"y":34.578},{"x":1517443200000,"y":19.562},{"x":1519862400000,"y":41.721},{"x":1522540800000,"y":79.033},{"x":1525132800000,"y":1107.525},{"x":1527811200000,"y":120.869},{"x":1530403200000,"y":52.035},{"x":1533081600000,"y":30.847},{"x":1535760000000,"y":62.993},{"x":1538352000000,"y":22.985},{"x":1541030400000,"y":53.257},{"x":1543622400000,"y":658.946},{"x":1546300800000,"y":394.265},{"x":1548979200000,"y":82.767},{"x":1551398400000,"y":579.2190000000001},{"x":1554076800000,"y":575.057},{"x":1556668800000,"y":69.367},{"x":1559347200000,"y":306.451},{"x":1561939200000,"y":100.525},{"x":1564617600000,"y":122.783},{"x":1567296000000,"y":52.501},{"x":1569888000000,"y":512.278},{"x":1572566400000,"y":21.904},{"x":1575158400000,"y":66.488},{"x":1577836800000,"y":21.196},{"x":1580515200000,"y":31.39},{"x":1583020800000,"y":7.37},{"x":1585699200000,"y":27.131},{"x":1588291200000,"y":702.272},{"x":1590969600000,"y":229.546},{"x":1593561600000,"y":49.075},{"x":1596240000000,"y":112.973},{"x":1598918400000,"y":389.443},{"x":1601510400000,"y":317.136},{"x":1604188800000,"y":17.953},{"x":1606780800000,"y":25.571},{"x":1609459200000,"y":380.644},{"x":1612137600000,"y":29.18},{"x":1614556800000,"y":168.017},{"x":1617235200000,"y":139.778},{"x":1619827200000,"y":57.112},{"x":1622505600000,"y":463.15},{"x":1625097600000,"y":105.884},{"x":1627776000000,"y":182.706},{"x":1630454400000,"y":12.249},{"x":1633046400000,"y":232.325},{"x":1635724800000,"y":26.717},{"x":1638316800000,"y":57.589},{"x":1640995200000,"y":98.3},{"x":1643673600000,"y":20.6},{"x":1646092800000,"y":67.40000000000001},{"x":1648771200000,"y":81},{"x":1651363200000,"y":17.5},{"x":1654041600000,"y":10.1},{"x":1656633600000,"y":240.1},{"x":1659312000000,"y":493.3},{"x":1661990400000,"y":122.3},{"x":1664582400000,"y":54.5},{"x":1667260800000,"y":1086.5},{"x":1669852800000,"y":1033.4},{"x":1672531200000,"y":34.358},{"x":1675209600000,"y":437.491},{"x":1677628800000,"y":51.66},{"x":1680307200000,"y":28.418},{"x":1682899200000,"y":1046.027},{"x":1685577600000,"y":137},{"x":1688169600000,"y":136.2},{"x":1690848000000,"y":17.7},{"x":1693526400000,"y":72.02},{"x":1696118400000,"y":174.62},{"x":1698796800000,"y":26.645},{"x":1701388800000,"y":10.01}]},{"name":"Tendência","data":[{"x":1514764800000,"y":149.4748557057466},{"x":1517443200000,"y":158.1460342352503},{"x":1519862400000,"y":166.8172127647541},{"x":1522540800000,"y":176.6617859877752},{"x":1525132800000,"y":186.5063592107963},{"x":1527811200000,"y":199.3478402856619},{"x":1530403200000,"y":212.1893213605275},{"x":1533081600000,"y":226.2781895442626},{"x":1535760000000,"y":240.3670577279978},{"x":1538352000000,"y":247.2474892588061},{"x":1541030400000,"y":254.1279207896144},{"x":1543622400000,"y":256.3767391044181},{"x":1546300800000,"y":258.6255574192218},{"x":1548979200000,"y":265.8463520276927},{"x":1551398400000,"y":273.0671466361634},{"x":1554076800000,"y":272.754911547252},{"x":1556668800000,"y":272.4426764583405},{"x":1559347200000,"y":251.3019007671339},{"x":1561939200000,"y":230.1611250759272},{"x":1564617600000,"y":201.7058361159778},{"x":1567296000000,"y":173.2505471560283},{"x":1569888000000,"y":159.0323403128187},{"x":1572566400000,"y":144.8141334696091},{"x":1575158400000,"y":145.9049798206846},{"x":1577836800000,"y":146.9958261717601},{"x":1580515200000,"y":152.1546400708002},{"x":1583020800000,"y":157.3134539698402},{"x":1585699200000,"y":164.0412082978933},{"x":1588291200000,"y":170.7689626259464},{"x":1590969600000,"y":179.2334032759994},{"x":1593561600000,"y":187.6978439260525},{"x":1596240000000,"y":192.6368495977966},{"x":1598918400000,"y":197.5758552695407},{"x":1601510400000,"y":193.405747850063},{"x":1604188800000,"y":189.2356404305853},{"x":1606780800000,"y":182.2926701356246},{"x":1609459200000,"y":175.349699840664},{"x":1612137600000,"y":171.4146429192504},{"x":1614556800000,"y":167.4795859978368},{"x":1617235200000,"y":162.6076159042976},{"x":1619827200000,"y":157.7356458107583},{"x":1622505600000,"y":151.4491084431022},{"x":1625097600000,"y":145.1625710754461},{"x":1627776000000,"y":136.9886117722948},{"x":1630454400000,"y":128.8146524691435},{"x":1633046400000,"y":118.5795374851996},{"x":1635724800000,"y":108.3444225012557},{"x":1638316800000,"y":99.73190888744743},{"x":1640995200000,"y":91.11939527363919},{"x":1643673600000,"y":95.79566907912999},{"x":1646092800000,"y":100.4719428846208},{"x":1648771200000,"y":130.6465420161349},{"x":1651363200000,"y":160.821141147649},{"x":1654041600000,"y":204.5144295680556},{"x":1656633600000,"y":248.2077179884621},{"x":1659312000000,"y":282.5754505917349},{"x":1661990400000,"y":316.9431831950076},{"x":1664582400000,"y":342.2852780566337},{"x":1667260800000,"y":367.6273729182599},{"x":1669852800000,"y":378.7166546191836},{"x":1672531200000,"y":389.8059363201073},{"x":1675209600000,"y":373.7639826368009},{"x":1677628800000,"y":357.7220289534945},{"x":1680307200000,"y":317.2142479403569},{"x":1682899200000,"y":276.7064669272193},{"x":1685577600000,"y":234.0512343678469},{"x":1688169600000,"y":191.3960018084746},{"x":1690848000000,"y":148.2832358166539},{"x":1693526400000,"y":105.1704698248332},{"x":1696118400000,"y":61.74234872965203},{"x":1698796800000,"y":18.31422763447085},{"x":1701388800000,"y":-25.49974307014411}]},{"name":"Sazonalidade","data":[{"x":1514764800000,"y":-44.89052657516725},{"x":1517443200000,"y":-102.6985142534488},{"x":1519862400000,"y":-54.38149188300625},{"x":1522540800000,"y":-52.1457761274076},{"x":1525132800000,"y":292.4821670388766},{"x":1527811200000,"y":4.058770250500017},{"x":1530403200000,"y":-92.80021783881796},{"x":1533081600000,"y":-42.9659115557951},{"x":1535760000000,"y":-80.68054328679158},{"x":1538352000000,"y":25.96196272903607},{"x":1541030400000,"y":18.73671991210911},{"x":1543622400000,"y":129.3235202119803},{"x":1546300800000,"y":-44.89052657516725},{"x":1548979200000,"y":-102.6985142534488},{"x":1551398400000,"y":-54.38149188300625},{"x":1554076800000,"y":-52.1457761274076},{"x":1556668800000,"y":292.4821670388766},{"x":1559347200000,"y":4.058770250500017},{"x":1561939200000,"y":-92.80021783881796},{"x":1564617600000,"y":-42.9659115557951},{"x":1567296000000,"y":-80.68054328679158},{"x":1569888000000,"y":25.96196272903607},{"x":1572566400000,"y":18.73671991210911},{"x":1575158400000,"y":129.3235202119803},{"x":1577836800000,"y":-44.89052657516725},{"x":1580515200000,"y":-102.6985142534488},{"x":1583020800000,"y":-54.38149188300625},{"x":1585699200000,"y":-52.1457761274076},{"x":1588291200000,"y":292.4821670388766},{"x":1590969600000,"y":4.058770250500017},{"x":1593561600000,"y":-92.80021783881796},{"x":1596240000000,"y":-42.9659115557951},{"x":1598918400000,"y":-80.68054328679158},{"x":1601510400000,"y":25.96196272903607},{"x":1604188800000,"y":18.73671991210911},{"x":1606780800000,"y":129.3235202119803},{"x":1609459200000,"y":-44.89052657516725},{"x":1612137600000,"y":-102.6985142534488},{"x":1614556800000,"y":-54.38149188300625},{"x":1617235200000,"y":-52.1457761274076},{"x":1619827200000,"y":292.4821670388766},{"x":1622505600000,"y":4.058770250500017},{"x":1625097600000,"y":-92.80021783881796},{"x":1627776000000,"y":-42.9659115557951},{"x":1630454400000,"y":-80.68054328679158},{"x":1633046400000,"y":25.96196272903607},{"x":1635724800000,"y":18.73671991210911},{"x":1638316800000,"y":129.3235202119803},{"x":1640995200000,"y":-44.89052657516725},{"x":1643673600000,"y":-102.6985142534488},{"x":1646092800000,"y":-54.38149188300625},{"x":1648771200000,"y":-52.1457761274076},{"x":1651363200000,"y":292.4821670388766},{"x":1654041600000,"y":4.058770250500017},{"x":1656633600000,"y":-92.80021783881796},{"x":1659312000000,"y":-42.9659115557951},{"x":1661990400000,"y":-80.68054328679158},{"x":1664582400000,"y":25.96196272903607},{"x":1667260800000,"y":18.73671991210911},{"x":1669852800000,"y":129.3235202119803},{"x":1672531200000,"y":-44.89052657516725},{"x":1675209600000,"y":-102.6985142534488},{"x":1677628800000,"y":-54.38149188300625},{"x":1680307200000,"y":-52.1457761274076},{"x":1682899200000,"y":292.4821670388766},{"x":1685577600000,"y":4.058770250500017},{"x":1688169600000,"y":-92.80021783881796},{"x":1690848000000,"y":-42.9659115557951},{"x":1693526400000,"y":-80.68054328679158},{"x":1696118400000,"y":25.96196272903607},{"x":1698796800000,"y":18.73671991210911},{"x":1701388800000,"y":129.3235202119803}]},{"name":"Resíduo","data":[{"x":1514764800000,"y":-70.00632913057936},{"x":1517443200000,"y":-35.88551998180152},{"x":1519862400000,"y":-70.71472088174781},{"x":1522540800000,"y":-45.48300986036759},{"x":1525132800000,"y":628.5364737503271},{"x":1527811200000,"y":-82.53761053616192},{"x":1530403200000,"y":-67.3541035217095},{"x":1533081600000,"y":-152.4652779884675},{"x":1535760000000,"y":-96.69351444120619},{"x":1538352000000,"y":-250.2244519878421},{"x":1541030400000,"y":-219.6076407017235},{"x":1543622400000,"y":273.2457406836016},{"x":1546300800000,"y":180.5299691559454},{"x":1548979200000,"y":-80.38083777424384},{"x":1551398400000,"y":360.5333452468428},{"x":1554076800000,"y":354.4478645801556},{"x":1556668800000,"y":-495.5578434972172},{"x":1559347200000,"y":51.09032898236615},{"x":1561939200000,"y":-36.83590723710924},{"x":1564617600000,"y":-35.95692456018267},{"x":1567296000000,"y":-40.06900386923675},{"x":1569888000000,"y":327.2836969581452},{"x":1572566400000,"y":-141.6468533817182},{"x":1575158400000,"y":-208.7405000326649},{"x":1577836800000,"y":-80.90929959659289},{"x":1580515200000,"y":-18.06612581735135},{"x":1583020800000,"y":-95.56196208683394},{"x":1585699200000,"y":-84.76443217048566},{"x":1588291200000,"y":239.0208703351771},{"x":1590969600000,"y":46.25382647350057},{"x":1593561600000,"y":-45.82262608723457},{"x":1596240000000,"y":-36.69793804200151},{"x":1598918400000,"y":272.5476880172508},{"x":1601510400000,"y":97.76828942090094},{"x":1604188800000,"y":-190.0193603426944},{"x":1606780800000,"y":-286.0451903476049},{"x":1609459200000,"y":250.1848267345033},{"x":1612137600000,"y":-39.53612866580158},{"x":1614556800000,"y":54.91890588516941},{"x":1617235200000,"y":29.31616022311002},{"x":1619827200000,"y":-393.105812849635},{"x":1622505600000,"y":307.6421213063978},{"x":1625097600000,"y":53.5216467633719},{"x":1627776000000,"y":88.68329978350027},{"x":1630454400000,"y":-35.88510918235197},{"x":1633046400000,"y":87.78349978576429},{"x":1635724800000,"y":-100.3641424133648},{"x":1638316800000,"y":-171.4664290994277},{"x":1640995200000,"y":52.07113130152806},{"x":1643673600000,"y":27.50284517431882},{"x":1646092800000,"y":21.30954899838547},{"x":1648771200000,"y":2.499234111272727},{"x":1651363200000,"y":-435.8033081865256},{"x":1654041600000,"y":-198.4731998185556},{"x":1656633600000,"y":84.69249985035586},{"x":1659312000000,"y":253.6904609640603},{"x":1661990400000,"y":-113.9626399082161},{"x":1664582400000,"y":-313.7472407856698},{"x":1667260800000,"y":700.1359071696311},{"x":1669852800000,"y":525.3598251688362},{"x":1672531200000,"y":-310.55740974494},{"x":1675209600000,"y":166.4255316166479},{"x":1677628800000,"y":-251.6805370704883},{"x":1680307200000,"y":-236.6504718129493},{"x":1682899200000,"y":476.8383660339041},{"x":1685577600000,"y":-101.1100046183469},{"x":1688169600000,"y":37.60421603034337},{"x":1690848000000,"y":-87.61732426085881},{"x":1693526400000,"y":47.53007346195837},{"x":1696118400000,"y":86.91568854131188},{"x":1698796800000,"y":-10.40594754657996},{"x":1701388800000,"y":-93.81377714183617}]}],"tooltip":{"shared":true,"crosshairs":true,"pointFormat":"<span style='color:{point.color}'>◉<\/span> {series.name}: <b>{point.y:.2f}<\/b><br>","xDateFormat":"%Y-%m"},"legend":{"enabled":true},"colors":["#FD9567FF","#CD4071FF","#721F81FF","#180F3EFF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Utilizando o teste Mann-Kendall, temos evidências que indicam não tendência, ou seja, o número de apreensões de maconha está estável ao longo do tempo.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-020e8ee388753dd0c421" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-020e8ee388753dd0c421">{"x":{"hc_opts":{"chart":{"reflow":true,"type":"line"},"title":{"text":"Decomposição STL - Total peso mensal de Drogas Apreendidas - Cocaína"},"yAxis":{"title":{"text":"Valor"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"marker":{"enabled":false},"lineWidth":2},"treemap":{"layoutAlgorithm":"squarified"}},"subtitle":{"text":"Dados polícia estadual do Espírito Santo"},"xAxis":{"type":"datetime","title":{"text":"Data"},"labels":{"format":"{value:%Y-%m}"}},"series":[{"name":"Observado","data":[{"x":1514764800000,"y":1.464},{"x":1517443200000,"y":1.836},{"x":1519862400000,"y":6.415},{"x":1522540800000,"y":3.966},{"x":1525132800000,"y":2.626},{"x":1527811200000,"y":16.248},{"x":1530403200000,"y":5.454},{"x":1533081600000,"y":0.263},{"x":1535760000000,"y":1.48},{"x":1538352000000,"y":21.57},{"x":1541030400000,"y":3.748},{"x":1543622400000,"y":0.338},{"x":1546300800000,"y":1.644},{"x":1548979200000,"y":4.634},{"x":1551398400000,"y":4.481},{"x":1554076800000,"y":1.668},{"x":1556668800000,"y":21.543},{"x":1559347200000,"y":19.681},{"x":1561939200000,"y":5.825},{"x":1564617600000,"y":1.252},{"x":1567296000000,"y":3.007},{"x":1569888000000,"y":3.929},{"x":1572566400000,"y":9.359999999999999},{"x":1575158400000,"y":2.804},{"x":1577836800000,"y":0.189},{"x":1580515200000,"y":2.765},{"x":1583020800000,"y":1.435},{"x":1585699200000,"y":10.808},{"x":1588291200000,"y":2.31},{"x":1590969600000,"y":10.585},{"x":1593561600000,"y":4.617},{"x":1596240000000,"y":17.4},{"x":1598918400000,"y":3.481},{"x":1601510400000,"y":6.605},{"x":1604188800000,"y":19.912},{"x":1606780800000,"y":16.347},{"x":1609459200000,"y":1.152},{"x":1612137600000,"y":4.127},{"x":1614556800000,"y":6.184},{"x":1617235200000,"y":3.608},{"x":1619827200000,"y":23.674},{"x":1622505600000,"y":54.671},{"x":1625097600000,"y":7.729},{"x":1627776000000,"y":3.993},{"x":1630454400000,"y":1.385},{"x":1633046400000,"y":8.416},{"x":1635724800000,"y":27.192},{"x":1638316800000,"y":5.269},{"x":1640995200000,"y":3.3},{"x":1643673600000,"y":4.1},{"x":1646092800000,"y":0.8100000000000001},{"x":1648771200000,"y":52.2},{"x":1651363200000,"y":1.9},{"x":1654041600000,"y":9.5},{"x":1656633600000,"y":4.1},{"x":1659312000000,"y":26.2},{"x":1661990400000,"y":6.8},{"x":1664582400000,"y":12.2},{"x":1667260800000,"y":4.8},{"x":1669852800000,"y":16.9},{"x":1672531200000,"y":21.013},{"x":1675209600000,"y":9.646000000000001},{"x":1677628800000,"y":43.757},{"x":1680307200000,"y":7.147},{"x":1682899200000,"y":39.615},{"x":1685577600000,"y":22.26},{"x":1688169600000,"y":15.8},{"x":1690848000000,"y":12.9},{"x":1693526400000,"y":13.16},{"x":1696118400000,"y":22.07},{"x":1698796800000,"y":9.24},{"x":1701388800000,"y":10.11}]},{"name":"Tendência","data":[{"x":1514764800000,"y":4.291372347205278},{"x":1517443200000,"y":4.496237188502402},{"x":1519862400000,"y":4.701102029799526},{"x":1522540800000,"y":4.908634730825145},{"x":1525132800000,"y":5.116167431850766},{"x":1527811200000,"y":5.28334670110963},{"x":1530403200000,"y":5.450525970368494},{"x":1533081600000,"y":5.597112171589018},{"x":1535760000000,"y":5.743698372809541},{"x":1538352000000,"y":6.086084317480198},{"x":1541030400000,"y":6.428470262150856},{"x":1543622400000,"y":6.73495873951425},{"x":1546300800000,"y":7.041447216877643},{"x":1548979200000,"y":7.02510010288519},{"x":1551398400000,"y":7.008752988892737},{"x":1554076800000,"y":6.831304204266945},{"x":1556668800000,"y":6.653855419641153},{"x":1559347200000,"y":6.609723671560563},{"x":1561939200000,"y":6.565591923479972},{"x":1564617600000,"y":6.481563244663434},{"x":1567296000000,"y":6.397534565846896},{"x":1569888000000,"y":6.077868791211348},{"x":1572566400000,"y":5.7582030165758},{"x":1575158400000,"y":5.396760343909152},{"x":1577836800000,"y":5.035317671242503},{"x":1580515200000,"y":5.171503485605234},{"x":1583020800000,"y":5.307689299967963},{"x":1585699200000,"y":5.823101646359445},{"x":1588291200000,"y":6.338513992750927},{"x":1590969600000,"y":6.990965389173869},{"x":1593561600000,"y":7.643416785596811},{"x":1596240000000,"y":8.17788856542591},{"x":1598918400000,"y":8.712360345255011},{"x":1601510400000,"y":9.433844169832653},{"x":1604188800000,"y":10.1553279944103},{"x":1606780800000,"y":11.15589253806232},{"x":1609459200000,"y":12.15645708171435},{"x":1612137600000,"y":12.50191828945},{"x":1614556800000,"y":12.84737949718565},{"x":1617235200000,"y":12.85063031672367},{"x":1619827200000,"y":12.85388113626168},{"x":1622505600000,"y":12.85672644329233},{"x":1625097600000,"y":12.85957175032297},{"x":1627776000000,"y":13.00730528337398},{"x":1630454400000,"y":13.15503881642499},{"x":1633046400000,"y":13.05761215898621},{"x":1635724800000,"y":12.96018550154742},{"x":1638316800000,"y":12.40813311206715},{"x":1640995200000,"y":11.85608072258687},{"x":1643673600000,"y":11.84418898628186},{"x":1646092800000,"y":11.83229724997686},{"x":1648771200000,"y":11.93320974288382},{"x":1651363200000,"y":12.03412223579078},{"x":1654041600000,"y":12.32166212277972},{"x":1656633600000,"y":12.60920200976865},{"x":1659312000000,"y":13.42640169398781},{"x":1661990400000,"y":14.24360137820696},{"x":1664582400000,"y":15.20901138125461},{"x":1667260800000,"y":16.17442138430225},{"x":1669852800000,"y":17.09770040203836},{"x":1672531200000,"y":18.02097941977446},{"x":1675209600000,"y":18.49673029038016},{"x":1677628800000,"y":18.97248116098585},{"x":1680307200000,"y":18.66753232315456},{"x":1682899200000,"y":18.36258348532326},{"x":1685577600000,"y":17.91754800824517},{"x":1688169600000,"y":17.47251253116707},{"x":1690848000000,"y":16.90821161086397},{"x":1693526400000,"y":16.34391069056086},{"x":1696118400000,"y":15.67674655441484},{"x":1698796800000,"y":15.00958241826881},{"x":1701388800000,"y":14.27111766626975}]},{"name":"Sazonalidade","data":[{"x":1514764800000,"y":-5.091540938675518},{"x":1517443200000,"y":-5.558662348222461},{"x":1519862400000,"y":0.2455350853848644},{"x":1522540800000,"y":2.923577013052388},{"x":1525132800000,"y":4.927597288621267},{"x":1527811200000,"y":11.73151280798376},{"x":1530403200000,"y":-3.247422192483123},{"x":1533081600000,"y":-0.3077208637368866},{"x":1535760000000,"y":-5.897695967457643},{"x":1538352000000,"y":1.532422318632114},{"x":1541030400000,"y":1.293393841989417},{"x":1543622400000,"y":-2.550999562764207},{"x":1546300800000,"y":-5.091540938675518},{"x":1548979200000,"y":-5.558662348222461},{"x":1551398400000,"y":0.2455350853848644},{"x":1554076800000,"y":2.923577013052388},{"x":1556668800000,"y":4.927597288621267},{"x":1559347200000,"y":11.73151280798376},{"x":1561939200000,"y":-3.247422192483123},{"x":1564617600000,"y":-0.3077208637368866},{"x":1567296000000,"y":-5.897695967457643},{"x":1569888000000,"y":1.532422318632114},{"x":1572566400000,"y":1.293393841989417},{"x":1575158400000,"y":-2.550999562764207},{"x":1577836800000,"y":-5.091540938675518},{"x":1580515200000,"y":-5.558662348222461},{"x":1583020800000,"y":0.2455350853848644},{"x":1585699200000,"y":2.923577013052388},{"x":1588291200000,"y":4.927597288621267},{"x":1590969600000,"y":11.73151280798376},{"x":1593561600000,"y":-3.247422192483123},{"x":1596240000000,"y":-0.3077208637368866},{"x":1598918400000,"y":-5.897695967457643},{"x":1601510400000,"y":1.532422318632114},{"x":1604188800000,"y":1.293393841989417},{"x":1606780800000,"y":-2.550999562764207},{"x":1609459200000,"y":-5.091540938675518},{"x":1612137600000,"y":-5.558662348222461},{"x":1614556800000,"y":0.2455350853848644},{"x":1617235200000,"y":2.923577013052388},{"x":1619827200000,"y":4.927597288621267},{"x":1622505600000,"y":11.73151280798376},{"x":1625097600000,"y":-3.247422192483123},{"x":1627776000000,"y":-0.3077208637368866},{"x":1630454400000,"y":-5.897695967457643},{"x":1633046400000,"y":1.532422318632114},{"x":1635724800000,"y":1.293393841989417},{"x":1638316800000,"y":-2.550999562764207},{"x":1640995200000,"y":-5.091540938675518},{"x":1643673600000,"y":-5.558662348222461},{"x":1646092800000,"y":0.2455350853848644},{"x":1648771200000,"y":2.923577013052388},{"x":1651363200000,"y":4.927597288621267},{"x":1654041600000,"y":11.73151280798376},{"x":1656633600000,"y":-3.247422192483123},{"x":1659312000000,"y":-0.3077208637368866},{"x":1661990400000,"y":-5.897695967457643},{"x":1664582400000,"y":1.532422318632114},{"x":1667260800000,"y":1.293393841989417},{"x":1669852800000,"y":-2.550999562764207},{"x":1672531200000,"y":-5.091540938675518},{"x":1675209600000,"y":-5.558662348222461},{"x":1677628800000,"y":0.2455350853848644},{"x":1680307200000,"y":2.923577013052388},{"x":1682899200000,"y":4.927597288621267},{"x":1685577600000,"y":11.73151280798376},{"x":1688169600000,"y":-3.247422192483123},{"x":1690848000000,"y":-0.3077208637368866},{"x":1693526400000,"y":-5.897695967457643},{"x":1696118400000,"y":1.532422318632114},{"x":1698796800000,"y":1.293393841989417},{"x":1701388800000,"y":-2.550999562764207}]},{"name":"Resíduo","data":[{"x":1514764800000,"y":2.264168591470241},{"x":1517443200000,"y":2.898425159720059},{"x":1519862400000,"y":1.468362884815609},{"x":1522540800000,"y":-3.866211743877533},{"x":1525132800000,"y":-7.417764720472032},{"x":1527811200000,"y":-0.766859509093389},{"x":1530403200000,"y":3.250896222114628},{"x":1533081600000,"y":-5.026391307852132},{"x":1535760000000,"y":1.633997594648103},{"x":1538352000000,"y":13.95149336388769},{"x":1541030400000,"y":-3.973864104140273},{"x":1543622400000,"y":-3.845959176750042},{"x":1546300800000,"y":-0.3059062782021247},{"x":1548979200000,"y":3.167562245337271},{"x":1551398400000,"y":-2.773288074277602},{"x":1554076800000,"y":-8.086881217319332},{"x":1556668800000,"y":9.961547291737578},{"x":1559347200000,"y":1.339763520455678},{"x":1561939200000,"y":2.50683026900315},{"x":1564617600000,"y":-4.921842380926547},{"x":1567296000000,"y":2.507161401610747},{"x":1569888000000,"y":-3.681291109843462},{"x":1572566400000,"y":2.308403141434782},{"x":1575158400000,"y":-0.04176078114494519},{"x":1577836800000,"y":0.2452232674330146},{"x":1580515200000,"y":3.152158862617227},{"x":1583020800000,"y":-4.118224385352828},{"x":1585699200000,"y":2.061321340588167},{"x":1588291200000,"y":-8.956111281372193},{"x":1590969600000,"y":-8.137478197157629},{"x":1593561600000,"y":0.2210054068863112},{"x":1596240000000,"y":9.529832298310975},{"x":1598918400000,"y":0.6663356222026326},{"x":1601510400000,"y":-4.361266488464767},{"x":1604188800000,"y":8.463278163600284},{"x":1606780800000,"y":7.742107024701887},{"x":1609459200000,"y":-5.912916143038827},{"x":1612137600000,"y":-2.816255941227539},{"x":1614556800000,"y":-6.908914582570519},{"x":1617235200000,"y":-12.16620732977605},{"x":1619827200000,"y":5.892521575117051},{"x":1622505600000,"y":30.08276074872391},{"x":1625097600000,"y":-1.883149557839852},{"x":1627776000000,"y":-8.706584419637094},{"x":1630454400000,"y":-5.872342848967342},{"x":1633046400000,"y":-6.17403447761832},{"x":1635724800000,"y":12.93842065646316},{"x":1638316800000,"y":-4.588133549302938},{"x":1640995200000,"y":-3.464539783911349},{"x":1643673600000,"y":-2.185526638059404},{"x":1646092800000,"y":-11.26783233536172},{"x":1648771200000,"y":37.34321324406379},{"x":1651363200000,"y":-15.06171952441205},{"x":1654041600000,"y":-14.55317493076348},{"x":1656633600000,"y":-5.261779817285531},{"x":1659312000000,"y":13.08131916974908},{"x":1661990400000,"y":-1.545905410749317},{"x":1664582400000,"y":-4.541433699886721},{"x":1667260800000,"y":-12.66781522629167},{"x":1669852800000,"y":2.35329916072585},{"x":1672531200000,"y":8.083561518901057},{"x":1675209600000,"y":-3.292067942157695},{"x":1677628800000,"y":24.53898375362928},{"x":1680307200000,"y":-14.44410933620694},{"x":1682899200000,"y":16.32481922605547},{"x":1685577600000,"y":-7.389060816228925},{"x":1688169600000,"y":1.574909661316052},{"x":1690848000000,"y":-3.700490747127079},{"x":1693526400000,"y":2.713785276896783},{"x":1696118400000,"y":4.860831126953048},{"x":1698796800000,"y":-7.06297626025823},{"x":1701388800000,"y":-1.610118103505538}]}],"tooltip":{"shared":true,"crosshairs":true,"pointFormat":"<span style='color:{point.color}'>◉<\/span> {series.name}: <b>{point.y:.2f}<\/b><br>","xDateFormat":"%Y-%m"},"legend":{"enabled":true},"colors":["#FD9567FF","#CD4071FF","#721F81FF","#180F3EFF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam tendência, ou seja, o número de apreensões de cocaína está subindo ao longo do tempo.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="highchart html-widget html-fill-item" id="htmlwidget-c9411ea4ed0297b7bbcd" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c9411ea4ed0297b7bbcd">{"x":{"hc_opts":{"chart":{"reflow":true,"type":"line"},"title":{"text":"Decomposição STL - Total mensal de Drogas Apreendidas - Tráfico"},"yAxis":{"title":{"text":"Valor"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"marker":{"enabled":false},"lineWidth":2},"treemap":{"layoutAlgorithm":"squarified"}},"subtitle":{"text":"Dados polícia estadual do Espírito Santo"},"xAxis":{"type":"datetime","title":{"text":"Data"},"labels":{"format":"{value:%Y-%m}"}},"series":[{"name":"Observado","data":[{"x":1514764800000,"y":332},{"x":1517443200000,"y":309},{"x":1519862400000,"y":384},{"x":1522540800000,"y":370},{"x":1525132800000,"y":362},{"x":1527811200000,"y":378},{"x":1530403200000,"y":416},{"x":1533081600000,"y":367},{"x":1535760000000,"y":329},{"x":1538352000000,"y":382},{"x":1541030400000,"y":347},{"x":1543622400000,"y":371},{"x":1546300800000,"y":407},{"x":1548979200000,"y":408},{"x":1551398400000,"y":460},{"x":1554076800000,"y":440},{"x":1556668800000,"y":390},{"x":1559347200000,"y":462},{"x":1561939200000,"y":432},{"x":1564617600000,"y":470},{"x":1567296000000,"y":463},{"x":1569888000000,"y":444},{"x":1572566400000,"y":364},{"x":1575158400000,"y":426},{"x":1577836800000,"y":367},{"x":1580515200000,"y":347},{"x":1583020800000,"y":335},{"x":1585699200000,"y":395},{"x":1588291200000,"y":497},{"x":1590969600000,"y":537},{"x":1593561600000,"y":584},{"x":1596240000000,"y":532},{"x":1598918400000,"y":499},{"x":1601510400000,"y":439},{"x":1604188800000,"y":393},{"x":1606780800000,"y":430},{"x":1609459200000,"y":399},{"x":1612137600000,"y":395},{"x":1614556800000,"y":453},{"x":1617235200000,"y":452},{"x":1619827200000,"y":439},{"x":1622505600000,"y":427},{"x":1625097600000,"y":439},{"x":1627776000000,"y":429},{"x":1630454400000,"y":424},{"x":1633046400000,"y":378},{"x":1635724800000,"y":361},{"x":1638316800000,"y":362},{"x":1640995200000,"y":418},{"x":1643673600000,"y":421},{"x":1646092800000,"y":467},{"x":1648771200000,"y":377},{"x":1651363200000,"y":435},{"x":1654041600000,"y":392},{"x":1656633600000,"y":389},{"x":1659312000000,"y":347},{"x":1661990400000,"y":391},{"x":1664582400000,"y":340},{"x":1667260800000,"y":315},{"x":1669852800000,"y":352},{"x":1672531200000,"y":367},{"x":1675209600000,"y":351},{"x":1677628800000,"y":377},{"x":1680307200000,"y":395},{"x":1682899200000,"y":412},{"x":1685577600000,"y":387},{"x":1688169600000,"y":397},{"x":1690848000000,"y":370},{"x":1693526400000,"y":355},{"x":1696118400000,"y":363},{"x":1698796800000,"y":317},{"x":1701388800000,"y":381}]},{"name":"Tendência","data":[{"x":1514764800000,"y":338.5853213271126},{"x":1517443200000,"y":343.037090005701},{"x":1519862400000,"y":347.4888586842894},{"x":1522540800000,"y":352.386772496857},{"x":1525132800000,"y":357.2846863094246},{"x":1527811200000,"y":362.5554052043376},{"x":1530403200000,"y":367.8261240992505},{"x":1533081600000,"y":373.1851401667955},{"x":1535760000000,"y":378.5441562343404},{"x":1538352000000,"y":384.3317354012852},{"x":1541030400000,"y":390.1193145682301},{"x":1543622400000,"y":396.0228785916966},{"x":1546300800000,"y":401.9264426151631},{"x":1548979200000,"y":408.0543232664801},{"x":1551398400000,"y":414.1822039177971},{"x":1554076800000,"y":419.2469225379415},{"x":1556668800000,"y":424.3116411580858},{"x":1559347200000,"y":425.4283968050788},{"x":1561939200000,"y":426.5451524520718},{"x":1564617600000,"y":423.4101146228626},{"x":1567296000000,"y":420.2750767936534},{"x":1569888000000,"y":418.4469654194311},{"x":1572566400000,"y":416.6188540452087},{"x":1575158400000,"y":420.3531042610884},{"x":1577836800000,"y":424.0873544769681},{"x":1580515200000,"y":429.8945622510951},{"x":1583020800000,"y":435.7017700252221},{"x":1585699200000,"y":440.5444730610119},{"x":1588291200000,"y":445.3871760968017},{"x":1590969600000,"y":450.0281503013455},{"x":1593561600000,"y":454.6691245058893},{"x":1596240000000,"y":458.5965476180333},{"x":1598918400000,"y":462.5239707301773},{"x":1601510400000,"y":461.6065636179791},{"x":1604188800000,"y":460.6891565057809},{"x":1606780800000,"y":453.3130731718553},{"x":1609459200000,"y":445.9369898379298},{"x":1612137600000,"y":438.0832248490552},{"x":1614556800000,"y":430.2294598601807},{"x":1617235200000,"y":425.2537863602986},{"x":1619827200000,"y":420.2781128604165},{"x":1622505600000,"y":417.6892605050683},{"x":1625097600000,"y":415.1004081497201},{"x":1627776000000,"y":414.4154068223787},{"x":1630454400000,"y":413.7304054950374},{"x":1633046400000,"y":412.9842815683645},{"x":1635724800000,"y":412.2381576416917},{"x":1638316800000,"y":409.9325110791454},{"x":1640995200000,"y":407.6268645165991},{"x":1643673600000,"y":403.5922371895084},{"x":1646092800000,"y":399.5576098624176},{"x":1648771200000,"y":395.0188676877762},{"x":1651363200000,"y":390.4801255131347},{"x":1654041600000,"y":385.8306254930122},{"x":1656633600000,"y":381.1811254728897},{"x":1659312000000,"y":376.819766127195},{"x":1661990400000,"y":372.4584067815003},{"x":1664582400000,"y":370.8673647413309},{"x":1667260800000,"y":369.2763227011615},{"x":1669852800000,"y":369.7491975373736},{"x":1672531200000,"y":370.2220723735858},{"x":1675209600000,"y":370.5729199640143},{"x":1677628800000,"y":370.9237675544429},{"x":1680307200000,"y":370.6723657636782},{"x":1682899200000,"y":370.4209639729136},{"x":1685577600000,"y":370.7543587882324},{"x":1688169600000,"y":371.0877536035512},{"x":1690848000000,"y":371.2379427090477},{"x":1693526400000,"y":371.3881318145442},{"x":1696118400000,"y":371.4404080514787},{"x":1698796800000,"y":371.4926842884131},{"x":1701388800000,"y":371.6149156946977}]},{"name":"Sazonalidade","data":[{"x":1514764800000,"y":-17.09721401398707},{"x":1517443200000,"y":-27.72150685320566},{"x":1519862400000,"y":12.32084979391705},{"x":1522540800000,"y":3.743569892454258},{"x":1525132800000,"y":20.66630121616205},{"x":1527811200000,"y":28.09910673600115},{"x":1530403200000,"y":39.86523383699977},{"x":1533081600000,"y":16.07421119137669},{"x":1535760000000,"y":6.949856371826692},{"x":1538352000000,"y":-12.34450247342687},{"x":1541030400000,"y":-53.97215001478633},{"x":1543622400000,"y":-16.58376481377334},{"x":1546300800000,"y":-17.09721401398707},{"x":1548979200000,"y":-27.72150685320566},{"x":1551398400000,"y":12.32084979391705},{"x":1554076800000,"y":3.743569892454258},{"x":1556668800000,"y":20.66630121616205},{"x":1559347200000,"y":28.09910673600115},{"x":1561939200000,"y":39.86523383699977},{"x":1564617600000,"y":16.07421119137669},{"x":1567296000000,"y":6.949856371826692},{"x":1569888000000,"y":-12.34450247342687},{"x":1572566400000,"y":-53.97215001478633},{"x":1575158400000,"y":-16.58376481377334},{"x":1577836800000,"y":-17.09721401398707},{"x":1580515200000,"y":-27.72150685320566},{"x":1583020800000,"y":12.32084979391705},{"x":1585699200000,"y":3.743569892454258},{"x":1588291200000,"y":20.66630121616205},{"x":1590969600000,"y":28.09910673600115},{"x":1593561600000,"y":39.86523383699977},{"x":1596240000000,"y":16.07421119137669},{"x":1598918400000,"y":6.949856371826692},{"x":1601510400000,"y":-12.34450247342687},{"x":1604188800000,"y":-53.97215001478633},{"x":1606780800000,"y":-16.58376481377334},{"x":1609459200000,"y":-17.09721401398707},{"x":1612137600000,"y":-27.72150685320566},{"x":1614556800000,"y":12.32084979391705},{"x":1617235200000,"y":3.743569892454258},{"x":1619827200000,"y":20.66630121616205},{"x":1622505600000,"y":28.09910673600115},{"x":1625097600000,"y":39.86523383699977},{"x":1627776000000,"y":16.07421119137669},{"x":1630454400000,"y":6.949856371826692},{"x":1633046400000,"y":-12.34450247342687},{"x":1635724800000,"y":-53.97215001478633},{"x":1638316800000,"y":-16.58376481377334},{"x":1640995200000,"y":-17.09721401398707},{"x":1643673600000,"y":-27.72150685320566},{"x":1646092800000,"y":12.32084979391705},{"x":1648771200000,"y":3.743569892454258},{"x":1651363200000,"y":20.66630121616205},{"x":1654041600000,"y":28.09910673600115},{"x":1656633600000,"y":39.86523383699977},{"x":1659312000000,"y":16.07421119137669},{"x":1661990400000,"y":6.949856371826692},{"x":1664582400000,"y":-12.34450247342687},{"x":1667260800000,"y":-53.97215001478633},{"x":1669852800000,"y":-16.58376481377334},{"x":1672531200000,"y":-17.09721401398707},{"x":1675209600000,"y":-27.72150685320566},{"x":1677628800000,"y":12.32084979391705},{"x":1680307200000,"y":3.743569892454258},{"x":1682899200000,"y":20.66630121616205},{"x":1685577600000,"y":28.09910673600115},{"x":1688169600000,"y":39.86523383699977},{"x":1690848000000,"y":16.07421119137669},{"x":1693526400000,"y":6.949856371826692},{"x":1696118400000,"y":-12.34450247342687},{"x":1698796800000,"y":-53.97215001478633},{"x":1701388800000,"y":-16.58376481377334}]},{"name":"Resíduo","data":[{"x":1514764800000,"y":10.51189268687449},{"x":1517443200000,"y":-6.315583152495321},{"x":1519862400000,"y":24.1902915217936},{"x":1522540800000,"y":13.86965761068871},{"x":1525132800000,"y":-15.95098752558664},{"x":1527811200000,"y":-12.65451194033875},{"x":1530403200000,"y":8.308642063749687},{"x":1533081600000,"y":-22.25935135817213},{"x":1535760000000,"y":-56.49401260616708},{"x":1538352000000,"y":10.01276707214163},{"x":1541030400000,"y":10.85283544655624},{"x":1543622400000,"y":-8.439113777923296},{"x":1546300800000,"y":22.17077139882394},{"x":1548979200000,"y":27.66718358672557},{"x":1551398400000,"y":33.49694628828587},{"x":1554076800000,"y":17.00950756960424},{"x":1556668800000,"y":-54.97794237424785},{"x":1559347200000,"y":8.472496458920034},{"x":1561939200000,"y":-34.4103862890716},{"x":1564617600000,"y":30.51567418576076},{"x":1567296000000,"y":35.77506683451992},{"x":1569888000000,"y":37.89753705399579},{"x":1572566400000,"y":1.35329596957763},{"x":1575158400000,"y":22.23066055268492},{"x":1577836800000,"y":-39.990140462981},{"x":1580515200000,"y":-55.17305539788941},{"x":1583020800000,"y":-113.0226198191391},{"x":1585699200000,"y":-49.28804295346617},{"x":1588291200000,"y":30.94652268703629},{"x":1590969600000,"y":58.87274296265338},{"x":1593561600000,"y":89.46564165711095},{"x":1596240000000,"y":57.32924119059004},{"x":1598918400000,"y":29.52617289799599},{"x":1601510400000,"y":-10.26206114455221},{"x":1604188800000,"y":-13.71700649099455},{"x":1606780800000,"y":-6.729308358081994},{"x":1609459200000,"y":-29.83977582394272},{"x":1612137600000,"y":-15.36171799584957},{"x":1614556800000,"y":10.4496903459023},{"x":1617235200000,"y":23.00264374724713},{"x":1619827200000,"y":-1.944414076578482},{"x":1622505600000,"y":-18.78836724106941},{"x":1625097600000,"y":-15.96564198671985},{"x":1627776000000,"y":-1.489618013755376},{"x":1630454400000,"y":3.319738133135957},{"x":1633046400000,"y":-22.63977909493764},{"x":1635724800000,"y":2.733992373094679},{"x":1638316800000,"y":-31.34874626537209},{"x":1640995200000,"y":27.47034949738793},{"x":1643673600000,"y":45.12926966369724},{"x":1646092800000,"y":55.12154034366534},{"x":1648771200000,"y":-21.76243758023043},{"x":1651363200000,"y":23.85357327070329},{"x":1654041600000,"y":-21.92973222901333},{"x":1656633600000,"y":-32.04635930988945},{"x":1659312000000,"y":-45.89397731857161},{"x":1661990400000,"y":11.59173684667303},{"x":1664582400000,"y":-18.52286226790403},{"x":1667260800000,"y":-0.3041726863751251},{"x":1669852800000,"y":-1.165432723600304},{"x":1672531200000,"y":13.8751416404013},{"x":1675209600000,"y":8.148586889191336},{"x":1677628800000,"y":-6.244617348359895},{"x":1680307200000,"y":20.58406434386751},{"x":1682899200000,"y":20.91273481092441},{"x":1685577600000,"y":-11.85346552423351},{"x":1688169600000,"y":-13.95298744055094},{"x":1690848000000,"y":-17.31215390042439},{"x":1693526400000,"y":-23.33798818637092},{"x":1696118400000,"y":3.904094421948173},{"x":1698796800000,"y":-0.5205342736267653},{"x":1701388800000,"y":25.96884911907557}]}],"tooltip":{"shared":true,"crosshairs":true,"pointFormat":"<span style='color:{point.color}'>◉<\/span> {series.name}: <b>{point.y:.2f}<\/b><br>","xDateFormat":"%Y-%m"},"legend":{"enabled":true},"colors":["#FD9567FF","#CD4071FF","#721F81FF","#180F3EFF"]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam não tendência, ou seja, o número de apreensões está estável ao longo do tempo.</p>
+</section>
+</section>
+<section id="conclusão" class="level1">
+<h1>Conclusão</h1>
+<p>Este relatório buscou analisar os registros de apreensões de substâncias psicoativas no Espírito Santo, realizados pela Polícia Federal, Polícia Rodoviária Federal e Polícia Estadual, com o objetivo de avaliar o impacto do programa Estado Presente, implementado em 28/12/2017. No entanto, as limitações nos dados disponíveis dificultaram uma análise mais aprofundada e conclusiva sobre a eficácia do programa.</p>
+<p>A ausência de discriminação a nível municipal nos registros da Polícia Federal e da Polícia Estadual impediu uma avaliação localizada do projeto, restringindo a análise a uma perspectiva estadual geral. A falta de informações detalhadas antes da implementação do programa comprometeu a comparação temporal necessária para uma conclusão robusta.</p>
+<p>Apesar dessas limitações, observou-se uma tendência de aumento nas apreensões de cocaína pela Polícia Estadual em nível estadual, o que pode sugerir uma maior efetividade na atuação policial após a implantação do Estado Presente. No entanto, essa hipótese não pode ser confirmada com segurança devido à escassez de dados prévios e à ausência de informações mais granularizadas.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

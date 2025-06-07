@@ -41,6 +41,8 @@ data[,estado_presente := factor(ifelse(municipio_ocorrencia %in% municipios_esta
 
 dados_agg <- data[, .(total_registros = .N), by = .(ano_mes, programa)]
 
+mk_test <- dados_agg[, total_registros]
+
 # Período ANTES do programa
 if (dados_agg[programa == 0, .N] > 0) {
   mk_antes <- mk.test(dados_agg[programa == 0, total_registros])

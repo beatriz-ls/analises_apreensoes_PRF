@@ -85,7 +85,7 @@ Sendo assim, este relatório está sessão será dedicada em analisar a base **P
 
 ### Total de apreensões em relação a cidades do estsdo presente
 
-As cidades com bairros selecionados para o Programa estado presente são: Aracruz, Cachoeiro de Itapemirim, Cariacica, Colatina, Linhares, São Mateus, Serra, Vitória, Vila Velha, Vitória. No gráfico 1, é possivel analisar a área acumulada do total de apreensões anuais.
+As cidades com bairros selecionados para o Programa estado presente são: Aracruz, Cachoeiro de Itapemirim, Cariacica, Colatina, Linhares, São Mateus, Serra, Vitória, Vila Velha, Vitória. No gráfico 1, é possivel analisar a área acumulada do total de apreensões anuais, enquanto no gráfico 2 há demonstrado em um gráfico de barras a quantidade equivalente por mês para cidades influênciadas pelo programa Estado Presente e os Demais Municipios.
 
 ```{r }
 ## Gráfico área acumulada estado presente vs ES
@@ -142,7 +142,11 @@ hchart(
   hc_yAxis(title = list(text = "Total de Apreensões"))
 ```
 
+Podemos inferir que a nível anual, houve um aumento do número de apreensões gerais após a implementação do programa.
+
 ### Total de apreensão por mês
+
+Avaliar o total de apreesões em um intervalo menor permite analises mais detalhadas e inferir tendências. No gráfico 3, avaliamos o total de apreensões por mês para todos os municipios do Espirito Santo.
 
 ```{r}
 
@@ -193,6 +197,19 @@ hchart(dados_mensais, "line", hcaes(x = data, y = total_apreensoes)) %>%
 
 ### Relação apreensão e categoria de psicoativo
 
+Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foi categorizado os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis.Os grupos foram:
+
+- Cocaína e Derivados: Cocaína/Cloridrato de Cocaína, crack;
+
+- Cannabis e Derivados: Maconha, pés de Maconha, Haxixe;
+
+- Sintéticas/Estimulantes: Anfetaminas, ecstasy, lança-perfume;
+
+- Farmacêuticos/Controlados: Barbitúricos, medicamentos;
+
+- Outros:Qualquer outro tipo não listado(ex.: LSD).
+
+Desta forma, no gráfico 4, é possivel avaliar a quantidade e porcentagem de apreensões equivalente de cada grupo no respectivo ano.
 ```{r}
 
 # Preparar os dados com totais absolutos e percentuais
@@ -232,6 +249,7 @@ hchart(
 
 ### Relação apreensão e local de ocorrência
 
+Os principais locais de ocorrências foram avenidas BR, ambientes comerciais, residências, serviços, veiculos, via publica e outros. Devido a ser uma análise especifica da Policia Rodoviária Federal, a presença de apreensões que ocorreram em avaenidas BR é esperado.
 ```{r}
 
 ## Gráfico de barras porcentual tipo local ocorrencia
@@ -273,6 +291,8 @@ hchart(
 
 ### Relação apreensão e zona de ocorrência
 
+Nos dados disponibilizados também definido se a apreensão ocorreu em zona rural ou zona urbana.
+
 ```{r}
 ## Gráfico de barras porcentual zona ocorrência
 
@@ -313,3 +333,26 @@ hchart(
 
 ## Avaliação do impacto do Programa Estado Presente
 
+O teste de Mann-Kendall é um teste estatístico não paramétrico amplamente utilizado para detectar tendências monotônicas (crescente ou decrescente) ao longo do tempo em séries temporais. Neste relatório, iremos avaliar se o programa Estado Presente alterou de alguma forma o número médio de apreensões por mês avaliando se há presença de alguma tendência após a aplciação do programa.
+
+```{r}
+dados_agg <- data[, .(total_registros = .N), by = .(ano_mes, programa)]
+
+# Aplicar o teste de Mann-Kendall
+resultado_mk <- mk.test(dados_agg$total_registros)
+
+# Criar data.frame com os resultados
+tabela_resultado <- data.frame(
+  Estatística_Z = round(resultado_mk$statistic, 3),
+  Valor_p = format.pval(resultado_mk$p.value, digits = 3, eps = .001),
+  Tendência = ifelse(resultado_mk$p.value < 0.05,
+                     ifelse(resultado_mk$statistic > 0, "Crescente", "Decrescente"),
+                     "Não significativa")
+)
+
+# Exibir tabela com kable
+kable(tabela_resultado, caption = "Resultados do teste de Mann-Kendall") |>
+  kable_styling(full_width = F, position = "center")
+```
+
+Não há evidência estatística suficiente para rejeitar a hipótese nula de ausência de tendência (ao nível de significância de 5% ou mesmo de 10%). ou seja, não podemos afirmar com confiança que o total de apreensões por mês decaiu ou decreceu nas cidadas participantes do programa Estado Presente.
