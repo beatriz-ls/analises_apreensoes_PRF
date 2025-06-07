@@ -129,6 +129,8 @@ highchart() |>
   hc_colors(viridis::viridis(4))
 ```
 
+Há uma dominancia de registros de aprensões de cocaina, comparado com os dados da Policia Rodoviaria Federal, com predominância de registros de cannabis e derivados. Entretanto, a escassez de dados registrados descredita essa analise.
+
 ```{r}
 dados_anual <- PF_APA |>
   mutate(
