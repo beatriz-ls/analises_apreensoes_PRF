@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# Analise das apreensões realizadas pela policia rodoviaria federal
+# Analise das apreensões realizadas pela Policia Rodoviaria Federal
 
 ## Sobre os dados
 
@@ -81,11 +81,13 @@ prf_cigarro[local_apreensao == "ES", ] |> knitr::kable()
 
 Sendo assim, este relatório está sessão será dedicada em analisar a base **PRF_Apreensoes_comp** que possui registros de data da apreençaõ, especificado por dia e hora. Está base também tem variáveis descritivas que indicam se a apreensão ocorreu em zona rural ou urbana, qual o local (BR, Comercial, Residencia, etc.), qual drogas foi aprendida (maconha, cocaina, etc) e é discrimininada a nível municipal, tornando possivel comparar as cidades com bairros que foi implementado o programa Estado Presente.
 
-## Analise da variação de apreensões ao longo do tempo
+## Análise Descritiva
+
+Essa seção se dedica a explorar caracteristicas basicas das apreensões realizadas, principalmente em relação ao tempo e frequência de caracteristicas comuns, como: "Quais zonas há mais apreensões? Rural ou Urbana?" ou "O quão regular foi apreensões de canabis e derivados ao longo dos anos?".
 
 ### Total de apreensões em relação a cidades do Estado Presente
 
-As cidades com bairros selecionados para o Programa estado presente são: Aracruz, Cachoeiro de Itapemirim, Cariacica, Colatina, Linhares, São Mateus, Serra, Vitória, Vila Velha, Vitória. No gráfico 1, é possivel analisar a área acumulada do total de apreensões anuais, enquanto no gráfico 2 há demonstrado em um gráfico de barras a quantidade equivalente por mês para cidades influênciadas pelo programa Estado Presente e os Demais Municipios.
+As cidades com bairros selecionados para o programa Estado Presente são: Aracruz, Cachoeiro de Itapemirim, Cariacica, Colatina, Linhares, São Mateus, Serra, Vitória, Vila Velha, Vitória. No gráfico 1, é possivel analisar a área acumulada do total de apreensões anuais, enquanto no gráfico 2 há demonstrado em um gráfico de barras a quantidade equivalente por mês para cidades influênciadas pelo programa Estado Presente e os demais municipios do estado.
 
 ```{r }
 ## Gráfico área acumulada estado presente vs ES
@@ -146,8 +148,6 @@ A partir de 2019, observa-se um aumento no número de apreensões nos município
 
 Isso sugere que a política pública teve algum impacto na intensificação das operações da PRF nesses territórios prioritários.
 
-
-
 ### Total de apreensão por mês
 
 Avaliar o total de apreesões em um intervalo menor permite analises mais detalhadas e inferir tendências. No gráfico 3, avaliamos o total de apreensões por mês para todos os municipios do Espirito Santo.
@@ -199,25 +199,25 @@ hchart(dados_mensais, "line", hcaes(x = data, y = total_apreensoes)) %>%
 
 ```
 
-As apreensões possuem variações mensais recorrentes, indicando possíveis padrões sazonais, como aumento nos meses de férias ou períodos de festividades. Isso pode estar relacionado a maior circulação de pessoas e veículos, facilitando as abordagens policiais e, portanto, aumentando as apreensões. Ademais, é interessante realizar alguma teste para confirma se há de fato sazonalidade no número de apreenções.
+As apreensões possuem variações mensais recorrentes, indicando possíveis padrões sazonais, como aumento nos meses de férias ou períodos de festividades. Isso pode estar relacionado a maior circulação de pessoas e veículos, facilitando as abordagens policiais e, portanto, aumentando as apreensões. Ademais, é interessante realizar algum teste para confirma se há de fato sazonalidade no número de apreenções.
 
 ### Relação apreensão e categoria de psicoativo
 
-Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foi categorizado os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis.Os grupos foram:
+Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foi categorizado os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis. Os grupos foram:
 
-- Cocaína e Derivados: Cocaína/Cloridrato de Cocaína, crack;
+- **Cocaína e Derivados:** Cocaína/Cloridrato de Cocaína, crack;
 
-- Cannabis e Derivados: Maconha, pés de Maconha, Haxixe;
+- **Cannabis e Derivados:** Maconha, pés de Maconha, Haxixe;
 
-- Sintéticas/Estimulantes: Anfetaminas, ecstasy, lança-perfume;
+- **Sintéticas/Estimulantes:** Anfetaminas, ecstasy, lança-perfume;
 
-- Farmacêuticos/Controlados: Barbitúricos, medicamentos;
+- **Farmacêuticos/Controlados:** Barbitúricos, medicamentos;
 
-- Outros:Qualquer outro tipo não listado(ex.: LSD).
+- **Outros:** Qualquer outro tipo não listado (ex.: LSD).
 
 Desta forma, no gráfico 4, é possivel avaliar a quantidade e porcentagem de apreensões equivalente de cada grupo no respectivo ano.
-```{r}
 
+```{r}
 # Preparar os dados com totais absolutos e percentuais
 dados_agregados <- data[, .(total_absoluto = .N), by = .(ano, grupo_droga)]
 dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
@@ -257,7 +257,7 @@ Ao longo dos anos, a cocaína, canabis e seus derivados se destacam representand
 
 ### Relação apreensão e local de ocorrência
 
-Os principais locais de ocorrências foram avenidas BR, ambientes comerciais, residências, serviços, veiculos, via publica e outros. Devido a ser uma análise especifica da Policia Rodoviária Federal, a presença de apreensões que ocorreram em avaenidas BR é esperado.
+Os locais de ocorrências registrados foram avenidas BR, ambientes comerciais, residências, serviços, veiculos, via publica e outros. Devido a ser uma análise especifica da Policia Rodoviária Federal, a presença de apreensões que ocorreram em avenidas BR é esperado.
 ```{r}
 
 ## Gráfico de barras porcentual tipo local ocorrencia

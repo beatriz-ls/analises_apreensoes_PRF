@@ -99,3 +99,43 @@ modelo_did <- lm(total_apreensoes ~ estado_presente + programa +
 
 
 coeftest(modelo_did, vcov = vcovHC(modelo_did, type = "HC1"))  # Erros robustos
+
+# Analise de sazonalidade ------------------------------------------------------
+
+
+## serie do total de todas apreensões
+
+### Extrair ano e mês para agregação
+data[, ano_mes := format(data_apreensao, "%Y-%m")]
+
+### Calcular o total de apreensões por mês
+dados_mensais <- data[, .(total_apreensoes = .N), by = .(ano_mes)]
+
+### Ordenar por data
+setorder(dados_mensais, ano_mes)
+
+### Criar coluna de data completa (primeiro dia do mês) para o gráfico
+dados_mensais[, data := as.Date(paste0(ano_mes, "-01"))]
+
+
+# Converter para série temporal mensal
+serie_ts <- ts(dados_mensais$total_apreensoes, 
+               start = c(as.integer(substr(dados_mensais$ano_mes[1], 1, 4)), 
+                         as.integer(substr(dados_mensais$ano_mes[1], 6, 7))),
+               frequency = 12)
+
+# Plotar a série temporal
+autoplot(serie_ts) + 
+  ggtitle("Total de Apreensões Mensais") +
+  xlab("Ano") + ylab("Quantidade") +
+  theme_minimal()
+
+# Teste de autocorrelação para verificar padrão sazonal
+acf(serie_ts, main = "Função de Autocorrelação (ACF)")
+
+# Teste de decomposição sazonal (opcional para visualização)
+decomposicao <- stl(serie_ts, s.window = "periodic")
+autoplot(decomposicao)
+
+
+kruskal.test(total_apreensoes ~ ano_mes, data = dados_mensais)
