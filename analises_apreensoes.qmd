@@ -25,6 +25,9 @@ library(kableExtra)
 library(sandwich)
 library(lmtest)
 library(trend)
+library(sf)
+library(tidyverse)
+library(ggspatial)
 
 knitr::opts_chunk$set(
   comment = "",
