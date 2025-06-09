@@ -1,7 +1,7 @@
 ---
 format:
   html:
-    theme: solar
+    theme: minty
     toc: true
     toc-location: left
     toc-depth: 2
@@ -190,15 +190,15 @@ As apreensões possuem variações mensais recorrentes, indicando possíveis pad
 
 Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foi categorizado os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis. Os grupos foram:
 
-- **Cocaína e Derivados:** Cocaína/Cloridrato de Cocaína, crack;
+-   **Cocaína e Derivados:** Cocaína/Cloridrato de Cocaína, crack;
 
-- **Cannabis e Derivados:** Maconha, pés de Maconha, Haxixe;
+-   **Cannabis e Derivados:** Maconha, pés de Maconha, Haxixe;
 
-- **Sintéticas/Estimulantes:** Anfetaminas, ecstasy, lança-perfume;
+-   **Sintéticas/Estimulantes:** Anfetaminas, ecstasy, lança-perfume;
 
-- **Farmacêuticos/Controlados:** Barbitúricos, medicamentos;
+-   **Farmacêuticos/Controlados:** Barbitúricos, medicamentos;
 
-- **Outros:** Qualquer outro tipo não listado (ex.: LSD).
+-   **Outros:** Qualquer outro tipo não listado (ex.: LSD).
 
 Desta forma, no gráfico 4, é possivel avaliar a quantidade e porcentagem de apreensões equivalente de cada grupo no respectivo ano.
 
@@ -243,6 +243,7 @@ Ao longo dos anos, a cocaína, canabis e seus derivados se destacam representand
 ### Relação apreensão e local de ocorrência
 
 Os locais de ocorrências registrados foram avenidas BR, ambientes comerciais, residências, serviços, veiculos, via publica e outros. Devido a ser uma análise especifica da Policia Rodoviária Federal, a presença de apreensões que ocorreram em avenidas BR é esperado.
+
 ```{r}
 
 ## Gráfico de barras porcentual tipo local ocorrencia
@@ -282,7 +283,7 @@ hchart(
 
 ```
 
-Em todos os anos analisados, a maior parte das apreensões ocorreu em rodovias BR e antes de 2020 (2017–2019), praticamente só as BRs aparecem com relevância.
+Em todos os anos analisados, a maior parte das apreensões ocorreu em rodovias BR e antes de 2020 (2017--2019), praticamente só as BRs aparecem com relevância.
 
 A partir de 2020, percebe-se uma maior participação de outros locais, principalmente via pública. Em 2022, há o maior percentual de apreensões fora das BRs.
 

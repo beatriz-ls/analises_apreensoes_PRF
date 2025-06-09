@@ -1,7 +1,7 @@
 ---
 format:
   html:
-    theme: solar
+    theme: minty
     toc: true
     toc-location: left
     toc-depth: 2
@@ -67,6 +67,8 @@ PF_APA <- PF_APA |>
   )
 ```
 
+Todas as linhas da amostra estão relacionadas ao aeroporto de Vitória, entre 2014 e 2019, com drogas como maconha e cocaína. Os dados disponibilizam algumas informações interessantes como: data da apreensão, tipo da droga apreendida (ex: cocaína, maconha) e quantidade de drogas apreendidas.
+
 ```{r}
 df_freq <- PF_APA |>
   count(origem, ano) |> 
@@ -97,7 +99,7 @@ highchart() |>
   hc_colors(viridis::viridis(4))
 ```
 
-Aqui temos a distribuição de preensões de acordo com a origem, podendo ser original de porto ou aeroporto, para o Espírito Santo ambos estão localizados em no municipio de Vitória.
+Aqui temos a distribuição de preensões de acordo com a origem, podendo ser original de porto ou aeroporto, para o Espírito Santo ambos estão localizados em no municipio de Vitória. Há poucos casos no geral, sendo o aeroporto de Vitória o principal ponto de apreensão em 2019, com 13 ocorrências 
 
 ```{r}
 df_freq <- PF_APA |>
@@ -204,6 +206,8 @@ PF_A <- PF_A |>
   )
 ```
 
+Nesse banco de dados, foi disponibilizado os dados de forma que a localização fosse separada por municipios do Sul (Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado e Vargem Alta), Nordeste e Noroeste (Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério), Central e litoral (Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória). 
+
 ```{r}
 df_freq <- PF_A |>
   # filter(unidade == "Gramas") |>
@@ -257,6 +261,8 @@ highchart() |>
   ) |>
   hc_colors(viridis::viridis(8))
 ```
+
+As apreensões foram disponibilizadas com recorrências escassas, gerando analises inconstantes, como o ano de 2019 sendo composto por apenas uma apreensão de LSD.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -317,6 +323,7 @@ highchart() |>
   )) |>
   hc_colors(viridis::viridis(length(unique(dados_grafico$item)), option = "D"))
 ```
+
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -569,11 +576,11 @@ Aqui temos a série temporal do total de preensões relacionadas a tráfico de d
 
 A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técnica estatística para analisar séries temporais, decompondo-as em três componentes principais:
 
-- **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
+-   **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
 
-- **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
+-   **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
 
-- **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
+-   **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
 
 Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo.
 
