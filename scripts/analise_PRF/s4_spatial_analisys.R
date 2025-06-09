@@ -127,3 +127,86 @@ ggplot() +
 
 # 6. (Opcional) Salvar o mapa
 ggsave("mapa_apreensoes_bairros.png", width = 10, height = 8, dpi = 300)
+
+
+
+# carregar shapefile ----------------------------------------------------------
+
+es_shp <- st_read("data/shapefiles/ES_UF_2024.shp") # atualize para o caminho correto
+
+# converter dados de apreensões para sf ---------------------------------------
+
+apreensoes_sf <- st_as_sf(data, coords = c("longitude", "latitude"), crs = 4326)
+apreensoes_sf <- st_transform(apreensoes_sf, st_crs(es_shp)) # para combinar com shapefile
+
+# filtrar apenas os pontos dentro do shapefile do ES --------------------------
+
+apreensoes_sf <- apreensoes_sf[st_within(apreensoes_sf, es_shp, sparse = FALSE), ]
+
+# converter shapefile para janela espacial (spatstat) -------------------------
+
+es_sp <- as(es_shp, "Spatial")
+janela <- as.owin(es_sp)
+
+# converter os pontos para objeto ppp -----------------------------------------
+
+coords <- st_coordinates(apreensoes_sf)
+ppp_obj <- ppp(x = coords[,1], y = coords[,2], window = janela)
+
+# estimar densidade kernel ----------------------------------------------------
+
+densidade <- density.ppp(ppp_obj, sigma = 2000) # ajuste sigma conforme necessário
+
+# converter densidade para raster e depois data.frame -------------------------
+
+r <- rast(densidade)
+r_df <- as.data.frame(r, xy = TRUE)
+names(r_df)[3] <- "densidade"
+
+# gráfico ---------------------------------------------------------------------
+
+ggplot() +
+  geom_sf(data = es_shp, fill = NA, color = "gray20") +
+  geom_raster(data = r_df, aes(x = x, y = y, fill = densidade), alpha = 0.8) +
+  scale_fill_viridis(name = "Densidade", option = "inferno") +
+  coord_sf() +
+  labs(
+    title = "Hotspot de Apreensões no Espírito Santo",
+    subtitle = "Estimativa de densidade kernel das ocorrências",
+    x = "Longitude", y = "Latitude"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(face = "bold", size = 14)
+  )
+
+
+
+# Coordenadas dos pontos
+coords <- st_coordinates(apreensoes_sf)
+
+# Adiciona as coordenadas como colunas separadas para facilitar uso no ggplot
+apreensoes_sf$lon <- coords[, 1]
+apreensoes_sf$lat <- coords[, 2]
+
+# Gráfico
+ggplot() +
+  geom_sf(data = es_shp, fill = "white", color = "gray60") +
+  stat_density_2d(
+    data = apreensoes_sf,
+    aes(x = lon, y = lat, fill = after_stat(level)),
+    geom = "polygon",
+    alpha = 0.6,
+    bins = 30
+  ) +
+  scale_fill_viridis_c(option = "inferno", name = "Densidade") +
+  geom_point(data = apreensoes_sf, aes(x = lon, y = lat), color = "black", size = 0.5, alpha = 0.3) +
+  annotation_scale(location = "bl", width_hint = 0.3) +
+  annotation_north_arrow(location = "tl", which_north = "true", 
+                         pad_x = unit(0.3, "in"), pad_y = unit(0.3, "in"),
+                         style = north_arrow_fancy_orienteering) +
+  labs(title = "Hotspot de Apreensões no Espírito Santo",
+       subtitle = "Densidade Kernel das ocorrências registradas",
+       x = "Longitude", y = "Latitude") +
+  theme_minimal()
