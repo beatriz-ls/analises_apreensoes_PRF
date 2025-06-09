@@ -5,7 +5,7 @@ author:
   - name: "Esley Caminhas Ferreira"
 format:
   html:
-    theme: morph
+    theme: solar
     toc: true
     toc-location: left
     toc-depth: 2

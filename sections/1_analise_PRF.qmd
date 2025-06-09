@@ -1,7 +1,7 @@
 ---
 format:
   html:
-    theme: morph
+    theme: solar
     toc: true
     toc-location: left
     toc-depth: 2
@@ -127,21 +127,6 @@ hchart(
   ) |>
   hc_yAxis(title = list(text = "Total de Apreensões"))
 
-```
-
-```{r}
-dados_agregados <- data[, .(total = .N), by = .(ano, estado_presente)]
-
-hchart(
-  dados_agregados, 
-  "column", 
-  hcaes(x = ano, y = total, group = estado_presente),
-  stacking = "normal"
-) %>%
-  hc_title(text = "Apreensões por Ano no ES") %>%
-  hc_colors(viridis(2, option = "D")) %>%
-  hc_xAxis(title = list(text = "Ano")) %>%
-  hc_yAxis(title = list(text = "Total de Apreensões"))
 ```
 
 A partir de 2019, observa-se um aumento no número de apreensões nos municípios contemplados pelo programa, em comparação aos demais municípios.
@@ -297,9 +282,13 @@ hchart(
 
 ```
 
+Em todos os anos analisados, a maior parte das apreensões ocorreu em rodovias BR e antes de 2020 (2017–2019), praticamente só as BRs aparecem com relevância.
+
+A partir de 2020, percebe-se uma maior participação de outros locais, principalmente via pública. Em 2022, há o maior percentual de apreensões fora das BRs.
+
 ### Relação apreensão e zona de ocorrência
 
-Nos dados disponibilizados também definido se a apreensão ocorreu em zona rural ou zona urbana.
+Nos dados disponibilizados, também é definido se a apreensão ocorreu em zona rural ou zona urbana.
 
 ```{r}
 ## Gráfico de barras porcentual zona ocorrência
@@ -339,7 +328,13 @@ hchart(
 
 ```
 
+Durante 2017 e 2018, as apreensões se dividem próximas a uma igualdade entre zonas rurais e urbanas, em 2019 ocorre o maior percentual de apreensões urbanas em toda a série. A partir de 2020, há uma inversão de tendência, com apreensões da área rural aumentando gradativamente.
+
 ## Avaliação do impacto do Programa Estado Presente
+
+Esta seção se dedica a avaliar caracteristicas da apreensões antes e depois da implementação do programa estado presente. Com o objetivo de atestar alguma tendência será aplicado o teste Mann-Kendall.
+
+### Teste de tendência
 
 O teste de Mann-Kendall é um teste estatístico não paramétrico amplamente utilizado para detectar tendências monotônicas (crescente ou decrescente) ao longo do tempo em séries temporais. Neste relatório, iremos avaliar se o programa Estado Presente alterou de alguma forma o número médio de apreensões por mês avaliando se há presença de alguma tendência após a aplicação do programa.
 
