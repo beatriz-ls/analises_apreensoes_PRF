@@ -360,3 +360,51 @@ kable(tabela_resultado, caption = "Resultados do teste de Mann-Kendall") |>
 ```
 
 Não há evidência estatística suficiente para rejeitar a hipótese nula de ausência de tendência (ao nível de significância de 5% ou mesmo de 10%). ou seja, não podemos afirmar com confiança que o total de apreensões por mês decaiu ou decreceu nas cidadas participantes do programa Estado Presente.
+
+## Análise espacial
+
+Esta seção é dedicada em explorar como as apreensões se relacionam com o espaço geográfico do Estado. Quais áreas foram mais recorrentes casos de apreensão.
+
+```{r, warning=FALSE, message=FALSE, fig.width=11, fig.asp=0.6}
+
+es_shp <- st_read("data/shapefiles/ES_UF_2024.shp", quiet =TRUE)
+
+apreensoes_sf <- st_as_sf(data, coords = c("longitude", "latitude"), crs = 4326)
+apreensoes_sf <- st_transform(apreensoes_sf, st_crs(es_shp))
+
+apreensoes_sf <- apreensoes_sf[st_within(apreensoes_sf, es_shp, sparse = FALSE), ]
+
+# Coordenadas dos pontos
+coords <- st_coordinates(apreensoes_sf)
+
+# Adiciona as coordenadas como colunas separadas para facilitar uso no ggplot
+apreensoes_sf$lon <- coords[, 1]
+apreensoes_sf$lat <- coords[, 2]
+
+es_shp <- st_crop(es_shp, st_bbox(apreensoes_sf))
+
+# Gráfico
+ggplot() +
+  geom_sf(data = es_shp, fill = "white", color = "gray60") +
+  stat_density_2d(
+    data = apreensoes_sf,
+    aes(x = lon, y = lat, fill = after_stat(level)),
+    geom = "polygon",
+    alpha = 0.6,
+    bins = 30
+  ) +
+  scale_fill_viridis_c(option = "inferno", name = "Densidade") +
+  geom_point(data = apreensoes_sf, aes(x = lon, y = lat), color = "black", size = 0.5, alpha = 0.3) +
+  annotation_scale(location = "bl", width_hint = 0.3) +
+  annotation_north_arrow(location = "tl", which_north = "true", 
+                         pad_x = unit(0.3, "in"), pad_y = unit(0.3, "in"),
+                         style = north_arrow_fancy_orienteering) +
+  labs(title = "Hotspot de Apreensões no Espírito Santo",
+       subtitle = "Densidade Kernel das ocorrências registradas",
+       x = "Longitude", y = "Latitude") +
+  theme_minimal()
+
+```
+Analisando o gráfico percebe-se três áreas principais de aglomeração de ocorrência, região ao sul do estado, região próxima a Grande Vitória e área ao norte do estado.
+
+
