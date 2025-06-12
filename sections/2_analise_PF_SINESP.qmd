@@ -1,12 +1,8 @@
 ---
-format:
-  html:
-    theme: minty
+output:
+  html_document:
+    number_sections: false   # Ativa numeração automática
     toc: true
-    toc-location: left
-    toc-depth: 2
-    toc-title: "Índice"
-    page-layout: full
 ---
 
 ```{r, include=FALSE, echo=FALSE}
@@ -45,18 +41,18 @@ Separação municipal utilizada na base **PF_Apreensoes**:
 
 -   **Sul**: Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado, Vargem Alta.
 
-Dos municipios com bairros abrangidos pelo Projeto Estado Presente, nove se localizam nas regiões central e litoral, Aracruz, Cariacica, Colatina, Linhares, Serra, Vila Velha, Vitória, um nas regiões noroeste e nordeste, São Mateus, e um na região sul, Cachoeiro de Itapemirim.
+Dos municipios com bairros abrangidos pelo projeto Estado Presente, nove se localizam nas regiões central e litoral, Aracruz, Cariacica, Colatina, Linhares, Serra, Vila Velha, Vitória, um nas regiões noroeste e nordeste, São Mateus, e um na região sul, Cachoeiro de Itapemirim.
 
 ## Análise descritiva
 
 ### Apreensão de drogas em portos e aeroportos pela Polícia Federal
 
-Breve apresentação da base (primeiras cinco linhas).
+<!-- Breve apresentação da base (primeiras cinco linhas). -->
 
 ```{r}
 PF_APA <- read.csv("data-raw/PF_Apreensoes_Portos_Aeroportos.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
 
-PF_APA |> head(n = 5) |> knitr::kable() 
+# PF_APA |> head(n = 5) |> knitr::kable() 
 ```
 
 ```{r}
@@ -66,8 +62,6 @@ PF_APA <- PF_APA |>
     ano = lubridate::year(data)  
   )
 ```
-
-Todas as linhas da amostra estão relacionadas ao aeroporto de Vitória, entre 2014 e 2019, com drogas como maconha e cocaína. Os dados disponibilizam algumas informações interessantes como: data da apreensão, tipo da droga apreendida (ex: cocaína, maconha) e quantidade de drogas apreendidas.
 
 ```{r}
 df_freq <- PF_APA |>
@@ -92,14 +86,16 @@ highchart() |>
   hc_legend(enabled = TRUE) |>
   hc_plotOptions(
     column = list(
-      stacking = "normal",
+      # stacking = "normal",
       dataLabels = list(enabled = FALSE)
     )
   ) |>
-  hc_colors(viridis::viridis(4))
+  hc_colors(viridis::viridis(4)) |>
+  hc_caption(text = "Figura 1: Frequência anual de apreensões de drogas por origem para os anos de 2014 a 2023")
+             
 ```
 
-Aqui temos a distribuição de preensões de acordo com a origem, podendo ser original de porto ou aeroporto, para o Espírito Santo ambos estão localizados em no municipio de Vitória. Há poucos casos no geral, sendo o aeroporto de Vitória o principal ponto de apreensão em 2019, com 13 ocorrências 
+Aqui temos a distribuição de apreensões de acordo com a origem, podendo ser original de porto ou aeroporto, para o Espírito Santo ambos estão localizados no municipio de Vitória.
 
 ```{r}
 df_freq <- PF_APA |>
@@ -114,7 +110,7 @@ highchart() |>
   ) |>
   hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
   hc_yAxis(title = list(text = "Número de Apreensões")) |>
-  hc_title(text = "Frequência Anual de Apreensões de Drogas por tipo de Droga") |>
+  hc_title(text = "Frequência Anual de Apreensões de Drogas por Tipo de Droga") |>
   hc_subtitle(text = "Dados Polícia Federal Portos e Aeroportos") |>
   hc_tooltip(
     shared = TRUE,
@@ -124,14 +120,14 @@ highchart() |>
   hc_legend(enabled = TRUE) |>
   hc_plotOptions(
     column = list(
-      stacking = "normal",
+      # stacking = "normal",
       dataLabels = list(enabled = FALSE)
     )
   ) |>
-  hc_colors(viridis::viridis(4))
-```
+  hc_colors(viridis::viridis(4)) |>
+  hc_caption(text = "Figura 2: Frequência anual de apreensões de drogas por tipo de droga para os anos de 2014 a 2023")
 
-Há uma dominancia de registros de aprensões de cocaina, comparado com os dados da Policia Rodoviaria Federal, com predominância de registros de cannabis e derivados. Entretanto, a escassez de dados registrados descredita essa analise.
+```
 
 ```{r}
 dados_anual <- PF_APA |>
@@ -164,7 +160,7 @@ highchart() |>
     labels = list(format = "{value:,.0f}"),
     min = 0
   ) |>
-  hc_title(text = "Apreensões Anuais de Drogas por tipo de Droga") |>
+  hc_title(text = "Apreensões Anuais por Tipo de Droga") |>
   hc_subtitle(text = "Dados Polícia Federal Portos e Aeroportos") |>
   hc_tooltip(
     headerFormat = "<b>Ano: {point.x}</b><br>",
@@ -176,12 +172,13 @@ highchart() |>
     verticalAlign = "top",
     layout = "vertical"
   ) |>
-  hc_colors(viridis::viridis(length(unique(dados_anual$droga))))
+  hc_colors(viridis::viridis(length(unique(dados_anual$droga)))) |>
+  hc_caption(text = "Figura 3: Apreensões anuais por tipo de droga para os anos de 2014 a 2023")
 ```
 
 ### Apreensões de drogas pela Polícias Federal
 
-Breve apresentação da base (primeiras cinco linhas).
+<!-- Breve apresentação da base (primeiras cinco linhas). -->
 
 ```{r}
 PF_A <- read.csv("data-raw/PF_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES")
@@ -194,7 +191,7 @@ PF_A[PF_A$municipios == "Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, C
 
 PF_A <- PF_A |> rename(regiao_es = municipios)
 
-PF_A |> head(n = 5) |> knitr::kable()
+# PF_A |> head(n = 5) |> knitr::kable()
 ```
 
 ```{r}
@@ -206,48 +203,46 @@ PF_A <- PF_A |>
   )
 ```
 
-Nesse banco de dados, foi disponibilizado os dados de forma que a localização fosse separada por municipios do Sul (Alegre, Apiacá, Atilio Vivacqua, Bom Jesus do Norte, Cachoeiro de Itapemirim, Castelo, Conceição do Castelo, Divino de São Lourenço, Dores do Rio Preto, Guaçuí, Ibatiba, Ibitirama, Iconha, Irupi, Itapemirim, Iúna, Jerônimo Monteiro, Marataízes, Mimoso do Sul, Muniz Freire, Muqui, Piúma, Presidente Kennedy, Rio Novo do Sul, São José do Calçado e Vargem Alta), Nordeste e Noroeste (Água Doce do Norte, Águia Branca, Alto Rio Novo, Barra de São Francisco, Boa Esperança, Conceição da Barra, Ecoporanga, Governador Lindenberg, Jaguaré, Mantenópolis, Montanha, Mucurici, Nova Venécia, Pancas, Pedro Canário, Pinheiros, Ponto Belo, São Domingos do Norte, São Gabriel da Palha, São Mateus, Vila Pavão, Vila Valério), Central e litoral (Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória). 
+Substâncias derivadas da cannabis (maconha, skunk e haxixe) foram agrupadas em uma única categoria para facilitar a visualização
 
 ```{r}
 df_freq <- PF_A |>
   # filter(unidade == "Gramas") |>
+    mutate(item = case_when(
+    item %in% c("Maconha (g)","Skunk (g)","Haxixe (g)") ~ "Cannabis e derivados (g)",
+    TRUE ~ item
+  )) |>
   count(item, ano) |> 
   filter(!is.na(item)) |>
   group_by(ano) |>
-  mutate(percent = n / sum(n) * 100) |>
+  # mutate(percent = n / sum(n) * 100) |>
   ungroup()
 
 highchart() |>
   hc_add_series(
     data = df_freq,
     type = "column",
-    hcaes(x = ano, y = percent, group = item)
+    hcaes(x = ano,
+          y = n, # y = percent,
+          group = item)
   ) |>
   hc_xAxis(title = list(text = "Ano"), categories = unique(df_freq$ano)) |>
   hc_yAxis(
-    title = list(text = "Porcentagem de Apreensões"),
-    labels = list(format = "{value}%")
+    title = list(text = "Frequência de Apreensões")
+    # labels = list(format = "{value}%")
   ) |>
-  hc_title(text = "Porcentagem Anual de Apreensões de Drogas por Item") |>
+  hc_title(text = "Frenquência Anual de Apreensões de Drogas por Item") |>
   hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
     shared = TRUE,
     headerFormat = "<b>Ano: {point.key}</b><br/>",
-    pointFormat = "{series.name}: <b>{point.n}</b> ({point.percent:.1f}%)<br/>"  # Modificado aqui
+    # pointFormat = "{series.name}: <b>{point.n}</b> ({point.percent:.1f}%)<br/>" 
+    pointFormat = "{series.name}: <b>{point.n}</b><br/>" 
   ) |>
   hc_legend(enabled = TRUE) |>
   hc_plotOptions(
     column = list(
-      stacking = "percent",
-      # dataLabels = list(
-      #   enabled = TRUE,
-      #   format = "{point.percent:.1f}%",
-      #   filter = list(
-      #     property = "percent",
-      #     operator = ">",
-      #     value = 5
-      #   )
-      # ),
+      # stacking = "percent",
       events = {
         afterAnimate = JS("function() {
           var points = this.points || [];
@@ -259,10 +254,9 @@ highchart() |>
       }
     )
   ) |>
-  hc_colors(viridis::viridis(8))
+  hc_colors(viridis::viridis(8)) |>
+  hc_caption(text = "Figura 4: Frenquência anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
-
-As apreensões foram disponibilizadas com recorrências escassas, gerando analises inconstantes, como o ano de 2019 sendo composto por apenas uma apreensão de LSD.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -299,7 +293,7 @@ highchart() |>
     labels = list(format = "{value:,.0f}"),
     min = 0  # Eixo Y começa em zero
   ) |>
-  hc_title(text = "Quantidade anual de apreensões de Drogas por Item") |>
+  hc_title(text = "Quantidade Anual de Apreensões de Drogas por Item") |>
   hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
     headerFormat = "<b>Ano: {point.x}</b><br>",
@@ -321,9 +315,9 @@ highchart() |>
         hover = list(lineWidthPlus = 2)
     )
   )) |>
-  hc_colors(viridis::viridis(length(unique(dados_grafico$item)), option = "D"))
+  hc_colors(viridis::viridis(length(unique(dados_grafico$item)), option = "D")) |>
+  hc_caption(text = "Figura 5: Quantidade anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
-
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -360,7 +354,7 @@ highchart() |>
     labels = list(format = "{value:,.0f}"),
     min = 0  # Eixo Y começa em zero
   ) |>
-  hc_title(text = "Quantidade anual de apreensões de Drogas por Regiões do Espírito Santo") |>
+  hc_title(text = "Quantidade Anual de Apreensões de Drogas por Regiões do Espírito Santo") |>
   hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
     headerFormat = "<b>Ano: {point.x}</b><br>",
@@ -382,7 +376,8 @@ highchart() |>
         hover = list(lineWidthPlus = 2)
     )
   )) |>
-  hc_colors(viridis::viridis(length(unique(dados_grafico$regiao_es)), option = "E"))
+  hc_colors(viridis::viridis(length(unique(dados_grafico$regiao_es)), option = "E")) |>
+  hc_caption(text = "Figura 6: Quantidade anual de apreensões de drogas por regiões do Espírito Santo para os anos de 2014 a 2023")
 ```
 
 Aqui temos a distribuição de preensões de acordo com as Regiões do Espírito Santo, pode-se notar a diferença em relação a cada grupo de regiões, sendo as regiões Central e Litoral responsavéis pela grande maioria das apreensões.
@@ -423,13 +418,14 @@ highchart() |>
     labels = list(format = "{value:,.0f}"),
     min = 0
   ) |>
-  hc_title(text = "Quantidade anual de apreensões de Drogas") |>
+  hc_title(text = "Quantidade Anual de Apreensões de Drogas") |>
   hc_subtitle(text = "Dados Polícia Federal") |>
   hc_tooltip(
     headerFormat = "<b>Ano: {point.x}</b><br>",
     pointFormat = "Total apreendido: <b>{point.y:,.0f} gramas</b>",
     shared = FALSE
-  )
+  ) |>
+  hc_caption(text = "Figura 7: Quantidade anual de apreensões de drogas para os anos de 2014 a 2023")
 ```
 
 # Análise das apreensões realizadas pelas policias estaduais
@@ -444,7 +440,7 @@ Embora a base de dados contenha registros a partir de 2016, as variáveis de int
 
 ### Apreensões de drogas pelas polícias estaduais
 
-Breve apresentação da base (primeiras cinco linhas).
+<!-- Breve apresentação da base (primeiras cinco linhas). -->
 
 ```{r}
 SINESP <- read.csv("data-raw/SINESP_Apreensoes.csv", sep =";", header=TRUE, check.names = FALSE) |> janitor::clean_names() |> dplyr::filter(uf == "ES") |> filter(ano > 2017)
@@ -467,7 +463,7 @@ SINESP$data_referencia <- lubridate::dmy(SINESP$data_referencia) |> as.Date()
 
 # municipios_estado_presente <- c("Aracruz", "Cariacica", "Cachoeiro de Itapemirim","Colatina", "Linhares", "São Mateus", "Serra","Vila Velha", "Vitória")
 
-SINESP |> head(n = 5) |> knitr::kable()
+# SINESP |> head(n = 5) |> knitr::kable()
 ```
 
 ```{r}
@@ -496,7 +492,7 @@ highchart() |>
     title = list(text = "Total peso"),
     labels = list(format = "{value:,.0f}")
   ) |>
-  hc_title(text = "Total peso mensal de Drogas Apreendidas") |>
+  hc_title(text = "Total Peso Mensal de Drogas Apreendidas") |>
   hc_subtitle(text = "Dados polícia estadual do Espírito Santo") |>
   hc_tooltip(
     headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
@@ -516,7 +512,8 @@ highchart() |>
       states = list(hover = list(lineWidthPlus = 1))
     )
   ) |>
-  hc_colors(viridis::viridis(4))
+  hc_colors(viridis::viridis(4)) |>
+  hc_caption(text = "Figura 8: Total peso mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
 Aqui temos a série temporal do total peso de preensões, para apreenções de cocaína e maconha, no dicionário da base essa variável é descrita como "Valor numérico da quantidade, peso ou volume apreendido".
@@ -547,7 +544,7 @@ highchart() |>
     title = list(text = "Total"),
     labels = list(format = "{value:,.0f}")
   ) |>
-  hc_title(text = "Total mensal de Drogas Apreendidas") |>
+  hc_title(text = "Total Mensal de Drogas Apreendidas") |>
   hc_subtitle(text = "Dados polícia estadual do Espírito Santo") |>
   hc_tooltip(
     headerFormat = "<b>Data: {point.x:%d/%m/%Y}</b><br>",
@@ -567,7 +564,8 @@ highchart() |>
       states = list(hover = list(lineWidthPlus = 1))
     )
   ) |>
-  hc_colors(viridis::viridis(4)[3])
+  hc_colors(viridis::viridis(4)[3]) |>
+  hc_caption(text = "Figura 9: Total mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
 Aqui temos a série temporal do total de preensões relacionadas a tráfico de drogas, no dicionário da base essa variável é descrita como "Valor numérico da quantidade, peso ou volume apreendido".
@@ -576,13 +574,13 @@ Aqui temos a série temporal do total de preensões relacionadas a tráfico de d
 
 A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técnica estatística para analisar séries temporais, decompondo-as em três componentes principais:
 
--   **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
+- **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
 
--   **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
+- **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
 
--   **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
+- **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
 
-Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo.
+<!-- Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo. -->
 
 O **Teste de Mann-Kendall** é um teste que verifica se uma série temporal possui tendência, ou seja, responde a pergunta "Meus dados estão subindo, descendo ou ficando estáveis ao longo do tempo?".
 
@@ -632,7 +630,7 @@ dados_para_hc <- lapply(list(df_stl$Observado, df_stl$Tendencia,
 # 6. Criar gráfico
 highchart() %>%
   hc_chart(type = "line") %>%
-  hc_title(text = "Decomposição STL - Total peso mensal de Drogas Apreendidas - Maconha") %>%
+  hc_title(text = "Decomposição STL - Total Peso Mensal de Drogas Apreendidas - Maconha") %>%
   hc_subtitle(text = "Dados polícia estadual do Espírito Santo") |>
   hc_xAxis(type = "datetime",
            title = list(text = "Data"),
@@ -655,7 +653,8 @@ highchart() %>%
              pointFormat = "<span style='color:{point.color}'>◉</span> {series.name}: <b>{point.y:.2f}</b><br>",
              xDateFormat = "%Y-%m") %>%
   hc_legend(enabled = TRUE) %>%
-  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)])
+  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
+  hc_caption(text = "Figura 10: Decomposição STL para o total peso mensal de drogas apreendidas (Maconha)")
 ```
 
 Utilizando o teste Mann-Kendall, temos evidências que indicam não tendência, ou seja, o número de apreensões de maconha está estável ao longo do tempo.
@@ -687,7 +686,7 @@ dados_para_hc <- lapply(list(df_stl$Observado, df_stl$Tendencia,
 # 6. Criar gráfico
 highchart() %>%
   hc_chart(type = "line") %>%
-  hc_title(text = "Decomposição STL - Total peso mensal de Drogas Apreendidas - Cocaína") %>%
+  hc_title(text = "Decomposição STL - Total Peso Mensal de Drogas Apreendidas - Cocaína") %>%
   hc_subtitle(text = "Dados polícia estadual do Espírito Santo") |>
   hc_xAxis(type = "datetime",
            title = list(text = "Data"),
@@ -710,7 +709,8 @@ highchart() %>%
              pointFormat = "<span style='color:{point.color}'>◉</span> {series.name}: <b>{point.y:.2f}</b><br>",
              xDateFormat = "%Y-%m") %>%
   hc_legend(enabled = TRUE) %>%
-  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)])
+  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
+  hc_caption(text = "Figura 11: Decomposição STL para o total peso mensal de drogas apreendidas (Cocaína)")
 ```
 
 Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam tendência, ou seja, o número de apreensões de cocaína está subindo ao longo do tempo.
@@ -742,7 +742,7 @@ dados_para_hc <- lapply(list(df_stl$Observado, df_stl$Tendencia,
 # 6. Criar gráfico
 highchart() %>%
   hc_chart(type = "line") %>%
-  hc_title(text = "Decomposição STL - Total mensal de Drogas Apreendidas - Tráfico") %>%
+  hc_title(text = "Decomposição STL - Total Mensal de Drogas Apreendidas - Tráfico") %>%
   hc_subtitle(text = "Dados polícia estadual do Espírito Santo") |>
   hc_xAxis(type = "datetime",
            title = list(text = "Data"),
@@ -765,7 +765,8 @@ highchart() %>%
              pointFormat = "<span style='color:{point.color}'>◉</span> {series.name}: <b>{point.y:.2f}</b><br>",
              xDateFormat = "%Y-%m") %>%
   hc_legend(enabled = TRUE) %>%
-  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)])
+  hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
+  hc_caption(text = "Figura 12: Decomposição STL para o total mensal de drogas apreendidas (Tráfico)")
 ```
 
 Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam não tendência, ou seja, o número de apreensões está estável ao longo do tempo.
