@@ -21,7 +21,7 @@ library(forecast)
 library(zoo)
 ```
 
-# Análise das apreensões realizadas pela policia federal
+# Análise das apreensões realizadas pela Polícia Federal
 
 ## Sobre os dados
 
@@ -33,7 +33,7 @@ A base **PF_BaseCircunscricao** não será utilizada na análise por se limitar 
 
 Após a filtragem por ocorrencias no estado do Espírito Santo, foi verificado que a base **PF_Apreensoes_Portos_Aeroportos** se limita a somente apreensões feitas no aeroporto e porto de Vitória, já a base **PF_Apreensoes** se limita a apreensões feitas nas regiões central e litoral, noroeste e nordeste e sul do Espírito Santo.
 
-Separação municipal utilizada na base **PF_Apreensoes**:
+Separação regional utilizada pela Polícia Federal na base **PF_Apreensoes**:
 
 -   **Central e litoral**: Afonso Cláudio, Alfredo Chaves, Anchieta, Aracruz, Baixo Guandu, Brejetuba, Cariacica, Colatina, Domingos Martins, Fundão, Guarapari, Ibiraçu, Itaguaçu, Itarana, João Neiva, Laranja da Terra, Linhares, Marechal Floriano, Marilândia, Rio Bananal, Santa Leopoldina, Santa Maria de Jetibá, Santa Teresa, São Roque do Canaã, Serra, Sooretama, Venda Nova do Imigrante, Viana, Vila Velha, Vitória.
 
@@ -167,18 +167,74 @@ highchart() |>
     pointFormat = "{series.name}: <b>{point.y:,.0f} gramas</b>",
     shared = FALSE
   ) |>
-  hc_legend(
-    align = "right",
-    verticalAlign = "top",
-    layout = "vertical"
-  ) |>
+  # hc_legend(
+  #   align = "right",
+  #   verticalAlign = "top",
+  #   layout = "vertical"
+  # ) |>
   hc_colors(viridis::viridis(length(unique(dados_anual$droga)))) |>
   hc_caption(text = "Gráfico 3 - Apreensões anuais por tipo de droga para os anos de 2014 a 2023")
 ```
 
 No Gráfico 3 pode-se observar que o ano de 2023 registrou o maior volume em gramas apreendidas, embora tenha sido somente o terceiro em número de ocorrências segundo o Gráfico 2. Observa-se ainda uma disparidade significativa entre as quantidades apreendidas de cocaína e maconha.
 
-### Apreensões de drogas pela Polícias Federal
+```{r}
+PF_APA_anual <- PF_APA |>
+  mutate(
+    quantidade = as.numeric(quantidade),
+    data = as.Date(data),
+    ano = year(data)  # Extrai apenas o ano da data
+  ) |>
+  filter(!is.na(quantidade), 
+         !is.na(ano), 
+         !is.na(droga),
+         quantidade > 0) |>
+  group_by(ano) |>  # Agrupa por ano e tipo de droga
+  summarise(total_apreendido = sum(quantidade), .groups = "drop")
+
+highchart() |>
+    hc_add_series(
+    data = PF_APA_anual,
+    type = "line", 
+    hcaes(x = ano, y = total_apreendido),
+    name = "Total Apreendido",
+    showInLegend = TRUE,
+    marker = list(
+      enabled = TRUE,
+      radius = 4
+    ),
+    lineWidth = 3,
+    color = "#4285F4"
+  ) |>
+  hc_xAxis(
+    title = list(text = "Ano"),
+    allowDecimals = FALSE,  # Remove decimais nos anos
+    gridLineWidth = 1
+  ) |>
+  hc_yAxis(
+    title = list(text = "Quantidade Apreendida (gramas)"),
+    labels = list(format = "{value:,.0f}"),
+    min = 0
+  ) |>
+  hc_title(text = "Quantidade Anual de Apreensões de Drogas") |>
+  hc_subtitle(text = "Dados Polícia Federal Portos e Aeroportos") |>
+  hc_tooltip(
+    headerFormat = "<b>Ano: {point.x}</b><br>",
+    pointFormat = "Total apreendido: <b>{point.y:,.0f} gramas</b>",
+    shared = FALSE
+  ) |>
+  # hc_legend(
+  #   align = "right",
+  #   verticalAlign = "top",
+  #   layout = "vertical"
+  # ) |>
+  hc_colors(viridis::viridis(length(unique(dados_anual$droga)))) |>
+  hc_caption(text = "Gráfico 4 - Apreensões anuais para os anos de 2014 a 2023")
+```
+
+O Gráfico 4 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal em portos e aeroportos do Espírito Santo entre 2014 e 2023.
+
+### Apreensões de drogas pela Polícia Federal
 
 <!-- Breve apresentação da base (primeiras cinco linhas). -->
 
@@ -257,10 +313,10 @@ highchart() |>
     )
   ) |>
   hc_colors(viridis::viridis(8)) |>
-  hc_caption(text = "Gráfico 4 - Frenquência anual de apreensões de drogas por item para os anos de 2014 a 2023")
+  hc_caption(text = "Gráfico 5 - Frenquência anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
 
-O Gráfico 4 revela a predominância de apreensões de Cannabis e derivados e cocaína durante o período analisado. O ano de 2020 destacou-se com 79 ocorrências no total, sendo 42 de Cannabis e derivados e 11 de cocaína. Este mesmo ano registrou também o maior volume de apreensões de lança-perfume, com 11 ocorrências, totalizando 460 frascos apreendidos.
+O Gráfico 5 revela a predominância de apreensões de Cannabis e derivados e cocaína durante o período analisado. O ano de 2020 destacou-se com 79 ocorrências no total, sendo 42 de Cannabis e derivados e 11 de cocaína. Este mesmo ano registrou também o maior volume de apreensões de lança-perfume, com 11 ocorrências, totalizando 460 frascos apreendidos.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -306,12 +362,12 @@ highchart() |>
     crosshairs = TRUE,
     valueDecimals = 0
   ) |>
-  hc_legend(
-    align = "right",
-    verticalAlign = "middle",
-    layout = "vertical",
-    itemStyle = list(fontWeight = "normal")
-  ) |>
+  # hc_legend(
+  #   align = "right",
+  #   verticalAlign = "middle",
+  #   layout = "vertical",
+  #   itemStyle = list(fontWeight = "normal")
+  # ) |>
   hc_plotOptions(
     line = list(
       lineWidth = 3,
@@ -320,8 +376,10 @@ highchart() |>
     )
   )) |>
   hc_colors(viridis::viridis(length(unique(dados_grafico$item)), option = "D")) |>
-  hc_caption(text = "Gráfico 5 - Quantidade anual de apreensões de drogas por item para os anos de 2014 a 2023")
+  hc_caption(text = "Gráfico 6 - Quantidade anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
+
+O Gráfico 6 mostra um aumento progressivo nas quantidades anuais apreendidas ao longo dos anos, com a maconha e a cocaína como as substâncias de maior volume. Destaca-se em 2022 a apreensão de 3.715 kg de maconha e 1.681 kg de cocaína.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -367,12 +425,12 @@ highchart() |>
     crosshairs = TRUE,
     valueDecimals = 0
   ) |>
-  hc_legend(
-    align = "right",
-    verticalAlign = "middle",
-    layout = "vertical",
-    itemStyle = list(fontWeight = "normal")
-  ) |>
+  # hc_legend(
+  #   align = "right",
+  #   verticalAlign = "middle",
+  #   layout = "vertical",
+  #   itemStyle = list(fontWeight = "normal")
+  # ) |>
   hc_plotOptions(
     line = list(
       lineWidth = 3,
@@ -381,13 +439,15 @@ highchart() |>
     )
   )) |>
   hc_colors(viridis::viridis(length(unique(dados_grafico$regiao_es)), option = "E")) |>
-  hc_caption(text = "Gráfico 6 - Quantidade anual de apreensões de drogas por regiões do Espírito Santo para os anos de 2014 a 2023")
+  hc_caption(text = "Gráfico 7 - Quantidade anual de apreensões de drogas por regiões do Espírito Santo para os anos de 2014 a 2023")
 ```
 
-Aqui temos a distribuição de preensões de acordo com as Regiões do Espírito Santo, pode-se notar a diferença em relação a cada grupo de regiões, sendo as regiões Central e Litoral responsavéis pela grande maioria das apreensões. 
+O Gráfico 7 apresenta a distribuição das apreensões por regiões do Espírito Santo, evidenciando diferenças significativas entre os grupos regionais. A região Central e Litoral responde pela grande maioria das apreensões, um padrão que pode ser observado consistentemente nos dados.
+
+Embora a ausência de granularidade municipal não permita estabelecer uma relação direta com o programa Estado Presente, é relevante destacar que esta região concentra a maior parte dos municípios com territórios atendidos pelo projeto. A predominância das apreensões nesta área pode refletir tanto a maior efetividade das ações policiais quanto as características demográficas e geográficas da região.
 
 ```{r}
-dados_anual <- PF_A |>
+PF_A_anual <- PF_A |>
   mutate(
     quantidade = as.numeric(quantidade),
     ano = year(as.Date(data)) 
@@ -400,7 +460,7 @@ dados_anual <- PF_A |>
   ) 
 highchart() |>
   hc_add_series(
-    data = dados_anual,
+    data = PF_A_anual,
     type = "line", 
     hcaes(x = ano, y = total_gramas),
     name = "Total Apreendido",
@@ -429,8 +489,10 @@ highchart() |>
     pointFormat = "Total apreendido: <b>{point.y:,.0f} gramas</b>",
     shared = FALSE
   ) |>
-  hc_caption(text = "Gráfico 7 - Quantidade anual de apreensões de drogas para os anos de 2014 a 2023")
+  hc_caption(text = "Gráfico 8 - Quantidade anual de apreensões de drogas para os anos de 2014 a 2023")
 ```
+
+O Gráfico 8 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal do Espírito Santo entre 2014 e 2023.
 
 # Análise das apreensões realizadas pelas policias estaduais
 
@@ -441,8 +503,6 @@ Os dados são referentes as apreensões de drogas feitas pelas polícias estadua
 Embora a base de dados contenha registros a partir de 2016, as variáveis de interesse 'total' e 'peso_total' apresentam valores exclusivamente disponíveis a partir de 2018. Os registros dos anos de 2016 e 2017 para essas métricas específicas consistem inteiramente em valores NA, indicando ausência de dados mensuráveis nesse período inicial.
 
 ## Análise descritiva
-
-### Apreensões de drogas pelas polícias estaduais
 
 <!-- Breve apresentação da base (primeiras cinco linhas). -->
 
@@ -504,23 +564,26 @@ highchart() |>
     shared = FALSE,
     crosshairs = TRUE
   ) |>
-  hc_legend(
-    align = "right",
-    verticalAlign = "top",
-    layout = "vertical"
-  ) |>
+  # hc_legend(
+  #   align = "right",
+  #   verticalAlign = "top",
+  #   layout = "vertical"
+  # ) |>
   hc_plotOptions(
     line = list(
       colorByPoint = FALSE,
+      marker = list(enabled = FALSE),  # Remove pontos
       lineWidth = 3,
       states = list(hover = list(lineWidthPlus = 1))
     )
   ) |>
   hc_colors(viridis::viridis(4)) |>
-  hc_caption(text = "Gráfico 8 - Total peso mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
+  hc_caption(text = "Gráfico 9 - Total peso mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
-Aqui temos a série temporal do total peso de preensões, para apreenções de cocaína e maconha, no dicionário da base essa variável é descrita como "Valor numérico da quantidade, peso ou volume apreendido".
+O Gráfico 9 apresenta a série temporal do peso total das apreensões de cocaína e maconha. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido". 
+
+Embora a unidade de medida não esteja especificada, a comparação entre os tipos de drogas permanece válida. Observa-se clara predominância da maconha (média mensal de 200.7) sobre a cocaína (média mensal de 10.5).
 
 ```{r}
 dados_grafico <- SINESP |>
@@ -556,33 +619,34 @@ highchart() |>
     shared = FALSE,
     crosshairs = TRUE
   ) |>
-  hc_legend(
-    align = "right",
-    verticalAlign = "top",
-    layout = "vertical"
-  ) |>
+  # hc_legend(
+  #   align = "right",
+  #   verticalAlign = "top",
+  #   layout = "vertical"
+  # ) |>
   hc_plotOptions(
     line = list(
       colorByPoint = FALSE,
+      marker = list(enabled = FALSE),  # Remove pontos
       lineWidth = 3,
       states = list(hover = list(lineWidthPlus = 1))
     )
   ) |>
   hc_colors(viridis::viridis(4)[3]) |>
-  hc_caption(text = "Gráfico 9 - Total mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
+  hc_caption(text = "Gráfico 10 - Total mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
-Aqui temos a série temporal do total de preensões relacionadas a tráfico de drogas, no dicionário da base essa variável é descrita como "Valor numérico da quantidade, peso ou volume apreendido".
+O Gráfico 10 apresenta a série temporal do total das apreensões relacionadas a tráfico de drogas. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido".
 
 ## Análise temporal
 
 A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técnica estatística para analisar séries temporais, decompondo-as em três componentes principais:
 
-- **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
+-   **Tendência (Trend)**: Mostra a direção geral dos dados ao longo do tempo (crescimento, declínio ou estabilidade)
 
-- **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
+-   **Sazonalidade (Seasonal)**: Revela padrões que se repetem em intervalos fixos (como mensal, anual)
 
-- **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
+-   **Resíduo (Remainder/Random)**: Representa variações aleatórias ou eventos não explicados
 
 <!-- Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo. -->
 
@@ -591,11 +655,13 @@ O **Teste de Mann-Kendall** é um teste que verifica se uma série temporal poss
 ```{r}
 
 SINESP_maconha <- SINESP |> filter(evento == "Apreensão de Maconha")
+# mean(SINESP_maconha$total_peso)
 ts_maconha <- ts(SINESP_maconha$total_peso, 
                frequency = 12,
                start = c(year(min(SINESP_maconha$data_referencia)), month(min(SINESP_maconha$data_referencia))))
 
 SINESP_cocaina <- SINESP |> filter(evento == "Apreensão de Cocaína")
+# mean(SINESP_cocaina$total_peso)
 ts_cocaina <- ts(SINESP_cocaina$total_peso, 
                frequency = 12,
                start = c(year(min(SINESP_cocaina$data_referencia)), month(min(SINESP_cocaina$data_referencia))))
@@ -658,8 +724,10 @@ highchart() %>%
              xDateFormat = "%Y-%m") %>%
   hc_legend(enabled = TRUE) %>%
   hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
-  hc_caption(text = "Gráfico 10 - Decomposição STL para o total peso mensal de drogas apreendidas (Maconha)")
+  hc_caption(text = "Gráfico 11 - Decomposição STL para o total peso mensal de drogas apreendidas (Maconha)")
 ```
+
+Para o Gráfico 11, a componente sazonal mostra picos recorrentes em Maio, sugerindo possível sazonalidade operacional ou padrões de demanda.
 
 Utilizando o teste Mann-Kendall, temos evidências que indicam não tendência, ou seja, o número de apreensões de maconha está estável ao longo do tempo.
 
@@ -714,10 +782,16 @@ highchart() %>%
              xDateFormat = "%Y-%m") %>%
   hc_legend(enabled = TRUE) %>%
   hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
-  hc_caption(text = "Gráfico 11 - Decomposição STL para o total peso mensal de drogas apreendidas (Cocaína)")
+  hc_caption(text = "Gráfico 12 - Decomposição STL para o total peso mensal de drogas apreendidas (Cocaína)")
 ```
 
+Para o Gráfico 12, a componente sazonal mostra picos recorrentes em Junho, sugerindo possível sazonalidade operacional ou padrões de demanda.
+
 Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam tendência, ou seja, o número de apreensões de cocaína está subindo ao longo do tempo.
+
+A tendência oscilante porêm crescente corrobora os resultados do teste Mann-Kendall. 
+
+
 
 ```{r}
 stl_decomp <- stl(ts_trafico, s.window = "periodic")
@@ -770,7 +844,12 @@ highchart() %>%
              xDateFormat = "%Y-%m") %>%
   hc_legend(enabled = TRUE) %>%
   hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
-  hc_caption(text = "Gráfico 12 - Decomposição STL para o total mensal de drogas apreendidas (Tráfico)")
+  hc_caption(text = "Gráfico 13 - Decomposição STL para o total mensal de drogas apreendidas (Tráfico)")
 ```
 
+Para o Gráfico 13, a componente sazonal mostra picos recorrentes em Julho, sugerindo possível sazonalidade operacional ou padrões de demanda.
+
 Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam não tendência, ou seja, o número de apreensões está estável ao longo do tempo.
+
+
+
