@@ -3,14 +3,10 @@ title: "Analisando registros de aprensões de psicoativos no Espirito Santo e o 
 author: 
   - name: "Beatriz Lima Silveira"
   - name: "Esley Caminhas Ferreira"
-format:
+output:
+  format:
   html:
-    theme: minty
-    toc: true
-    toc-location: left
-    toc-depth: 2
-    toc-title: "Índice"
-    page-layout: full
+    self-contained: true
 ---
 
 ```{r, include=FALSE, echo=FALSE}

@@ -1,7 +1,8 @@
 ---
 output:
   html_document:
-    number_sections: false   # Ativa numeração automática
+    self-contained: true
+    number_sections: false
     toc: true
 ---
 
@@ -94,7 +95,7 @@ highchart() |>
              
 ```
 
-Para o Espírito Santo, todas as apreensões foram realizadas no porto ou no aeroporto de Vitória. Observando o Gráfico 1 pode-se notar que o ano de 2019 registrou o maior número de apreensões, com 13 ocorrências, das quais 11 tiveram origem no aeroporto de Vitória.
+Para o Espírito Santo, todas as apreensões foram realizadas no porto ou no aeroporto de Vitória. Observando o gráfico 1 pode-se notar que o ano de 2019 registrou o maior número de apreensões, com 13 ocorrências, das quais 11 tiveram origem no aeroporto de Vitória.
 
 ```{r}
 df_freq <- PF_APA |>
@@ -127,7 +128,7 @@ highchart() |>
 
 ```
 
-O Gráfico 2 evidencia a predominância de apreensões de cocaína em relação às demais substâncias. Do total de 35 ocorrências registradas no período analisado, 27 corresponderam à cocaína. O ano de 2022 destacou-se particularmente, com 22 apreensões registradas sendo todas de cocaína.
+O gráfico 2 evidencia a predominância de apreensões de cocaína em relação às demais substâncias. Do total de 35 ocorrências registradas no período analisado, 27 corresponderam à cocaína. O ano de 2022 destacou-se particularmente, com 22 apreensões registradas sendo todas de cocaína.
 
 ```{r}
 dados_anual <- PF_APA |>
@@ -176,7 +177,7 @@ highchart() |>
   hc_caption(text = "Gráfico 3 - Apreensões anuais por tipo de droga para os anos de 2014 a 2023")
 ```
 
-No Gráfico 3 pode-se observar que o ano de 2023 registrou o maior volume em gramas apreendidas, embora tenha sido somente o terceiro em número de ocorrências segundo o Gráfico 2. Observa-se ainda uma disparidade significativa entre as quantidades apreendidas de cocaína e maconha.
+No gráfico 3 pode-se observar que o ano de 2023 registrou o maior volume em gramas apreendidas, embora tenha sido somente o terceiro em número de ocorrências segundo o gráfico 2. Observa-se ainda uma disparidade significativa entre as quantidades apreendidas de cocaína e maconha.
 
 ```{r}
 PF_APA_anual <- PF_APA |>
@@ -232,7 +233,7 @@ highchart() |>
   hc_caption(text = "Gráfico 4 - Apreensões anuais para os anos de 2014 a 2023")
 ```
 
-O Gráfico 4 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal em portos e aeroportos do Espírito Santo entre 2014 e 2023.
+O gráfico 4 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal em portos e aeroportos do Espírito Santo entre 2014 e 2023.
 
 ### Apreensões de drogas pela Polícia Federal
 
@@ -316,7 +317,7 @@ highchart() |>
   hc_caption(text = "Gráfico 5 - Frenquência anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
 
-O Gráfico 5 revela a predominância de apreensões de Cannabis e derivados e cocaína durante o período analisado. O ano de 2020 destacou-se com 79 ocorrências no total, sendo 42 de Cannabis e derivados e 11 de cocaína. Este mesmo ano registrou também o maior volume de apreensões de lança-perfume, com 11 ocorrências, totalizando 460 frascos apreendidos.
+O gráfico 5 revela a predominância de apreensões de Cannabis e derivados e cocaína durante o período analisado. O ano de 2020 destacou-se com 79 ocorrências no total, sendo 42 de Cannabis e derivados e 11 de cocaína. Este mesmo ano registrou também o maior volume de apreensões de lança-perfume, com 11 ocorrências, totalizando 460 frascos apreendidos.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -379,7 +380,7 @@ highchart() |>
   hc_caption(text = "Gráfico 6 - Quantidade anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
 
-O Gráfico 6 mostra um aumento progressivo nas quantidades anuais apreendidas ao longo dos anos, com a maconha e a cocaína como as substâncias de maior volume. Destaca-se em 2022 a apreensão de 3.715 kg de maconha e 1.681 kg de cocaína.
+O gráfico 6 mostra um aumento progressivo nas quantidades anuais apreendidas ao longo dos anos, com a maconha e a cocaína como as substâncias de maior volume. Destaca-se em 2022 a apreensão de 3.715 kg de maconha e 1.681 kg de cocaína.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -581,7 +582,7 @@ highchart() |>
   hc_caption(text = "Gráfico 9 - Total peso mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
-O Gráfico 9 apresenta a série temporal do peso total das apreensões de cocaína e maconha. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido". 
+O Gráfico 9 apresenta a série temporal do peso total das apreensões de cocaína e maconha. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido".
 
 Embora a unidade de medida não esteja especificada, a comparação entre os tipos de drogas permanece válida. Observa-se clara predominância da maconha (média mensal de 200.7) sobre a cocaína (média mensal de 10.5).
 
@@ -789,9 +790,7 @@ Para o Gráfico 12, a componente sazonal mostra picos recorrentes em Junho, suge
 
 Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam tendência, ou seja, o número de apreensões de cocaína está subindo ao longo do tempo.
 
-A tendência oscilante porêm crescente corrobora os resultados do teste Mann-Kendall. 
-
-
+A tendência oscilante porêm crescente corrobora os resultados do teste Mann-Kendall.
 
 ```{r}
 stl_decomp <- stl(ts_trafico, s.window = "periodic")
@@ -850,6 +849,3 @@ highchart() %>%
 Para o Gráfico 13, a componente sazonal mostra picos recorrentes em Julho, sugerindo possível sazonalidade operacional ou padrões de demanda.
 
 Utilizando o teste Mann-Kendall, teste esse que verifica se uma série temporal possui tendência, temos evidências que indicam não tendência, ou seja, o número de apreensões está estável ao longo do tempo.
-
-
-

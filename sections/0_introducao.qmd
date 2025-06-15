@@ -1,12 +1,9 @@
 ---
-format:
-  html:
-    theme: minty
+output:
+  html_document:
+    self-contained: true
+    number_sections: false
     toc: true
-    toc-location: left
-    toc-depth: 2
-    toc-title: "Índice"
-    page-layout: full
 ---
 
 ```{r, include=FALSE, echo=FALSE}
@@ -20,4 +17,17 @@ knitr::opts_chunk$set(
 
 # Introdução
 
-O uso de substâncias psicoativas --- como álcool, tabaco, maconha, cocaína, crack e medicamentos controlados --- provoca impactos profundos na vida individual, familiar e coletiva. Seus efeitos se estendem muito além do campo pessoal, repercutindo em diversos âmbitos da sociedade, influênciando movimentos e incentivando criação de politicas públicas dedicadas a lidar com esses estigmas. Dentro desse contexto, esse relatório se dedica a analisar os registros de apreenções de psicoativos no Espiríto Santo realizados por orgãos importantes da segurança pública, sendo, policia federal, policia rodoviária federal e policia estadual. Bem como, avaliar o impacto do programa Estado Presente implementado pelo governo do Estado na data de 28/12/2017. Para uma análise com rigor estatístico, foi implementado diversos métodos de visualização para dados temporalmentes associados, assim como, foi realizado testes estatísticos para avaliar se houve mudanças relevantes após a implementação do programa. Paralelamente, devido a falta de discriminação a nível de municipio nos registros do banco de dados disponibilizados pela Policia Federal e pela Policia Estadual, não foi possivel avaliar o desempenho no projeto com esses dados, sendo realizado apenas uma analise geral do desempenho do Espírito Santo. Os dados disponibilizados pela Policia Rodoviária Federal são discriminados a nível municipal, entretando, não são discriminados a nível bairro/distrito, devido a esse fato, adotou-se uma abordagem generalista para representar o impacto do projeto, utilizando dados municipais.
+Esse relatório se dedica a analisar os registros de apreenções de psicoativos no Espiríto Santo realizados por orgãos importantes da segurança pública, sendo, policia federal, policia rodoviária federal e policia estadual. Bem como, avaliar o impacto do programa Estado Presente implementado pelo governo do Estado na data de 28/12/2017. Segundo a Secretaria de Estado de Direitos Humanos, o projeto visa à redução dos índices de criminalidade, principalmente homicídios e roubos, em regiões de maior vulnerabilidade social. As cidades de Aracruz, Guarapari, Cariacica, Colatina, Linhares, São Mateus, Serra, Vila Velha e Vitória fazem parte do Estado Presente, que é aplicado em bairros específicos desses municípios. É importante ressaltar que o Projeto Estado Presente é aplicado a bairros específicos dentro dos municípios, e não ao município como um todo. Portanto, as análises apresentadas podem estar mascaradas, uma vez que agregam dados de áreas não contempladas pelo programa. Por exemplo, considerar todo o município de Vitória na análise pode diluir os efeitos observados nos bairros-alvo, como Nova Palestina. Abaixo, apresentamos a lista dos bairros atendidos pelo programa:
+
+-   Nova Palestina, Bairro da Penha e Piedade (Vitória);
+-   Barramares, Ulisses Guimarães, Boa Vista (I e II), São Torquato e Santa Rita (Vila Velha);
+-   Feu Rosa, Vila Nova de Colares, Jardim Carapina, Novo Horizonte, Planalto Serrano, Central - Carapina e Bairro das Laranjeiras (Serra);
+-   Castelo Branco, Nova Rosa da Penha, Flexal II e Nova Esperança (Cariacica);
+-   Adalberto S. Nader e Kubitschek (Guarapari);
+-   Zumbi e Village da Luz (Cachoeiro de Itapemirim);
+-   Jacupemba (Aracruz);
+-   Ayrton Senna e Bela Vista (Colatina);
+-   Interlagos e Aviso (Linhares);
+-   Vila Nova e Bom Sucesso (São Mateus).
+
+Para uma análise com rigor estatístico, foi implementado diversos métodos de visualização para dados temporalmentes associados, assim como, foi realizado testes estatísticos para avaliar se houve mudanças relevantes após a implementação do programa. Paralelamente, devido a falta de discriminação a nível de municipio nos registros do banco de dados disponibilizados pela Policia Federal e pela Policia Estadual, não foi possivel avaliar o desempenho no projeto com esses dados, sendo realizado apenas uma analise geral do desempenho do Espírito Santo. Os dados disponibilizados pela Policia Rodoviária Federal são discriminados a nível municipal, entretando, não são discriminados a nível bairro/distrito, devido a esse fato, adotou-se uma abordagem generalista para representar o impacto do projeto, utilizando dados municipais.
