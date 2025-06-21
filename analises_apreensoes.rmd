@@ -1,11 +1,13 @@
 ---
 title: "Analisando registros de aprensões de psicoativos no Espirito Santo e o impacto do programa Estado Presente"
 author:
-  - "Beatriz Lima Silveira"
-  - "Esley Caminhas Ferreira"
+  - "Beatriz Lima Silveira e Esley Caminhas Ferreira"
+date: "20/06/2025"
 output: 
   html_document:
     self_contained: true
+    number_sections: true
+    toc: true
 ---
 
 ```{r, include=FALSE, echo=FALSE}

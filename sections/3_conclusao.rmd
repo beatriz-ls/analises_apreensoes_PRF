@@ -1,8 +1,8 @@
 ---
 output:
   html_document:
-    self-contained: true
-    number_sections: false
+    self_contained: true
+    number_sections: true
     toc: true
 ---
 
