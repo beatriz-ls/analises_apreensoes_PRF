@@ -17,9 +17,9 @@ library(kableExtra)
 library(sandwich)
 library(lmtest)
 library(trend)
-library(sf)
+#library(sf)
 library(tidyverse)
-library(ggspatial)
+#library(ggspatial)
 
 suppressPackageStartupMessages({
   library(data.table)
@@ -126,6 +126,8 @@ A partir de 2019, observa-se um aumento no número de apreensões nos município
 
 Avaliar o total de apreensões em um intervalo menor permite análises mais detalhadas e inferir tendências. No gráfico 3, avaliamos o total de apreensões por mês para todos os municipios do Espírito Santo.
 
+As apreensões possuem variações mensais recorrentes, indicando possíveis padrões sazonais, como aumento nos meses de férias ou períodos de festividades. Isso pode estar relacionado a maior circulação de pessoas e veículos, e portanto, aumentando as apreensões. Ademais, é interessante realizar algum teste para confirma se há de fato sazonalidade no número de apreensões.
+
 ```{r}
 
 ### Extrair ano e mês para agregação
@@ -196,11 +198,9 @@ hchart(dados_mensais, "line", hcaes(x = data, y = total_apreensoes)) %>%
 
 ```
 
-As apreensões possuem variações mensais recorrentes, indicando possíveis padrões sazonais, como aumento nos meses de férias ou períodos de festividades. Isso pode estar relacionado a maior circulação de pessoas e veículos, e portanto, aumentando as apreensões. Ademais, é interessante realizar algum teste para confirma se há de fato sazonalidade no número de apreensões.
-
 ### Relação apreensão e categoria de psicoativos
 
-Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foi categorizado os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis. Os grupos foram:
+Com a finalidade de avaliar a diferença em nível de apreensões para as diferentes categorias de psicoativos, foram categorizados os diferentes tipos de apreensão de drogas em grupos mais amplos e interpretáveis. Os grupos foram:
 
 -   **Cocaína e Derivados:** Cocaína/Cloridrato de Cocaína, crack;
 
@@ -213,6 +213,8 @@ Com a finalidade de avaliar a diferença em nível de apreensões para as difere
 -   **Outros:** Qualquer outro tipo não listado (ex.: LSD).
 
 Dessa forma, no gráfico 4, é possível avaliar a quantidade e porcentagem de apreensões equivalentes de cada grupo no respectivo ano.
+
+Ao longo dos anos, a cocaína, cannabis e seus derivados se destacam representando a grande maioria dos casos de registrados.
 
 ```{r}
 # Preparar os dados com totais absolutos e percentuais
@@ -251,11 +253,14 @@ hchart(
 
 ```
 
-Ao longo dos anos, a cocaína, cannabis e seus derivados se destacam representando a grande maioria dos casos de registrados.
-
 ### Relação apreensão e local de ocorrência
 
 Os locais de ocorrências registrados foram avenidas BR, ambientes comerciais, residências, serviços, veiculos, via publica e outros. Por se tratar de uma análise específica da Polícia Rodoviária Federal, a presença de apreensões em rodovias BR é esperada.
+
+
+Em todos os anos analisados, a maior parte das apreensões ocorreu em rodovias BR e antes de 2020 (2017--2019), praticamente só as BRs aparecem com relevância.
+
+A partir de 2020, percebe-se uma maior participação de outros locais, principalmente via pública. Em 2022, há o maior percentual de apreensões fora das BRs.
 
 ```{r}
 
@@ -297,13 +302,11 @@ hchart(
 
 ```
 
-Em todos os anos analisados, a maior parte das apreensões ocorreu em rodovias BR e antes de 2020 (2017--2019), praticamente só as BRs aparecem com relevância.
-
-A partir de 2020, percebe-se uma maior participação de outros locais, principalmente via pública. Em 2022, há o maior percentual de apreensões fora das BRs.
-
 ### Relação apreensão e zona de ocorrência
 
 Nos dados disponibilizados, também é definido se a apreensão ocorreu em zona rural ou zona urbana.
+
+Durante 2017 e 2018, as apreensões se dividem próximas a uma igualdade entre zonas rurais e urbanas, em 2019 ocorre o maior percentual de apreensões urbanas em toda a série. A partir de 2020, há uma inversão de tendência, com apreensões da área rural aumentando gradativamente.
 
 ```{r}
 ## Gráfico de barras porcentual zona ocorrência
@@ -344,7 +347,74 @@ hchart(
 
 ```
 
-Durante 2017 e 2018, as apreensões se dividem próximas a uma igualdade entre zonas rurais e urbanas, em 2019 ocorre o maior percentual de apreensões urbanas em toda a série. A partir de 2020, há uma inversão de tendência, com apreensões da área rural aumentando gradativamente.
+## Relação apreensão e cidade de ocorrência
+
+No gráfico 6, temos a distribuição percentual das apreensões realizadas pela PRF entre 2017 e 2023 nos municípios afetados pelo programa Estado Presente.É possível identificar padrões consistentes de concentração das apreensões em determinados municípios ao longo dos anos.
+
+O município da Serra se destaca como o principal polo de apreensões na maior parte do período, liderando em anos como 2017 (51,2%), 2019 (45,2%), 2021 (35,2%) e 2022 (26,1%). Já Cariacica também apresenta forte participação, sendo responsável por mais de 30% das apreensões em 2018 (36,4%), 2019 (34,7%) e 2020 (32,7%).
+
+Outros municípios que se mantêm entre os principais ao longo dos anos incluem Linhares e São Mateus, que, apesar de percentuais menores, contribuem com frequência significativa. Por exemplo, Linhares representou 24,4% em 2022, e São Mateus chegou a 19,5% em 2017.
+
+Cachoeiro de Itapemirim, Vila Velha, Vitória, Aracruz e Colatina aparecem com participações mais modestas, frequentemente abaixo de 5%, sendo mais relevantes em anos pontuais — como Aracruz em 2022 (5,9%) e Colatina aparecendo com registros a partir de 2020.
+
+Em resumo, o padrão mostra que Serra e Cariacica concentram a maior parte das apreensões, enquanto os demais municípios apresentam menor, mas recorrente, participação nas estatísticas.
+
+```{r}
+### Filtrar os dados
+dados_estado_presente <- data[estado_presente == "Estado Presente"]
+
+### Agregar apreensões por ano e município
+dados_agregados <- dados_estado_presente[, .(total_absoluto = .N), by = .(ano, municipio_ocorrencia)]
+
+### Calcular percentual por ano
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+### Ordenar por ano e converter para caractere
+dados_agregados <- dados_agregados[order(ano)]
+dados_agregados[, ano := as.character(ano)]
+
+### Obter a ordem dos anos para o eixo X
+anos_ordenados <- sort(unique(dados_agregados$ano))
+
+### Gráfico
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(
+    x = ano,
+    y = percentual,
+    group = municipio_ocorrencia,
+    real = total_absoluto
+  ),
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Município (Estado Presente)") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_xAxis(
+    categories = anos_ordenados,
+    title = list(text = "Ano")
+  ) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(length(unique(dados_agregados$municipio_ocorrencia)), option = "D")) |>
+  hc_caption(text = "Gráfico 6 - Distribuição porcentual de apreensões por zona de ocorrência")
+
+```
 
 ## Avaliação do impacto do Programa Estado Presente
 
@@ -382,44 +452,44 @@ Esta seção é dedicada em explorar como as apreensões se relacionam com o esp
 
 ```{r, warning=FALSE, message=FALSE, fig.width=11, fig.asp=0.6}
 
-es_shp <- st_read("../data/shapefiles/ES_UF_2024.shp", quiet =TRUE)
-
-apreensoes_sf <- st_as_sf(data, coords = c("longitude", "latitude"), crs = 4326)
-apreensoes_sf <- st_transform(apreensoes_sf, st_crs(es_shp))
-
-apreensoes_sf <- apreensoes_sf[st_within(apreensoes_sf, es_shp, sparse = FALSE), ]
-
-# Coordenadas dos pontos
-coords <- st_coordinates(apreensoes_sf)
-
-# Adiciona as coordenadas como colunas separadas para facilitar uso no ggplot
-apreensoes_sf$lon <- coords[, 1]
-apreensoes_sf$lat <- coords[, 2]
-
-es_shp <- st_crop(es_shp, st_bbox(apreensoes_sf))
-
-# Gráfico
-ggplot() +
-  geom_sf(data = es_shp, fill = "white", color = "gray60") +
-  stat_density_2d(
-    data = apreensoes_sf,
-    aes(x = lon, y = lat, fill = after_stat(level)),
-    geom = "polygon",
-    alpha = 0.6,
-    bins = 30
-  ) +
-  scale_fill_viridis_c(option = "inferno", name = "Densidade") +
-  geom_point(data = apreensoes_sf, aes(x = lon, y = lat), color = "black", size = 0.5, alpha = 0.3) +
-  annotation_scale(location = "bl", width_hint = 0.3) +
-  annotation_north_arrow(location = "tl", which_north = "true", 
-                         pad_x = unit(0.3, "in"), pad_y = unit(0.3, "in"),
-                         style = north_arrow_fancy_orienteering) +
-  labs(title = "Hotspot de Apreensões no Espírito Santo",
-       subtitle = "Densidade Kernel das ocorrências registradas",
-       caption = "Gráfico 6 - Hotspot de Apreensões no Espírito Santo",
-       x = "Longitude", y = "Latitude") +
-  theme_minimal()
+# es_shp <- st_read("../data/shapefiles/ES_UF_2024.shp", quiet =TRUE)
+# 
+# apreensoes_sf <- st_as_sf(data, coords = c("longitude", "latitude"), crs = 4326)
+# apreensoes_sf <- st_transform(apreensoes_sf, st_crs(es_shp))
+# 
+# apreensoes_sf <- apreensoes_sf[st_within(apreensoes_sf, es_shp, sparse = FALSE), ]
+# 
+# # Coordenadas dos pontos
+# coords <- st_coordinates(apreensoes_sf)
+# 
+# # Adiciona as coordenadas como colunas separadas para facilitar uso no ggplot
+# apreensoes_sf$lon <- coords[, 1]
+# apreensoes_sf$lat <- coords[, 2]
+# 
+# es_shp <- st_crop(es_shp, st_bbox(apreensoes_sf))
+# 
+# # Gráfico
+# ggplot() +
+#   geom_sf(data = es_shp, fill = "white", color = "gray60") +
+#   stat_density_2d(
+#     data = apreensoes_sf,
+#     aes(x = lon, y = lat, fill = after_stat(level)),
+#     geom = "polygon",
+#     alpha = 0.6,
+#     bins = 30
+#   ) +
+#   scale_fill_viridis_c(option = "inferno", name = "Densidade") +
+#   geom_point(data = apreensoes_sf, aes(x = lon, y = lat), color = "black", size = 0.5, alpha = 0.3) +
+#   annotation_scale(location = "bl", width_hint = 0.3) +
+#   annotation_north_arrow(location = "tl", which_north = "true", 
+#                          pad_x = unit(0.3, "in"), pad_y = unit(0.3, "in"),
+#                          style = north_arrow_fancy_orienteering) +
+#   labs(title = "Hotspot de Apreensões no Espírito Santo",
+#        subtitle = "Densidade Kernel das ocorrências registradas",
+#        caption = "Gráfico 7 - Hotspot de Apreensões no Espírito Santo",
+#        x = "Longitude", y = "Latitude") +
+#   theme_minimal()
 
 ```
 
-Analisando o gráfico 6, percebem-se três áreas principais de aglomeração de ocorrência, região ao sul do estado, região próxima a Grande Vitória e área ao norte do estado.
+Analisando o gráfico 7, percebem-se três áreas principais de aglomeração de ocorrência, região ao sul do estado, região próxima a Grande Vitória e área ao norte do estado.

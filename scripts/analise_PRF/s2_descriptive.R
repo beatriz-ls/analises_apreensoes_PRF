@@ -453,4 +453,95 @@ hchart(
     max = 100
   )
 
+# analises municipios do estado presente ---------------------------------------
+
+# Função para gerar o gráfico highchart de evolução mensal
+plot_municipio <- function(df) {
+  municipio_nome <- unique(df$municipio_ocorrencia)
+  
+  df_resumo <- df |>
+    count(ano_mes) |>
+    arrange(ano_mes)
+  
+  highchart() |>
+    hc_title(text = paste("Apreensões mensais em", municipio_nome)) |>
+    hc_xAxis(categories = df_resumo$ano_mes,
+             title = list(text = "Ano-Mês"),
+             labels = list(rotation = -45)) |>
+    hc_yAxis(title = list(text = "Número de apreensões")) |>
+    hc_add_series(name = "Apreensões",
+                  data = df_resumo$n,
+                  type = "line",
+                  color = "#440154") |>
+    hc_tooltip(pointFormat = "Apreensões: <b>{point.y}</b>") |>
+    hc_exporting(enabled = TRUE) |>
+    hc_chart(zoomType = "x") |>
+    hc_add_theme(hc_theme_flat())
+}
+
+## gráfico de barras de apreensões mensais por municipio -----------------------
+
+### Filtrar os dados
+dados_estado_presente <- data[estado_presente == "Estado Presente"]
+
+### Agregar apreensões por ano e município
+dados_agregados <- dados_estado_presente[, .(total_absoluto = .N), by = .(ano, municipio_ocorrencia)]
+
+### Calcular percentual por ano
+dados_agregados[, percentual := total_absoluto / sum(total_absoluto) * 100, by = ano]
+
+### Ordenar por ano e converter para caractere
+dados_agregados <- dados_agregados[order(ano)]
+dados_agregados[, ano := as.character(ano)]
+
+### Obter a ordem dos anos para o eixo X
+anos_ordenados <- sort(unique(dados_agregados$ano))
+
+### Gráfico
+hchart(
+  dados_agregados,
+  "column",
+  hcaes(
+    x = ano,
+    y = percentual,
+    group = municipio_ocorrencia,
+    real = total_absoluto
+  ),
+  stacking = "percent"
+) %>%
+  hc_title(text = "Distribuição Percentual das Apreensões por Município (Estado Presente)") %>%
+  hc_tooltip(
+    headerFormat = '<span style="font-size: 13px"><b>Ano {point.x}</b></span><br/>',
+    pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}:<br/>
+                  <b>Quantidade:</b> {point.real} apreensões<br/>
+                  <b>Percentual:</b> {point.y:.1f}%<br/>',
+    shared = FALSE
+  ) %>%
+  hc_xAxis(
+    categories = anos_ordenados,
+    title = list(text = "Ano")
+  ) %>%
+  hc_yAxis(
+    title = list(text = "Percentual (%)"),
+    labels = list(format = "{value}%"),
+    max = 100
+  ) %>%
+  hc_plotOptions(
+    column = list(
+      dataLabels = list(enabled = FALSE),
+      borderWidth = 0
+    )
+  ) %>%
+  hc_colors(viridis::viridis(length(unique(dados_agregados$municipio_ocorrencia)), option = "C"))
+
+
+
+
+
+
+
+
+
+
+
 

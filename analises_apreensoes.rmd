@@ -22,9 +22,9 @@ library(kableExtra)
 library(sandwich)
 library(lmtest)
 library(trend)
-library(sf)
+#library(sf)
 library(tidyverse)
-library(ggspatial)
+#library(ggspatial)
 
 knitr::opts_chunk$set(
   comment = "",
@@ -36,9 +36,12 @@ knitr::opts_chunk$set(
 
 ```{r child='sections/0_introducao.Rmd'}
 ```
+
 ```{r child='sections/1_analise_PRF.Rmd'}
 ```
+
 ```{r child='sections/2_analise_PF_SINESP.Rmd'}
 ```
+
 ```{r child='sections/3_conclusao.Rmd'}
 ```
