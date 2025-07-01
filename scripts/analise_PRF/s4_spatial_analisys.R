@@ -4,6 +4,8 @@ library(ggplot2)
 library(spatstat)
 library(raster)
 library(leaflet.extras)
+library(stringi)
+library(dplyr)
 
 # import data ------------------------------------------------------------------
 
@@ -210,3 +212,18 @@ ggplot() +
        subtitle = "Densidade Kernel das ocorrências registradas",
        x = "Longitude", y = "Latitude") +
   theme_minimal()
+
+# teste de moran ---------------------------------------------------------------
+
+mun_shp <- st_read("data/shapefiles/ES_Municipios_2024.shp")
+
+# Padronizar nomes do shapefile
+mun_shp$NM_MUN_PAD <- toupper(stri_trans_general(mun_shp$NM_MUN, "Latin-ASCII"))
+
+# Padronizar nomes da base de apreensões (apenas por segurança)
+apreensoes_mun$municipio_ocorrencia <- toupper(stri_trans_general(apreensoes_mun$municipio_ocorrencia,
+                                                                  "Latin-ASCII"))
+
+
+mun_shp <- mun_shp |>
+  left_join(apreensoes_mun, by = c("NM_MUN" = "municipio_ocorrencia"))
