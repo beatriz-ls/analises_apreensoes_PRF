@@ -20,6 +20,8 @@ library(trend)
 library(sf)
 library(tidyverse)
 library(ggspatial)
+library(stringi)
+library(spdep)
 
 suppressPackageStartupMessages({
   library(data.table)
@@ -411,7 +413,7 @@ hchart(
     )
   ) %>%
   hc_colors(viridis::viridis(length(unique(dados_agregados$municipio_ocorrencia)), option = "D")) |>
-  hc_caption(text = "Gráfico 6 - Distribuição porcentual de apreensões por zona de ocorrência")
+  hc_caption(text = "Gráfico 6 - Distribuição porcentual de apreensões por cidade de ocorrência afetada pelo programa Estado Presente")
 
 ```
 
@@ -421,7 +423,7 @@ Esta seção se dedica a avaliar características da apreensões antes e depois 
 
 ### Teste de tendência
 
-O teste de Mann-Kendall é um teste estatístico não paramétrico amplamente utilizado para detectar tendências monotônicas (crescente ou decrescente) ao longo do tempo em séries temporais. Neste relatório, iremos avaliar se o programa Estado Presente alterou de alguma forma o número médio de apreensões por mês avaliando se há presença de alguma tendência após a aplicação do programa.
+O teste de Mann-Kendall é um teste estatístico não paramétrico amplamente utilizado para detectar tendências monotônicas (crescente ou decrescente) ao longo do tempo em séries temporais. Neste relatório, iremos avaliar se o programa Estado Presente alterou de alguma forma o total de apreensões por mês, representado no gráfico 2, avaliando se há presença de alguma tendência após a aplicação do programa.
 
 ```{r}
 dados_agg <- data[, .(total_registros = .N), by = .(ano_mes, programa)]
@@ -448,6 +450,8 @@ Não há evidência estatística suficiente para rejeitar a hipótese nula de au
 ## Análise espacial
 
 Esta seção é dedicada em explorar como as apreensões se relacionam com o espaço geográfico do estado e quais áreas tiveram mais casos recorrentes de apreensão ao longo do período analisado.
+
+Analisando o gráfico 7, percebem-se três áreas principais de aglomeração de ocorrência, região ao sul do estado, região próxima a Grande Vitória e área ao norte do estado.
 
 ```{r, warning=FALSE, message=FALSE, fig.width=11, fig.asp=0.6}
 
@@ -491,4 +495,77 @@ ggplot() +
 
 ```
 
-Analisando o gráfico 7, percebem-se três áreas principais de aglomeração de ocorrência, região ao sul do estado, região próxima a Grande Vitória e área ao norte do estado.
+Paralelente, iremos aplicar o índice de Moran, uma medida estatística utilizada para avaliar a autocorrelação espacial, ou seja, o grau de semelhança entre valores de uma variável em localidades geograficamente próximas. Ele verifica se os valores observados em uma área estão correlacionados com os valores em áreas vizinhas — indicando se existe padrão espacial (agrupamento, dispersão ou aleatoriedade).
+
+O índice varia entre -1 e +1:
+
+- Moran I > 0: indica agrupamento espacial (valores semelhantes próximos uns dos outros);
+
+- Moran I ≈ 0: indica padrão aleatório;
+
+- Moran I < 0: indica dispersão espacial (valores opostos próximos entre si).
+
+Ao aplicar o Índice de Moran sobre os dados de apreensões por município no Espírito Santo, conseguimos identificar se as apreensões estão distribuídas de forma aleatória no território ou se há agrupamentos geográficos significativos.
+
+Nesta analise, o índice retornou um valor positivo e significativo, o que indica que há agrupamentos regionais de municípios com comportamentos semelhantes:
+
+- Municípios com altas quantidades de apreensões tendem a estar próximos entre si;
+
+- Da mesma forma, municípios com baixas quantidades também estão próximos entre si.
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+# Agregar o total de apreensões por município
+apreensoes_mun <- data[, .(total_apreensoes = .N), by = municipio_ocorrencia]
+
+mun_shp <- suppressMessages(
+  suppressWarnings(
+    st_read(here::here("data", "shapefiles", "ES_Municipios_2024.shp"))
+  )
+)
+
+# Padronizar nomes do shapefile
+mun_shp$NM_MUN_PAD <- toupper(stri_trans_general(mun_shp$NM_MUN, "Latin-ASCII"))
+
+# Padronizar nomes da base de apreensões (apenas por segurança)
+apreensoes_mun$municipio_ocorrencia <- toupper(stri_trans_general(apreensoes_mun$municipio_ocorrencia,
+                                                                  "Latin-ASCII"))
+
+mun_shp <- mun_shp |>
+  left_join(apreensoes_mun, by = c("NM_MUN_PAD" = "municipio_ocorrencia"))
+
+## Inclusão de 0 caso NA
+mun_shp$total_apreensoes[is.na(mun_shp$total_apreensoes)] <- 0
+
+
+# Cria a lista de vizinhança com base na geometria (contiguidade)
+vizinhos <- poly2nb(mun_shp)
+
+# Transforma em lista de pesos espaciais (row-standardized)
+listw <- nb2listw(vizinhos, style = "W", zero.policy = TRUE)
+
+
+resultado_moran <- moran.test(mun_shp$total_apreensoes, listw, zero.policy = TRUE)
+
+# Criar data.frame com os resultados
+tabela_moran <- data.frame(
+  `Estatística Moran I` = round(resultado_moran$estimate[["Moran I statistic"]], 3),
+  `Valor Esperado` = round(resultado_moran$estimate[["Expectation"]], 3),
+  `Variância` = round(resultado_moran$estimate[["Variance"]], 5),
+  `Estatística Z` = round(resultado_moran$statistic, 3),
+  `Valor-p` = format.pval(resultado_moran$p.value, digits = 3, eps = .001),
+  `Significância` = ifelse(resultado_moran$p.value < 0.05, "Significativo", "Não significativo")
+)
+
+```
+
+```{r, warning=FALSE, message=FALSE, fig.width=11, fig.asp=0.6}
+
+# Exibir a tabela
+kable(tabela_moran, caption = "Resultados do Índice de Moran Global") |>
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover"))
+
+```
+
+O valor observado do Índice de Moran foi 0,21, indicando uma autocorrelação espacial positiva moderada. Isso significa que municípios com números semelhantes de apreensões (sejam eles altos ou baixos) tendem a estar geograficamente próximos, evidenciando a existência de agrupamentos espaciais.
+
+O teste retornou um valor esperado de -0,013 (sob hipótese de aleatoriedade) e um desvio-padrão padrão de 3,44, com um valor-p associado de 0,00029. Esse resultado é altamente significativo (p < 0,001), rejeitando a hipótese nula de ausência de autocorrelação espacial. Assim, conclui-se que a distribuição das apreensões não é aleatória no espaço geográfico, e há clusters espaciais de municípios com comportamentos semelhantes em relação ao total de apreensões registradas.

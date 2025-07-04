@@ -22,9 +22,11 @@ library(kableExtra)
 library(sandwich)
 library(lmtest)
 library(trend)
-#library(sf)
+library(sf)
 library(tidyverse)
-#library(ggspatial)
+library(ggspatial)
+library(stringi)
+library(spdep)
 
 knitr::opts_chunk$set(
   comment = "",

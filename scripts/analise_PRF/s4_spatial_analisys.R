@@ -6,6 +6,8 @@ library(raster)
 library(leaflet.extras)
 library(stringi)
 library(dplyr)
+library(ggspatial)
+library(spdep)
 
 # import data ------------------------------------------------------------------
 
@@ -215,6 +217,9 @@ ggplot() +
 
 # teste de moran ---------------------------------------------------------------
 
+# Agregar o total de apreensões por município
+apreensoes_mun <- data[, .(total_apreensoes = .N), by = municipio_ocorrencia]
+
 mun_shp <- st_read("data/shapefiles/ES_Municipios_2024.shp")
 
 # Padronizar nomes do shapefile
@@ -224,6 +229,28 @@ mun_shp$NM_MUN_PAD <- toupper(stri_trans_general(mun_shp$NM_MUN, "Latin-ASCII"))
 apreensoes_mun$municipio_ocorrencia <- toupper(stri_trans_general(apreensoes_mun$municipio_ocorrencia,
                                                                   "Latin-ASCII"))
 
-
 mun_shp <- mun_shp |>
-  left_join(apreensoes_mun, by = c("NM_MUN" = "municipio_ocorrencia"))
+  left_join(apreensoes_mun, by = c("NM_MUN_PAD" = "municipio_ocorrencia"))
+
+### verificação de o left_join ocorreu de forma correta
+
+table(mun_shp$total_apreensoes)  # Verifique se há zeros e valores positivos
+
+mun_shp$match_status <- ifelse(mun_shp$total_apreensoes == 0, "Sem dados", "Com dados")
+table(mun_shp$match_status)
+
+## Inclusão de 0 caso NA
+mun_shp$total_apreensoes[is.na(mun_shp$total_apreensoes)] <- 0
+
+
+# Cria a lista de vizinhança com base na geometria (contiguidade)
+vizinhos <- poly2nb(mun_shp)
+
+# Transforma em lista de pesos espaciais (row-standardized)
+listw <- nb2listw(vizinhos, style = "W", zero.policy = TRUE)
+
+
+moran.test(mun_shp$total_apreensoes, listw, zero.policy = TRUE)
+
+
+

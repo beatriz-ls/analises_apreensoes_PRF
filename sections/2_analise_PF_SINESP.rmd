@@ -64,6 +64,14 @@ PF_APA <- PF_APA |>
   )
 ```
 
+Para o Espírito Santo, todas as apreensões foram realizadas no porto ou no aeroporto de Vitória. Observando o gráfico 8 pode-se notar que o ano de 2019 registrou o maior número de apreensões, com 13 ocorrências, das quais 11 tiveram origem no aeroporto de Vitória.
+
+O gráfico 9 evidencia a predominância de apreensões de cocaína em relação às demais substâncias. Do total de 35 ocorrências registradas no período analisado, 27 corresponderam à cocaína. O ano de 2022 destacou-se particularmente, com 22 apreensões registradas sendo todas de cocaína.
+
+No gráfico 10 pode-se observar que o ano de 2023 registrou o maior volume em gramas apreendidas, embora tenha sido somente o terceiro em número de ocorrências segundo o gráfico 8. Observa-se ainda uma disparidade significativa entre as quantidades apreendidas de cocaína e maconha.
+
+O Gráfico 11 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal em portos e aeroportos do Espírito Santo entre 2014 e 2023. Observa-se um aumento progressivo nas quantidades anuais, com crescimento contínuo a partir de 2019.
+
 ```{r}
 df_freq <- PF_APA |>
   count(origem, ano) 
@@ -94,8 +102,6 @@ highchart() |>
   hc_caption(text = "Gráfico 8 - Frequência anual de apreensões de drogas por origem para os anos de 2014 a 2023")
              
 ```
-
-Para o Espírito Santo, todas as apreensões foram realizadas no porto ou no aeroporto de Vitória. Observando o gráfico 8 pode-se notar que o ano de 2019 registrou o maior número de apreensões, com 13 ocorrências, das quais 11 tiveram origem no aeroporto de Vitória.
 
 ```{r}
 df_freq <- PF_APA |>
@@ -128,7 +134,6 @@ highchart() |>
 
 ```
 
-O gráfico 9 evidencia a predominância de apreensões de cocaína em relação às demais substâncias. Do total de 35 ocorrências registradas no período analisado, 27 corresponderam à cocaína. O ano de 2022 destacou-se particularmente, com 22 apreensões registradas sendo todas de cocaína.
 
 ```{r}
 dados_anual <- PF_APA |>
@@ -198,8 +203,6 @@ highchart() |>
   hc_colors(viridis::viridis(length(unique(dados_anual$droga)))) |>
   hc_caption(text = "Gráfico 10 - Apreensões anuais por tipo de droga para os anos de 2014 a 2023")
 ```
-
-No gráfico 10 pode-se observar que o ano de 2023 registrou o maior volume em gramas apreendidas, embora tenha sido somente o terceiro em número de ocorrências segundo o gráfico 8. Observa-se ainda uma disparidade significativa entre as quantidades apreendidas de cocaína e maconha.
 
 ```{r}
 PF_APA_anual <- PF_APA |>
@@ -277,8 +280,6 @@ highchart() |>
   hc_caption(text = "Gráfico 11 - Apreensões anuais para os anos de 2014 a 2023")
 ```
 
-O Gráfico 11 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal em portos e aeroportos do Espírito Santo entre 2014 e 2023. Observa-se um aumento progressivo nas quantidades anuais, com crescimento contínuo a partir de 2019.
-
 ### Apreensões de drogas pela Polícia Federal
 
 <!-- Breve apresentação da base (primeiras cinco linhas). -->
@@ -306,7 +307,17 @@ PF_A <- PF_A |>
   )
 ```
 
-Substâncias derivadas da cannabis (maconha, skunk e haxixe) foram agrupadas em uma única categoria para facilitar a visualização.
+Substâncias derivadas da cannabis — como maconha, skunk e haxixe — foram agrupadas em uma única categoria para facilitar a visualização dos dados.
+
+O Gráfico 12 destaca a predominância das apreensões de cannabis e seus derivados, bem como de cocaína, ao longo do período analisado. O ano de 2020 se sobressaiu, com 79 ocorrências no total, das quais 42 foram de cannabis e derivados e 11 de cocaína. Nesse mesmo ano, registrou-se também o maior número de apreensões de lança-perfume, com 11 ocorrências e um total de 460 frascos apreendidos.
+
+O Gráfico 13 revela um aumento progressivo nas quantidades anuais apreendidas, com destaque para maconha e cocaína como as substâncias de maior volume. Em 2022, observou-se a apreensão de 3.715 kg de maconha e 1.681 kg de cocaína — os maiores volumes registrados no período.
+
+O Gráfico 14 apresenta a distribuição das apreensões por regiões do Espírito Santo, evidenciando diferenças significativas entre os agrupamentos regionais. A Região Central e Litoral concentra a maior parte das ocorrências, um padrão consistente ao longo dos anos analisados.
+
+Embora a ausência de detalhamento municipal impeça a associação direta com o Programa Estado Presente, é relevante destacar que essa região abrange a maioria dos municípios contemplados pela iniciativa. A concentração das apreensões nessa área pode refletir tanto a maior efetividade das ações policiais quanto as particularidades demográficas e geográficas da região.
+
+Por fim, o Gráfico 15 apresenta o volume total de apreensões, em gramas, realizadas pela Polícia Federal no Espírito Santo entre os anos de 2014 e 2023.
 
 ```{r}
 df_freq <- PF_A |>
@@ -361,7 +372,6 @@ highchart() |>
   hc_caption(text = "Gráfico 12 - Frequência anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
 
-O gráfico 12 revela a predominância de apreensões de Cannabis e derivados e cocaína durante o período analisado. O ano de 2020 destacou-se com 79 ocorrências no total, sendo 42 de Cannabis e derivados e 11 de cocaína. Este mesmo ano registrou também o maior volume de apreensões de lança-perfume, com 11 ocorrências, totalizando 460 frascos apreendidos.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -444,8 +454,6 @@ highchart() |>
   hc_colors(viridis::viridis(length(unique(dados_grafico$item)), option = "D")) |>
   hc_caption(text = "Gráfico 13 - Quantidade anual de apreensões de drogas por item para os anos de 2014 a 2023")
 ```
-
-O gráfico 13 mostra um aumento progressivo nas quantidades anuais apreendidas ao longo dos anos, com a maconha e a cocaína como as substâncias de maior volume. Destaca-se em 2022 a apreensão de 3.715 kg de maconha e 1.681 kg de cocaína.
 
 ```{r}
 dados_grafico <- PF_A |>
@@ -530,10 +538,6 @@ highchart() |>
   hc_caption(text = "Gráfico 14 - Quantidade anual de apreensões de drogas por regiões do Espírito Santo para os anos de 2014 a 2023")
 ```
 
-O gráfico 14 apresenta a distribuição das apreensões por regiões do Espírito Santo, evidenciando diferenças significativas entre os grupos regionais. A região Central e Litoral responde pela grande maioria das apreensões, um padrão que pode ser observado consistentemente nos dados.
-
-Embora a ausência de granularidade municipal não permita estabelecer uma relação direta com o programa Estado Presente, é relevante destacar que esta região concentra a maior parte dos municípios com territórios atendidos pelo projeto. A predominância das apreensões nesta área pode refletir tanto a maior efetividade das ações policiais, quanto as características demográficas e geográficas da região.
-
 ```{r}
 PF_A_anual <- PF_A |>
   mutate(
@@ -602,8 +606,6 @@ highchart() |>
   hc_caption(text = "Gráfico 15 - Quantidade anual de apreensões de drogas para os anos de 2014 a 2023")
 ```
 
-O gráfico 15 apresenta o volume total de apreensões (em gramas) realizadas pela Polícia Federal do Espírito Santo entre 2014 e 2023.
-
 # Análise das apreensões realizadas pelas polícias estaduais
 
 ## Sobre os dados
@@ -643,6 +645,12 @@ SINESP$data_referencia <- lubridate::dmy(SINESP$data_referencia) |> as.Date()
 
 # SINESP |> head(n = 5) |> knitr::kable()
 ```
+
+O gráfico 16 apresenta a série temporal do peso total das apreensões de cocaína e maconha. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido".
+
+Embora a unidade de medida não esteja especificada, a comparação entre os tipos de drogas permanece válida. Observa-se clara predominância da maconha (média mensal de 200.7) sobre a cocaína (média mensal de 10.5).
+
+O gráfico 17 apresenta a série temporal do total das apreensões relacionadas a tráfico de drogas. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido".
 
 ```{r}
 dados_grafico <- SINESP |>
@@ -695,9 +703,6 @@ highchart() |>
   hc_caption(text = "Gráfico 16 - Total peso mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
-O gráfico 16 apresenta a série temporal do peso total das apreensões de cocaína e maconha. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido".
-
-Embora a unidade de medida não esteja especificada, a comparação entre os tipos de drogas permanece válida. Observa-se clara predominância da maconha (média mensal de 200.7) sobre a cocaína (média mensal de 10.5).
 
 ```{r}
 dados_grafico <- SINESP |>
@@ -750,8 +755,6 @@ highchart() |>
   hc_caption(text = "Gráfico 17 - Total mensal de drogas apreendidas para os meses entre 01/01/2018 e 01/12/2023")
 ```
 
-O gráfico 17 apresenta a série temporal do total das apreensões relacionadas a tráfico de drogas. Conforme o dicionário de dados, esta variável é definida como "valor numérico da quantidade, peso ou volume apreendido".
-
 ## Análise temporal
 
 A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técnica estatística para analisar séries temporais, decompondo-as em três componentes principais:
@@ -764,7 +767,11 @@ A decomposição STL (Seasonal and Trend decomposition using Loess) é uma técn
 
 <!-- Em um modelo aditivo, o que será utiliza, se considera que a série observada provem da soma de suas componentes de tendência, sazonalidade e resíduo. -->
 
-O **Teste de Mann-Kendall** é um teste que verifica se uma série temporal possui tendência, ou seja, responde a pergunta "Meus dados estão subindo, descendo ou ficando estáveis ao longo do tempo?".
+A decomposição STL adota um modelo aditivo, assumindo que a série observada é composta pela soma de suas três partes: tendência, sazonalidade e resíduo.
+
+O teste de Mann-Kendall é uma ferramenta não paramétrica amplamente utilizada para detectar tendências monotônicas em séries temporais. Ele responde à pergunta: "Existe uma tendência crescente ou decrescente nos meus dados ao longo do tempo?"
+
+No Gráfico 18, referente às apreensões de maconha, a decomposição sazonal revela picos recorrentes no mês de maio. No entanto, o teste de Mann-Kendall não indicou tendência significativa, sugerindo que o número de apreensões dessa substância permaneceu estável ao longo do tempo. Já no Gráfico 19, que aborda as apreensões de cocaína, observa-se sazonalidade com picos em junho e uma tendência crescente estatisticamente significativa segundo o teste de Mann-Kendall. Essa evidência também é visível na série temporal, que apresenta oscilações, mas com trajetória ascendente ao longo dos anos. Por fim, o Gráfico 20, que representa o total de apreensões, aponta picos sazonais em julho, porém, sem tendência significativa de aumento ou queda, de acordo com o teste aplicado, o que indica estabilidade no volume geral de apreensões no período analisado.
 
 ```{r}
 
@@ -841,8 +848,6 @@ highchart() %>%
   hc_caption(text = "Gráfico 18 - Decomposição STL para o total peso mensal de drogas apreendidas (Maconha)")
 ```
 
-Para o gráfico 18, a componente sazonal mostra picos recorrentes em Maio. Utilizando o teste de Mann-Kendall, não há evidências que indiquem tendência, ou seja, o número de apreensões de maconha está estável ao longo do tempo.
-
 ```{r}
 stl_decomp <- stl(ts_cocaina, s.window = "periodic")
 
@@ -897,8 +902,6 @@ highchart() %>%
   hc_caption(text = "Gráfico 19 - Decomposição STL para o total peso mensal de drogas apreendidas (Cocaína)")
 ```
 
-Para o gráfico 19, a componente sazonal mostra picos recorrentes em Junho. Utilizando o teste de Mann-Kendall, temos evidências que indicam tendência, ou seja, o número de apreensões de cocaína está subindo ao longo do tempo. Analisando graficamente, pode-se notar a tendência oscilante porém crescente, corroborando com o resultado do teste de Mann-Kendall.
-
 ```{r}
 stl_decomp <- stl(ts_trafico, s.window = "periodic")
 
@@ -952,5 +955,3 @@ highchart() %>%
   hc_colors(viridis::viridis(10, direction = -1, option = "A")[c(3,5,7,9)]) |>
   hc_caption(text = "Gráfico 20 - Decomposição STL para o total mensal de drogas apreendidas (Tráfico)")
 ```
-
-Para o gráfico 20, a componente sazonal mostra picos recorrentes em Julho. Utilizando o teste de Mann-Kendall, não há evidências que indiquem tendência, ou seja, o número de apreensões está estável ao longo do tempo.
